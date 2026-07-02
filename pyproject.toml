@@ -7,7 +7,9 @@ authors = [
     { name = "Keith Ho", email = "75162022+Keith-hoka@users.noreply.github.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pydantic>=2.13.4",
+]
 
 [build-system]
 requires = ["uv_build>=0.11.8,<0.12.0"]
