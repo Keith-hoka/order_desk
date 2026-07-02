@@ -156,8 +156,8 @@ def test_unit_mismatch_is_derivable(catalog: Catalog, book: CustomerBook) -> Non
         product_surface="clear tape",
         mention_style=MentionStyle.ALIAS,
         typo=False,
-        quantity_value=72,
-        quantity_surface="72",
+        quantity_value=5000,
+        quantity_surface="5000",
         unit_surface="pallets",
         unit_style=UnitStyle.ALIAS,
         item_note=None,
@@ -180,7 +180,8 @@ def test_unit_mismatch_is_derivable(catalog: Catalog, book: CustomerBook) -> Non
         items=[item],
         flags=ScenarioFlags(),
     )
-    assert Violation.UNIT_MISMATCH in scenario.expected_violations(catalog)
+    violations = scenario.expected_violations(catalog)
+    assert violations == [Violation.UNIT_MISMATCH]
     assert scenario.expected_route(catalog, book) is Route.EXCEPTION
 
 
@@ -228,3 +229,20 @@ def test_surface_style_coverage(corpus: list[OrderScenario]) -> None:
     assert {i.mention_style for s in corpus for i in s.items} == set(MentionStyle)
     assert {i.unit_style for s in corpus for i in s.items} == set(UnitStyle)
     assert {s.address_style for s in corpus} == set(AddressStyle)
+
+
+def test_trap_piece_counts_never_yield_range_violations(
+    corpus: list[OrderScenario], catalog: Catalog
+) -> None:
+    checked = 0
+    for scenario in corpus:
+        traps = [i for i in scenario.items if i.intended_packs is not None]
+        if not traps:
+            continue
+        isolated = scenario.model_copy(update={"items": traps})
+        violations = isolated.expected_violations(catalog)
+        assert Violation.UNRESOLVABLE_UNIT in violations
+        assert Violation.ABOVE_MAX not in violations
+        assert Violation.BELOW_MOQ not in violations
+        checked += 1
+    assert checked > 0

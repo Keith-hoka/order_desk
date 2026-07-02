@@ -195,7 +195,16 @@ class OrderScenario(BaseModel):
         return asks
 
     def expected_violations(self, catalog: Catalog) -> list[Violation]:
-        """One entry per offending check per line item; duplicates possible."""
+        """One entry per offending check per line item; duplicates possible.
+
+        Quantity-range checks (moq / max_qty) run only under a coherent
+        denomination: the stated unit resolves to the product's selling unit,
+        or no unit is stated (read as the selling unit). An unresolvable or
+        mismatched unit leaves the quantity's denomination unknown, so range
+        checks are skipped -- flagging "500 labels" as above a roll-denominated
+        max would assert a false fact (500 labels is one roll). The runtime
+        validation stage must share this exact policy.
+        """
         out: list[Violation] = []
         for item in self.items:
             product = catalog.resolve_sku(item.product_surface)
@@ -204,17 +213,20 @@ class OrderScenario(BaseModel):
                 continue
             if not product.active:
                 out.append(Violation.DISCONTINUED)
-            if item.quantity_value is not None:
-                if item.quantity_value < product.moq:
-                    out.append(Violation.BELOW_MOQ)
-                elif item.quantity_value > product.max_qty:
-                    out.append(Violation.ABOVE_MAX)
+            unit_coherent = True
             if item.unit_surface is not None:
                 unit = catalog.resolve_unit(item.unit_surface)
                 if unit is None:
                     out.append(Violation.UNRESOLVABLE_UNIT)
+                    unit_coherent = False
                 elif unit != product.unit:
                     out.append(Violation.UNIT_MISMATCH)
+                    unit_coherent = False
+            if unit_coherent and item.quantity_value is not None:
+                if item.quantity_value < product.moq:
+                    out.append(Violation.BELOW_MOQ)
+                elif item.quantity_value > product.max_qty:
+                    out.append(Violation.ABOVE_MAX)
         return out
 
     def expected_route(self, catalog: Catalog, book: CustomerBook) -> Route:
