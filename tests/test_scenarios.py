@@ -246,3 +246,39 @@ def test_trap_piece_counts_never_yield_range_violations(
         assert Violation.BELOW_MOQ not in violations
         checked += 1
     assert checked > 0
+
+
+def test_injection_ledger_reconciles_per_scenario(
+    corpus: list[OrderScenario], catalog: Catalog
+) -> None:
+    for scenario in corpus:
+        violations = scenario.expected_violations(catalog)
+        typo_items = [i for i in scenario.items if i.typo]
+        trap_items = [i for i in scenario.items if i.intended_packs is not None]
+        inactive_items = [i for i in scenario.items if not catalog.resolve_sku(i.sku).active]
+        assert violations.count(Violation.UNRESOLVABLE_PRODUCT) == len(typo_items)
+        assert violations.count(Violation.UNRESOLVABLE_UNIT) == len(trap_items)
+        assert violations.count(Violation.DISCONTINUED) == len(inactive_items)
+
+        for flag_name, violation, direction in (
+            ("qty_below_moq", Violation.BELOW_MOQ, "below"),
+            ("qty_above_max", Violation.ABOVE_MAX, "above"),
+        ):
+            flagged = getattr(scenario.flags, flag_name)
+            if violation in violations:
+                assert flagged, (flag_name, scenario.scenario_id)
+            if flagged and violation not in violations:
+                masks = []
+                for item in typo_items:
+                    if item.quantity_value is None or item.intended_packs is not None:
+                        continue
+                    product = catalog.resolve_sku(item.sku)
+                    assert product is not None
+                    breach = (
+                        item.quantity_value < product.moq
+                        if direction == "below"
+                        else item.quantity_value > product.max_qty
+                    )
+                    if breach:
+                        masks.append(item)
+                assert masks, (flag_name, scenario.scenario_id)

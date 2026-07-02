@@ -1,11 +1,75 @@
 """Realized-rate report: what the config promises vs what the corpus does."""
 
 import argparse
+import sys
 from collections import Counter
 
-from order_desk.catalog import load_catalog
+from order_desk.catalog import Catalog, load_catalog
 from order_desk.customers import load_customers
-from order_desk.scenarios import ScenarioFlags, generate_scenarios
+from order_desk.scenarios import (
+    LineItemScenario,
+    OrderScenario,
+    ScenarioFlags,
+    Violation,
+    generate_scenarios,
+)
+
+
+def _typo_masks_range_truth(item: LineItemScenario, catalog: Catalog, violation: Violation) -> bool:
+    """True when a corrupted mention hides a truth-level range breach."""
+    if not item.typo or item.quantity_value is None or item.intended_packs is not None:
+        return False
+    product = catalog.resolve_sku(item.sku)
+    assert product is not None, item.sku
+    if violation is Violation.BELOW_MOQ:
+        return item.quantity_value < product.moq
+    return item.quantity_value > product.max_qty
+
+
+def _injection_ledger(corpus: list[OrderScenario], catalog: Catalog) -> tuple[list[str], list[str]]:
+    """Exact accounting between injected noise flags and derivable violations.
+
+    Range flags may be masked only by a typo landing on the out-of-range item
+    (possible only when it is the sole normal item), verified against the true
+    SKU. The remaining pairs must correspond one-to-one. Any other gap is an
+    oracle or generator defect and fails the report.
+    """
+    lines: list[str] = []
+    failures: list[str] = []
+
+    for flag_name, violation in (
+        ("qty_below_moq", Violation.BELOW_MOQ),
+        ("qty_above_max", Violation.ABOVE_MAX),
+    ):
+        flagged = [s for s in corpus if getattr(s.flags, flag_name)]
+        violated, masked, unexplained = 0, 0, []
+        for scenario in flagged:
+            if violation in scenario.expected_violations(catalog):
+                violated += 1
+            elif any(_typo_masks_range_truth(i, catalog, violation) for i in scenario.items):
+                masked += 1
+            else:
+                unexplained.append(scenario.scenario_id)
+        lines.append(
+            f"  {flag_name:<20} flagged {len(flagged):>4}   "
+            f"violated {violated:>4}   typo-masked {masked:>4}"
+        )
+        if unexplained:
+            failures.append(f"{flag_name} unexplained: {unexplained}")
+
+    instances = Counter(v for s in corpus for v in s.expected_violations(catalog))
+    for flag_name, violation in (
+        ("mention_typo", Violation.UNRESOLVABLE_PRODUCT),
+        ("pack_size_trap", Violation.UNRESOLVABLE_UNIT),
+        ("discontinued_item", Violation.DISCONTINUED),
+    ):
+        flagged_n = sum(getattr(s.flags, flag_name) for s in corpus)
+        count = instances[violation]
+        lines.append(f"  {flag_name:<20} flagged {flagged_n:>4}   instances {count:>4}")
+        if flagged_n != count:
+            failures.append(f"{flag_name} {flagged_n} != {violation.value} {count}")
+
+    return lines, failures
 
 
 def main() -> None:
@@ -30,7 +94,7 @@ def main() -> None:
     print(f"scenarios: {n} (seed {args.seed})")
     print("\nflag rates:")
     for name in ScenarioFlags.model_fields:
-        print(f"  {name:<20} {flag_counts[name] / n:6.3f}")
+        print(f"  {name:<20} {flag_counts[name]:>4}  {flag_counts[name] / n:6.3f}")
     print("\nroutes:")
     for name, count in routes.most_common():
         print(f"  {name:<20} {count / n:6.3f}")
@@ -43,6 +107,13 @@ def main() -> None:
     print("\nitems per order:")
     for k in sorted(items_per):
         print(f"  {k}: {items_per[k] / n:6.3f}")
+
+    lines, failures = _injection_ledger(corpus, catalog)
+    print("\ninjection ledger (flags vs derivable violations):")
+    for line in lines:
+        print(line)
+    if failures:
+        sys.exit("LEDGER FAILURE: " + "; ".join(failures))
 
 
 if __name__ == "__main__":
