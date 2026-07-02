@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "customers": [
+    {
+      "customer_id": "CUST-0001",
+      "company": "Harbourline Logistics Pty Ltd",
+      "domains": ["harbourline.com.au"],
+      "contacts": [
+        {"name": "Dana Whitfield", "email": "dana.whitfield@harbourline.com.au", "role": "operations manager", "phone": "+61293261144"},
+        {"name": "Warehouse Team", "email": "orders@harbourline.com.au", "role": "shared mailbox", "phone": "+61293261145"}
+      ],
+      "delivery_addresses": [
+        {"label": "Botany warehouse", "line1": "Unit 4, 118 Beauchamp Road", "line2": null, "suburb": "Banksmeadow", "state": "NSW", "postcode": "2019"},
+        {"label": "Eastern Creek DC", "line1": "27 Honeycomb Drive", "line2": null, "suburb": "Eastern Creek", "state": "NSW", "postcode": "2766"}
+      ],
+      "po_template": "PO-#####",
+      "style": {"tone": "formal", "signoff": "Kind regards"}
+    },
+    {
+      "customer_id": "CUST-0002",
+      "company": "Redgum Furniture Co",
+      "domains": ["redgumfurniture.com.au"],
+      "contacts": [
+        {"name": "Marcus Yeo", "email": "marcus.yeo@redgumfurniture.com.au", "role": "procurement lead", "phone": "+61397943320"}
+      ],
+      "delivery_addresses": [
+        {"label": "Dandenong plant", "line1": "16 Assembly Drive", "line2": null, "suburb": "Dandenong South", "state": "VIC", "postcode": "3175"}
+      ],
+      "po_template": "45########",
+      "style": {"tone": "terse", "signoff": "Regards"}
+    },
+    {
+      "customer_id": "CUST-0003",
+      "company": "SwiftShip eCommerce",
+      "domains": ["swiftship.au", "swiftshipgroup.com"],
+      "contacts": [
+        {"name": "Priya Raman", "email": "priya@swiftship.au", "role": "fulfilment lead", "phone": "+61410882199"},
+        {"name": "Tom Barker", "email": "tom.barker@swiftshipgroup.com", "role": "operations", "phone": "+61421337064"}
+      ],
+      "delivery_addresses": [
+        {"label": "Alexandria fulfilment centre", "line1": "8 Bourke Road", "line2": null, "suburb": "Alexandria", "state": "NSW", "postcode": "2015"}
+      ],
+      "po_template": null,
+      "style": {"tone": "casual", "signoff": "Cheers"}
+    },
+    {
+      "customer_id": "CUST-0004",
+      "company": "Cairnwell Pharma Distribution",
+      "domains": ["cairnwellpharma.com"],
+      "contacts": [
+        {"name": "Elaine Fox", "email": "elaine.fox@cairnwellpharma.com", "role": "supply chain coordinator", "phone": "+61732681950"}
+      ],
+      "delivery_addresses": [
+        {"label": "Eagle Farm store", "line1": "Unit 2, 41 Navigator Place", "line2": null, "suburb": "Eagle Farm", "state": "QLD", "postcode": "4009"}
+      ],
+      "po_template": "MPO/####",
+      "style": {"tone": "formal", "signoff": "Kind regards"}
+    },
+    {
+      "customer_id": "CUST-0005",
+      "company": "Bight & Bay Seafoods",
+      "domains": ["bightandbay.com.au"],
+      "contacts": [
+        {"name": "Sofia Marino", "email": "sofia@bightandbay.com.au", "role": "owner", "phone": "+61884471203"}
+      ],
+      "delivery_addresses": [
+        {"label": "Port Adelaide depot", "line1": "5 Jenkins Street", "line2": null, "suburb": "Port Adelaide", "state": "SA", "postcode": "5015"}
+      ],
+      "po_template": null,
+      "style": {"tone": "terse", "signoff": "Thanks"}
+    },
+    {
+      "customer_id": "CUST-0006",
+      "company": "Orbit Components",
+      "domains": ["orbitcomponents.com.au"],
+      "contacts": [
+        {"name": "Alan Kwok", "email": "alan.kwok@orbitcomponents.com.au", "role": "purchasing officer", "phone": "+61296487731"},
+        {"name": "Purchasing", "email": "purchasing@orbitcomponents.com.au", "role": "shared mailbox", "phone": "+61296487730"}
+      ],
+      "delivery_addresses": [
+        {"label": "Silverwater HQ", "line1": "14 Egerton Street", "line2": null, "suburb": "Silverwater", "state": "NSW", "postcode": "2128"},
+        {"label": "Prestons overflow", "line1": "Warehouse 3, 40 Yato Road", "line2": null, "suburb": "Prestons", "state": "NSW", "postcode": "2170"}
+      ],
+      "po_template": "OC-####-#",
+      "style": {"tone": "terse", "signoff": "Regards"}
+    },
+    {
+      "customer_id": "CUST-0007",
+      "company": "Fernvale Nurseries",
+      "domains": ["fernvalenurseries.com.au"],
+      "contacts": [
+        {"name": "Josh Whelan", "email": "josh@fernvalenurseries.com.au", "role": "owner", "phone": "+61754261188"}
+      ],
+      "delivery_addresses": [
+        {"label": "Fernvale site", "line1": "210 Banks Creek Road", "line2": null, "suburb": "Fernvale", "state": "QLD", "postcode": "4306"}
+      ],
+      "po_template": null,
+      "style": {"tone": "casual", "signoff": "Cheers"}
+    },
+    {
+      "customer_id": "CUST-0008",
+      "company": "Metro Print Group",
+      "domains": ["metroprint.com.au"],
+      "contacts": [
+        {"name": "Helen Diaz", "email": "helen.diaz@metroprint.com.au", "role": "print production manager", "phone": "+61393762205"},
+        {"name": "Sam O'Neill", "email": "sam.oneill@metroprint.com.au", "role": "purchasing", "phone": "+61393762206"}
+      ],
+      "delivery_addresses": [
+        {"label": "Sunshine West plant", "line1": "55 Fabrication Way", "line2": null, "suburb": "Sunshine West", "state": "VIC", "postcode": "3020"}
+      ],
+      "po_template": "MPG-######",
+      "style": {"tone": "formal", "signoff": "Kind regards"}
+    }
+  ]
+}
