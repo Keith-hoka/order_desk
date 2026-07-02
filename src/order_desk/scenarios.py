@@ -45,6 +45,8 @@ PIECE_WORDS: dict[str, str] = {
     "ppe": "gloves",
 }
 
+PRICE_CORRUPTION_MULTIPLIERS = (0.85, 0.9, 0.95, 1.1)
+
 RELATIVE_PHRASES: dict[int, str] = {
     3: "in 3 days",
     5: "in 5 days",
@@ -108,6 +110,7 @@ class Violation(StrEnum):
     UNRESOLVABLE_PRODUCT = "unresolvable_product"
     UNRESOLVABLE_UNIT = "unresolvable_unit"
     UNIT_MISMATCH = "unit_mismatch"
+    PRICE_MISMATCH = "price_mismatch"
 
 
 class Ask(StrEnum):
@@ -129,6 +132,8 @@ class ScenarioFlags(BaseModel):
     pack_size_trap: bool = False
     mention_typo: bool = False
     unsigned: bool = False
+    prices_stated: bool = False
+    price_mismatch: bool = False
 
 
 class LineItemScenario(BaseModel):
@@ -143,6 +148,8 @@ class LineItemScenario(BaseModel):
     unit_surface: str | None
     unit_style: UnitStyle
     item_note: str | None = None
+    price_cents: int | None = None  # stated per-unit price; may deliberately differ from list
+    price_surface: str | None = None  # verbatim money string, e.g. "$7.80"
     intended_packs: int | None = None  # pack-size trap: how many packs are meant
 
     def gold(self) -> LineItem:
@@ -150,6 +157,7 @@ class LineItemScenario(BaseModel):
             product_text=self.product_surface,
             quantity=self.quantity_value,
             unit_text=self.unit_surface,
+            unit_price_text=self.price_surface,
             item_notes=self.item_note,
         )
 
@@ -202,8 +210,10 @@ class OrderScenario(BaseModel):
         or no unit is stated (read as the selling unit). An unresolvable or
         mismatched unit leaves the quantity's denomination unknown, so range
         checks are skipped -- flagging "500 labels" as above a roll-denominated
-        max would assert a false fact (500 labels is one roll). The runtime
-        validation stage must share this exact policy.
+        max would assert a false fact (500 labels is one roll). Stated-price
+        checks share the same gate: a per-unit price is only comparable to the
+        list price under a coherent denomination. The runtime validation stage
+        must share this exact policy.
         """
         out: list[Violation] = []
         for item in self.items:
@@ -227,6 +237,12 @@ class OrderScenario(BaseModel):
                     out.append(Violation.BELOW_MOQ)
                 elif item.quantity_value > product.max_qty:
                     out.append(Violation.ABOVE_MAX)
+            if (
+                unit_coherent
+                and item.price_cents is not None
+                and item.price_cents != product.unit_price_cents
+            ):
+                out.append(Violation.PRICE_MISMATCH)
         return out
 
     def expected_route(self, catalog: Catalog, book: CustomerBook) -> Route:
@@ -274,6 +290,8 @@ class GeneratorConfig(BaseModel):
     p_order_note: float = 0.25
     p_unsigned_personal: float = 0.1
     p_signed_shared: float = 0.6
+    p_prices_stated: float = 0.25
+    p_price_mismatch: float = 0.18  # conditional on prices_stated
 
 
 def _weighted[T](rng: random.Random, weights: dict[T, float]) -> T:
@@ -291,6 +309,17 @@ def _transpose(text: str, rng: random.Random) -> str:
         return text
     i = rng.choice(spots)
     return text[:i] + text[i + 1] + text[i] + text[i + 2 :]
+
+
+def _fmt_price(cents: int) -> str:
+    return f"${cents // 100}.{cents % 100:02d}"
+
+
+def _corrupt_price(true_cents: int, rng: random.Random) -> int:
+    corrupted = round(true_cents * rng.choice(PRICE_CORRUPTION_MULTIPLIERS))
+    if corrupted == true_cents:  # only reachable for tiny prices; keep the invariant anyway
+        corrupted -= 1
+    return corrupted
 
 
 def _sample_sent_at(rng: random.Random) -> datetime:
@@ -330,6 +359,7 @@ def _normal_item(
     typo: bool,
     omit_quantity: bool,
     force_quantity: int | None,
+    priced: bool,
 ) -> LineItemScenario:
     style = MentionStyle.ALIAS if typo else _weighted(rng, config.mention_style_weights)
     surface = _mention(product, style, rng)
@@ -361,6 +391,8 @@ def _normal_item(
         unit_surface=_unit_surface(product, unit_style, catalog, rng),
         unit_style=unit_style,
         item_note=rng.choice(ITEM_NOTES) if rng.random() < config.p_item_note else None,
+        price_cents=product.unit_price_cents if priced else None,
+        price_surface=_fmt_price(product.unit_price_cents) if priced else None,
         intended_packs=None,
     )
 
@@ -379,6 +411,10 @@ def _trap_item(product: Product, rng: random.Random) -> LineItemScenario:
         unit_surface=PIECE_WORDS[product.category],
         unit_style=UnitStyle.PIECE,
         item_note=None,
+        # Trap lines never carry a stated price in v1: their denomination is
+        # incoherent by construction, so a per-unit price would be meaningless.
+        price_cents=None,
+        price_surface=None,
         intended_packs=packs,
     )
 
@@ -441,6 +477,7 @@ def _sample_scenario(
             parts.append(f"{addr.suburb} {addr.state} {addr.postcode}")
             address_mention = ", ".join(parts)
 
+    prices_stated = rng.random() < config.p_prices_stated
     want_trap = rng.random() < config.p_pack_size_trap
     want_discontinued = rng.random() < config.p_discontinued
     want_below = rng.random() < config.p_below_moq
@@ -489,6 +526,7 @@ def _sample_scenario(
             typo=product is typo_product,
             omit_quantity=product is missing_product,
             force_quantity=oor_quantity if product is oor_product else None,
+            priced=prices_stated,
         )
         for product in normal_products
     ]
@@ -505,9 +543,23 @@ def _sample_scenario(
                 typo=False,
                 omit_quantity=False,
                 force_quantity=None,
+                priced=prices_stated,
             )
         )
     rng.shuffle(items)
+
+    price_mismatch_applied = False
+    if prices_stated and rng.random() < config.p_price_mismatch:
+        # Corrupt exactly one line whose price check will actually run: the
+        # denomination-coherence gate skips typo'd (unresolvable) lines and
+        # trap lines carry no price, so the injection ledger stays exactly
+        # 1:1 with derivable PRICE_MISMATCH violations.
+        eligible = [i for i in items if i.price_cents is not None and not i.typo]
+        if eligible:
+            victim = rng.choice(eligible)
+            victim.price_cents = _corrupt_price(victim.price_cents, rng)
+            victim.price_surface = _fmt_price(victim.price_cents)
+            price_mismatch_applied = True
 
     flags = ScenarioFlags(
         missing_po=missing_po,
@@ -519,6 +571,8 @@ def _sample_scenario(
         pack_size_trap=trap_product is not None,
         mention_typo=any(item.typo for item in items),
         unsigned=signature is None,
+        prices_stated=prices_stated,
+        price_mismatch=price_mismatch_applied,
     )
 
     return OrderScenario(

@@ -147,6 +147,7 @@ def test_routes_follow_precedence_and_cover_all(
         Violation.ABOVE_MAX,
         Violation.UNRESOLVABLE_PRODUCT,
         Violation.UNRESOLVABLE_UNIT,
+        Violation.PRICE_MISMATCH,
     } <= seen_violations
 
 
@@ -282,3 +283,83 @@ def test_injection_ledger_reconciles_per_scenario(
                     if breach:
                         masks.append(item)
                 assert masks, (flag_name, scenario.scenario_id)
+
+
+def test_price_surfaces_are_coherent(corpus: list[OrderScenario], catalog: Catalog) -> None:
+    saw_priced = saw_mismatch = False
+    for scenario in corpus:
+        if not scenario.flags.prices_stated:
+            assert all(i.price_cents is None for i in scenario.items)
+            assert not scenario.flags.price_mismatch
+            continue
+        mismatched = 0
+        for item in scenario.items:
+            assert (item.price_cents is None) == (item.price_surface is None)
+            if item.intended_packs is not None:
+                assert item.price_cents is None
+                continue
+            if item.price_cents is None:
+                continue
+            saw_priced = True
+            expected = f"${item.price_cents // 100}.{item.price_cents % 100:02d}"
+            assert item.price_surface == expected
+            product = catalog.resolve_sku(item.sku)
+            assert product is not None
+            if item.price_cents != product.unit_price_cents:
+                mismatched += 1
+                assert not item.typo
+        if scenario.flags.price_mismatch:
+            saw_mismatch = True
+            assert mismatched == 1
+        else:
+            assert mismatched == 0
+    assert saw_priced and saw_mismatch
+
+
+def test_price_checks_are_derivable_and_denomination_gated(
+    catalog: Catalog, book: CustomerBook
+) -> None:
+    def scenario_with(price_cents: int, unit_surface: str) -> OrderScenario:
+        item = LineItemScenario(
+            sku="FLM-HND-101",
+            product_surface="pallet wrap",
+            mention_style=MentionStyle.ALIAS,
+            typo=False,
+            quantity_value=12,
+            quantity_surface="12",
+            unit_surface=unit_surface,
+            unit_style=UnitStyle.ALIAS,
+            item_note=None,
+            price_cents=price_cents,
+            price_surface=f"${price_cents // 100}.{price_cents % 100:02d}",
+            intended_packs=None,
+        )
+        return OrderScenario(
+            scenario_id="SCN-999998",
+            customer_id="CUST-0002",
+            sender_email="marcus.yeo@redgumfurniture.com.au",
+            sent_at=datetime(2026, 3, 2, 9, 30, tzinfo=UTC),
+            buyer_signature="Marcus",
+            po_surface="4512345678",
+            date_style=DateStyle.NONE,
+            date_phrase=None,
+            intended_date=None,
+            address_style=AddressStyle.NONE,
+            address_mention=None,
+            address_label_truth="Dandenong plant",
+            order_note=None,
+            items=[item],
+            flags=ScenarioFlags(),
+        )
+
+    bad = scenario_with(702, "rolls")  # list price is 780
+    assert bad.expected_violations(catalog) == [Violation.PRICE_MISMATCH]
+    assert bad.expected_route(catalog, book) is Route.EXCEPTION
+
+    good = scenario_with(780, "rolls")  # hard negative: correct price must not fire
+    assert good.expected_violations(catalog) == []
+    assert good.expected_route(catalog, book) is Route.TOUCHLESS
+
+    gated = scenario_with(702, "pallets")  # wrong price hidden behind a wrong unit
+    assert gated.expected_violations(catalog) == [Violation.UNIT_MISMATCH]
+    assert gated.expected_route(catalog, book) is Route.EXCEPTION

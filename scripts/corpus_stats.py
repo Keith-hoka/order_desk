@@ -62,6 +62,7 @@ def _injection_ledger(corpus: list[OrderScenario], catalog: Catalog) -> tuple[li
         ("mention_typo", Violation.UNRESOLVABLE_PRODUCT),
         ("pack_size_trap", Violation.UNRESOLVABLE_UNIT),
         ("discontinued_item", Violation.DISCONTINUED),
+        ("price_mismatch", Violation.PRICE_MISMATCH),
     ):
         flagged_n = sum(getattr(s.flags, flag_name) for s in corpus)
         count = instances[violation]

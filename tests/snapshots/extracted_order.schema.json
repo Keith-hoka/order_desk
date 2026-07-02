@@ -36,6 +36,19 @@
           "description": "The quantity as an integer. Convert number words such as twelve or a dozen to digits. Use null if no quantity is stated; never guess.",
           "title": "Quantity"
         },
+        "unit_price_text": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The per-unit price exactly as the customer wrote it, including the currency symbol, e.g. $7.80. Use null if no price is stated for this item.",
+          "title": "Unit Price Text"
+        },
         "unit_text": {
           "anyOf": [
             {
@@ -54,6 +67,7 @@
         "product_text",
         "quantity",
         "unit_text",
+        "unit_price_text",
         "item_notes"
       ],
       "title": "LineItem",

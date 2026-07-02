@@ -47,6 +47,14 @@ class LineItem(BaseModel):
             "The unit word exactly as written, e.g. rolls, ctns, boxes. Use null if none is given."
         ),
     )
+    unit_price_text: str | None = Field(
+        min_length=1,
+        description=(
+            "The per-unit price exactly as the customer wrote it, including "
+            "the currency symbol, e.g. $7.80. Use null if no price is stated "
+            "for this item."
+        ),
+    )
     item_notes: str | None = Field(
         min_length=1,
         description="Instructions specific to this line item, verbatim. Use null if none.",

@@ -26,7 +26,10 @@ ingest → classify → extract → validate → route
    with nested line items. xgrammar-constrained decoding; repair fallback.
 4. **Validate** — deterministic, two layers: completeness (required fields
    present, non-null) and business rules (SKU in catalog, quantity ranges,
-   date validity, address parseability).
+   date validity, address parseability, stated unit prices vs list price).
+   List price is a v1 simplification -- real B2B price truth lives in quotes
+   and contract pricing, which v1 does not model -- so price disputes route
+   to the exception queue for a human, never to automated clarification.
 5. **Route** —
    - missing required fields → **clarification email** (quotes original, lists
      exactly the missing fields; the reply re-enters ingest via thread ref)

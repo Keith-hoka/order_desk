@@ -16,11 +16,18 @@ PAYLOAD: dict[str, Any] = {
     "buyer_name_text": "Dana",
     "notes": "tailgate required",
     "line_items": [
-        {"product_text": "shrink wrap", "quantity": 12, "unit_text": "rolls", "item_notes": None},
+        {
+            "product_text": "shrink wrap",
+            "quantity": 12,
+            "unit_text": "rolls",
+            "unit_price_text": "$7.80",
+            "item_notes": None,
+        },
         {
             "product_text": "clear packing tape",
             "quantity": 72,
             "unit_text": None,
+            "unit_price_text": None,
             "item_notes": "brown is fine if clear is out",
         },
     ],
