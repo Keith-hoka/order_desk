@@ -1,0 +1,27 @@
+[project]
+name = "order-desk"
+version = "0.1.0"
+description = "Email-to-order AI workflow for logistics: classify, extract, validate, HITL, ERP handoff"
+readme = "README.md"
+authors = [
+    { name = "Keith Ho", email = "75162022+Keith-hoka@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[build-system]
+requires = ["uv_build>=0.11.8,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.15.20",
+]
