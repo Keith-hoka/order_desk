@@ -1,0 +1,150 @@
+{
+  "$defs": {
+    "LineItem": {
+      "additionalProperties": false,
+      "description": "A single ordered product as expressed in the email.",
+      "properties": {
+        "item_notes": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Instructions specific to this line item, verbatim. Use null if none.",
+          "title": "Item Notes"
+        },
+        "product_text": {
+          "description": "The product exactly as the customer wrote it, verbatim. Never map it to a catalog name or product code.",
+          "minLength": 1,
+          "title": "Product Text",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The quantity as an integer. Convert number words such as twelve or a dozen to digits. Use null if no quantity is stated; never guess.",
+          "title": "Quantity"
+        },
+        "unit_text": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The unit word exactly as written, e.g. rolls, ctns, boxes. Use null if none is given.",
+          "title": "Unit Text"
+        }
+      },
+      "required": [
+        "product_text",
+        "quantity",
+        "unit_text",
+        "item_notes"
+      ],
+      "title": "LineItem",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Structured purchase order extracted from one customer email.\n\nEvery key is required. Use null for anything the email does not state --\nnever omit a key, never output an empty string, never infer a value.\nCopy text verbatim from the email without normalising it.",
+  "properties": {
+    "buyer_name_text": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The name of the person placing the order, as signed or stated in the email body. Use null if no individual is identifiable.",
+      "title": "Buyer Name Text"
+    },
+    "customer_po_text": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The customer purchase order reference exactly as written, e.g. PO-12345. Use null if none is given.",
+      "title": "Customer Po Text"
+    },
+    "delivery_address_text": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The delivery destination exactly as written, whether a full address or a site name. Use null if not stated.",
+      "title": "Delivery Address Text"
+    },
+    "line_items": {
+      "description": "One entry per distinct product the customer is ordering. Empty only if no products are identifiable.",
+      "items": {
+        "$ref": "#/$defs/LineItem"
+      },
+      "title": "Line Items",
+      "type": "array"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Order-level delivery or handling instructions written by the customer, verbatim. Use null if none.",
+      "title": "Notes"
+    },
+    "requested_date_text": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The requested delivery timing exactly as written, e.g. next Friday, by the 15th, ASAP. Do not convert it to a date. Use null if not stated.",
+      "title": "Requested Date Text"
+    }
+  },
+  "required": [
+    "customer_po_text",
+    "requested_date_text",
+    "delivery_address_text",
+    "buyer_name_text",
+    "notes",
+    "line_items"
+  ],
+  "title": "ExtractedOrder",
+  "type": "object"
+}
