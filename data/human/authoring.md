@@ -1797,3 +1797,125 @@ Priya
   ]
 }
 ```
+
+### HUM-0062
+From: marcus.yeo@redgumfurniture.com.au
+Sent: 2026-07-01 08:47
+Class: new_order
+Subject: Bubble wrap
+
+Need 400 metres of bubble wrap for the sofa line.
+PO 4500489034.
+Regards
+Marcus Yeo
+
+```gold
+{
+  "customer_po_text": "4500489034",
+  "requested_date_text": null,
+  "delivery_address_text": null,
+  "buyer_name_text": "Marcus Yeo",
+  "notes": null,
+  "line_items": [
+    {
+      "product_text": "bubble wrap",
+      "quantity": 400,
+      "unit_text": "metres",
+      "unit_price_text": null,
+      "item_notes": null
+    }
+  ]
+}
+```
+
+### HUM-0063
+From: elaine.fox@cairnwellpharma.com
+Sent: 2026-07-02 10:34
+Class: new_order
+Subject: Nitrile gloves - MPO/2452
+
+Good afternoon,
+
+Please supply 400 pairs of nitrile gloves against purchase order MPO/2452 for the cleanroom stores.
+If they are only supplied in full boxes, please round the quantity up.
+
+Kind regards
+Elaine Fox
+
+```gold
+{
+  "customer_po_text": "MPO/2452",
+  "requested_date_text": null,
+  "delivery_address_text": null,
+  "buyer_name_text": "Elaine Fox",
+  "notes": null,
+  "line_items": [
+    {
+      "product_text": "nitrile gloves",
+      "quantity": 400,
+      "unit_text": "pairs",
+      "unit_price_text": null,
+      "item_notes": "If they are only supplied in full boxes, please round the quantity up"
+    }
+  ]
+}
+```
+
+### HUM-0064
+From: sofia@bightandbay.com.au
+Sent: 2026-07-02 15:21
+Class: new_order
+Subject: pallet wrap
+
+need pallet wrap again. enough for 60 pallets or so.
+Thanks
+Sofia
+
+```gold
+{
+  "customer_po_text": null,
+  "requested_date_text": null,
+  "delivery_address_text": null,
+  "buyer_name_text": "Sofia",
+  "notes": null,
+  "line_items": [
+    {
+      "product_text": "pallet wrap",
+      "quantity": null,
+      "unit_text": null,
+      "unit_price_text": null,
+      "item_notes": "enough for 60 pallets or so"
+    }
+  ]
+}
+```
+
+### HUM-0065
+From: josh@fernvalenurseries.com.au
+Sent: 2026-07-03 11:43
+Class: new_order
+Subject: address labels
+
+G'day,
+Starting to put proper address labels on the plant boxes - can you send 300 sheets?
+Cheers,
+Josh
+
+```gold
+{
+  "customer_po_text": null,
+  "requested_date_text": null,
+  "delivery_address_text": null,
+  "buyer_name_text": "Josh",
+  "notes": null,
+  "line_items": [
+    {
+      "product_text": "address labels",
+      "quantity": 300,
+      "unit_text": "sheets",
+      "unit_price_text": null,
+      "item_notes": null
+    }
+  ]
+}
+```
