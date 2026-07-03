@@ -952,7 +952,7 @@ Josh
     },
     {
       "product_text": "packing tape",
-      "quantity": 2,
+      "quantity": null,
       "unit_text": "rolls",
       "unit_price_text": null,
       "item_notes": null

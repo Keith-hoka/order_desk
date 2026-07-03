@@ -57,6 +57,32 @@ data/corpus/MANIFEST.json (measured duplicate rates live there, not here).
   prompt. Step 1.9 adds a trap-line slice so any residual convention penalty
   is visible.
 
+## Human OOD slice (step 1.8c) -- authoring findings
+
+- 65 records (54 new_order), hand-written and gold-labelled against the
+  fixtures; frozen as data/human/test_human.jsonl.
+- Unresolvable product mentions (25 distinct, 52% of new_order records):
+  19 trivial near-misses -- plurals, case, official name minus dimensions
+  ("euro pallets", "clear packing tape") -- 3 deliberately vague ("the
+  usual", "same as last time", "the blue gloves"), 1 typo ("strech flim"),
+  2 off-catalog products ("mailing tubes", "packing peanuts"), 1 nonexistent
+  variant ("black pallet wrap"). Headline: on natural text, exact-match
+  resolution fails mostly on trivial morphology, not exotic vagueness.
+  Consequences: routing eval on this slice is exception-heavy by
+  construction (STP structurally low -- a shift-detector reading, not a
+  model defect), and v2 fuzzy resolution is pre-registered here rather than
+  motivated post hoc.
+- Number-word adjudication: "a couple of rolls" -> quantity null (a vague
+  approximation is not a precise number word; same principle as the range
+  rule). Articles "a"/"one" -> 1, kept (deterministic conversions).
+- Natural unit-denomination cases arose unprompted ("one box of clear
+  tape", "a pallet of the small cartons"): the unit resolves but mismatches
+  the selling unit. Realistic, kept; they surface via the oracle's
+  denomination policy at eval time.
+- Contamination check: HUM-0001 shares customer and product phrase with the
+  test-fixture example, but subject, body, PO, quantity, and date are all
+  distinct -- differential comparison confirms original authorship.
+
 ## Realism posture
 Template-synthetic text puts a ceiling on linguistic diversity. Correction
 mechanisms: (1) the human-certified subsample and human-authored OOD slice
