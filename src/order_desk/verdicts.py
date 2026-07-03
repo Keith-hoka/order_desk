@@ -96,7 +96,7 @@ def progress(verdicts: list[dict[str, Any]]) -> VerdictProgress:
             labels_false += 1
             findings.append(verdict["id"])
         for token in verdict["notes"].split():
-            tag = token.rstrip(",.;")
+            tag = token.strip(",.;()")
             if tag.startswith("quirk:"):
                 quirk_tags[tag] = quirk_tags.get(tag, 0) + 1
     return VerdictProgress(

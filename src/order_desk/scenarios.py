@@ -65,7 +65,7 @@ ORDER_NOTES = (
 )
 
 ITEM_NOTES = (
-    "brown is fine if clear is out",
+    "no substitutions please",
     "must be the heavy duty ones",
     "same spec as our last order",
 )

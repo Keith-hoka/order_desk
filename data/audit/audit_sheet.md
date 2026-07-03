@@ -39,7 +39,7 @@ Please supply:
 
 - Steel Strapping 19mm x 300m – 16 roll
 - Padded Mailer 215x280mm Carton of 100 – 4 cartons
-- medium shipping box – 200 each (brown is fine if clear is out)
+- medium shipping box – 200 each (no substitutions please)
 - Machine Stretch Film 500mm x 1500m – 32 rl
 
 Timing: 3 May.
@@ -70,7 +70,7 @@ gold_extraction:
       "unit_text": "cartons"
     },
     {
-      "item_notes": "brown is fine if clear is out",
+      "item_notes": "no substitutions please",
       "product_text": "medium shipping box",
       "quantity": 200,
       "unit_price_text": null,
@@ -529,7 +529,7 @@ Hello,
 Could you please arrange the following for us:
 
 150 x large shipping box
-heavy duty carton (usual unit, qty to follow) (brown is fine if clear is out)
+heavy duty carton (usual unit, qty to follow) (no substitutions please)
 
 Delivery in 5 days would suit us.
 
@@ -552,7 +552,7 @@ gold_extraction:
       "unit_text": null
     },
     {
-      "item_notes": "brown is fine if clear is out",
+      "item_notes": "no substitutions please",
       "product_text": "heavy duty carton",
       "quantity": null,
       "unit_price_text": null,
@@ -626,7 +626,7 @@ Good morning,
 
 We would like to place the following order:
 
-- PAL-STD-601 – 100 (brown is fine if clear is out)
+- PAL-STD-601 – 100 (no substitutions please)
 - poly mailers – 500 mailers
 - Strapping Buckles 12mm Bag of 1000 – 1 pks (same spec as our last order)
 
@@ -644,7 +644,7 @@ gold_extraction:
   "delivery_address_text": null,
   "line_items": [
     {
-      "item_notes": "brown is fine if clear is out",
+      "item_notes": "no substitutions please",
       "product_text": "PAL-STD-601",
       "quantity": 100,
       "unit_price_text": null,
@@ -783,7 +783,7 @@ Could you please arrange the following for us:
 
 - 40 rl shipping labels @ $18.50
 - 4 roll metal strapping @ $115.00
-- 1 packs corner protectors at $68.00 (brown is fine if clear is out)
+- 1 packs corner protectors at $68.00 (no substitutions please)
 
 We would need these ASAP.
 Ship to: Unit 2, 41 Navigator Place, Eagle Farm QLD 4009.
@@ -815,7 +815,7 @@ gold_extraction:
       "unit_text": "roll"
     },
     {
-      "item_notes": "brown is fine if clear is out",
+      "item_notes": "no substitutions please",
       "product_text": "corner protectors",
       "quantity": 1,
       "unit_price_text": "$68.00",
@@ -1312,7 +1312,7 @@ Hoping to get another order in:
 - half a dozen boxes padded bags (must be the heavy duty ones)
 - 100 pcs europallet
 - 4 Edge Protectors 50x50x1200mm Bundle of 50
-- 32 rl Machine Stretch Film 500mm x 1500m (brown is fine if clear is out)
+- 32 rl Machine Stretch Film 500mm x 1500m (no substitutions please)
 - 29 Fragile Printed Tape 48mm x 66m
 
 Cheers,
@@ -1347,7 +1347,7 @@ gold_extraction:
       "unit_text": null
     },
     {
-      "item_notes": "brown is fine if clear is out",
+      "item_notes": "no substitutions please",
       "product_text": "Machine Stretch Film 500mm x 1500m",
       "quantity": 32,
       "unit_price_text": null,
@@ -1610,7 +1610,7 @@ Hoping to get another order in:
 
 - wide bubble wrap – 12 rls
 - PAL-STD-601 – 100 each
-- STR-PLY-701 – 20 roll (brown is fine if clear is out)
+- STR-PLY-701 – 20 roll (no substitutions please)
 
 Delivery in a fortnight would suit us.
 Just a heads up: site induction required for drivers.
@@ -1641,7 +1641,7 @@ gold_extraction:
       "unit_text": "each"
     },
     {
-      "item_notes": "brown is fine if clear is out",
+      "item_notes": "no substitutions please",
       "product_text": "STR-PLY-701",
       "quantity": 20,
       "unit_price_text": null,
@@ -1765,7 +1765,7 @@ Hey,
 
 Can we get the following sorted please:
 
-- Strapping Buckles 12mm Bag of 1000 – half a dozen pack at $22.00 (brown is fine if clear is out)
+- Strapping Buckles 12mm Bag of 1000 – half a dozen pack at $22.00 (no substitutions please)
 - large shipping box (qty to confirm) @ $2.10
 
 Timing: 2 April.
@@ -1782,7 +1782,7 @@ gold_extraction:
   "delivery_address_text": null,
   "line_items": [
     {
-      "item_notes": "brown is fine if clear is out",
+      "item_notes": "no substitutions please",
       "product_text": "Strapping Buckles 12mm Bag of 1000",
       "quantity": 6,
       "unit_price_text": "$22.00",
@@ -2012,7 +2012,7 @@ Our PO: PO-69669.
 
 We would like to place the following order:
 
-30 ctns GLV-NTR-901 @ $11.50 (brown is fine if clear is out)
+30 ctns GLV-NTR-901 @ $11.50 (no substitutions please)
 
 Delivery 15 March would suit us.
 Ship to: Botany warehouse.
@@ -2029,7 +2029,7 @@ gold_extraction:
   "delivery_address_text": "Botany warehouse",
   "line_items": [
     {
-      "item_notes": "brown is fine if clear is out",
+      "item_notes": "no substitutions please",
       "product_text": "GLV-NTR-901",
       "quantity": 30,
       "unit_price_text": "$11.50",
@@ -2741,7 +2741,7 @@ Subject: Supplies order
 ```text
 Hi,
 
-Can you send over 60 roll of Hand Stretch Film 500mm x 400m Clear at $7.80 (brown is fine if clear is out) and 12 roll of Bubble Wrap Roll 500mm x 100m 10mm Bubble @ $42.00 (must be the heavy duty ones)?
+Can you send over 60 roll of Hand Stretch Film 500mm x 400m Clear at $7.80 (no substitutions please) and 12 roll of Bubble Wrap Roll 500mm x 100m 10mm Bubble @ $42.00 (must be the heavy duty ones)?
 
 Delivery address: Fernvale site.
 
@@ -2757,7 +2757,7 @@ gold_extraction:
   "delivery_address_text": "Fernvale site",
   "line_items": [
     {
-      "item_notes": "brown is fine if clear is out",
+      "item_notes": "no substitutions please",
       "product_text": "Hand Stretch Film 500mm x 400m Clear",
       "quantity": 60,
       "unit_price_text": "$7.80",
@@ -3500,7 +3500,7 @@ Order as follows:
 
 - strapping – 4
 - Address Labels 99x38mm Sheet Pack of 100 – 50
-- PAL-EUR-602 – 30 ea (brown is fine if clear is out)
+- PAL-EUR-602 – 30 ea (no substitutions please)
 - Steel Strapping 19mm x 300m – 12 roll
 - heavy duty carton – 80 pcs
 
@@ -3530,7 +3530,7 @@ gold_extraction:
       "unit_text": null
     },
     {
-      "item_notes": "brown is fine if clear is out",
+      "item_notes": "no substitutions please",
       "product_text": "PAL-EUR-602",
       "quantity": 30,
       "unit_price_text": null,
@@ -3569,7 +3569,7 @@ Hey,
 
 Hoping to get another order in:
 
-- 12 roll machine wrap (brown is fine if clear is out)
+- 12 roll machine wrap (no substitutions please)
 
 Delivery in 10 days would suit us.
 Deliver to 210 Banks Creek Road, Fernvale QLD 4306.
@@ -3586,7 +3586,7 @@ gold_extraction:
   "delivery_address_text": "210 Banks Creek Road, Fernvale QLD 4306",
   "line_items": [
     {
-      "item_notes": "brown is fine if clear is out",
+      "item_notes": "no substitutions please",
       "product_text": "machine wrap",
       "quantity": 12,
       "unit_price_text": null,

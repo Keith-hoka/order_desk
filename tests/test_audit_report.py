@@ -72,3 +72,7 @@ def test_markdown_carries_sections_and_dossier(pack, records) -> None:
     ):
         assert header in markdown
     assert false_id in markdown
+
+
+def test_qualifier_strips_parens() -> None:
+    assert parse_note_tags("(quirk:c fine)") == [("quirk:c", "fine")]

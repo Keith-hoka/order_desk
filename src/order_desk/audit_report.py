@@ -26,7 +26,7 @@ NOTE_TAG_PREFIXES = ("quirk:", "protocol:")
 
 def parse_note_tags(notes: str) -> list[tuple[str, str | None]]:
     """Extract (tag, qualifier) pairs; the qualifier is the next plain token."""
-    tokens = [token.strip(",.;") for token in notes.split()]
+    tokens = [token.strip(",.;()") for token in notes.split()]
     pairs: list[tuple[str, str | None]] = []
     for index, token in enumerate(tokens):
         if not token.startswith(NOTE_TAG_PREFIXES):
@@ -201,9 +201,9 @@ def _render_markdown(
     lines += [
         "## Adjudication",
         "",
-        "Pending — step 1.8b2 fills this section after per-record adjudication and",
-        "the fix-vs-record decision. This is the cheap refreeze window (no baseline",
-        "numbers exist yet); see docs/frozen_test_fixlog.md for the ritual.",
+        "Ledger adjudication lives in docs/corpus_notes.md (quirk ledger, plus the",
+        "oracle-conventions section); the colour-note fix and its blast radius are",
+        "recorded as refreeze #1 in docs/frozen_test_fixlog.md.",
         "",
     ]
     return "\n".join(lines)
