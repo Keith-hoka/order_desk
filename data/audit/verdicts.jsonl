@@ -1,4 +1,4 @@
-{"id": "TST-SCN-000004", "labels_correct": null, "notes": "", "realistic": null}
+{"id": "TST-SCN-000004", "labels_correct": true, "notes": "quirk:a fine (16 roll/32 rl); quirk:b fine - 'no substitutions please' is product-neutral (refreeze fixed the old colour-mismatch note); gold verbatim; oracle verified (steel strapping discontinued -> exception; Orbit multi-site + no address -> delivery_site ask)", "realistic": true}
 {"id": "TST-SCN-000005", "labels_correct": true, "notes": "pack_size_trap per spec: qty 300 + unit_text 'mailers' is correct mention-level extraction; unresolvable_unit + exception verified; gold verbatim", "realistic": true}
 {"id": "TST-SCN-000010", "labels_correct": true, "notes": "clean; oracle verified (STR-STL-703 discontinued; Metro Print single-site so no site ask; tape 72 within limits)", "realistic": true}
 {"id": "TST-SCN-000013", "labels_correct": true, "notes": "quirk:a fine (a dozen roll / 9 unit / 10 case); oracle verified (hd carton 9 < moq 10 -> below_moq; all four prices match catalog)", "realistic": true}
@@ -8,12 +8,12 @@
 {"id": "TST-SCN-000051", "labels_correct": true, "notes": "quirk:a fine (12 rl of); oracle verified touchless ($42.00 matches catalog)", "realistic": true}
 {"id": "TST-SCN-000058", "labels_correct": true, "notes": "quirk:a fine (4 rl); oracle verified (STR-STL-703 by SKU discontinued; Harbourline no address -> delivery_site)", "realistic": true}
 {"id": "TST-SCN-000070", "labels_correct": true, "notes": "oracle verified touchless (TPE-FRG-203 288 within 36..1440; $3.10 matches)", "realistic": true}
-{"id": "TST-SCN-000072", "labels_correct": null, "notes": "", "realistic": null}
+{"id": "TST-SCN-000072", "labels_correct": true, "notes": "quirk:b fine ('no substitutions please', product-neutral - refreeze fix verified); '(usual unit, qty to follow)' -> unit_text 'unit' + qty null correct; oracle verified clarification/quantity (Cairnwell single-site so no site ask)", "realistic": true}
 {"id": "TST-SCN-000085", "labels_correct": true, "notes": "typo 'pakcaging tape' correctly preserved in gold; oracle verified (buckles $19.80 vs $22.00 price_mismatch; typo -> unresolvable_product; half a dozen = 6; 'x' correctly not a unit)", "realistic": true}
-{"id": "TST-SCN-000095", "labels_correct": null, "notes": "", "realistic": null}
+{"id": "TST-SCN-000095", "labels_correct": true, "notes": "quirk:b fine (no-substitutions note product-neutral; same-spec note fine); buyer null correct (shared mailbox, 'Purchasing team' closer); pack_size_trap '500 mailers' mention-level correct per spec; oracle verified (unresolvable_unit + delivery_site ask, Harbourline multi-site)", "realistic": true}
 {"id": "TST-SCN-000097", "labels_correct": true, "notes": "quirk:a fine (half a dozen rls = 6); oracle verified (steel strapping discontinued; $115.00 matches so no price_mismatch; address given so no site ask)", "realistic": true}
 {"id": "TST-SCN-000110", "labels_correct": true, "notes": "quirk:a fine ('usual bag' / 20 each); oracle verified clarification/quantity (bag -> pack family resolvable; Orbit address given so no site ask)", "realistic": true}
-{"id": "TST-SCN-000120", "labels_correct": null, "notes": "", "realistic": null}
+{"id": "TST-SCN-000120", "labels_correct": true, "notes": "quirk:a fine (40 rl / 4 roll / 1 packs); quirk:b fine (no-substitutions note product-neutral); oracle verified (metal strapping discontinued; $18.50/$115.00/$68.00 all match catalog)", "realistic": true}
 {"id": "TST-SCN-000128", "labels_correct": true, "notes": "quirk:a fine (10 pack / 2 bags); oracle verified touchless (all four items resolve, prices match, quantities within limits)", "realistic": true}
 {"id": "TST-SCN-000135", "labels_correct": true, "notes": "quirk:a fine; quirk:b fine (same-spec note); oracle verified above_max (laser labels 510 > max 500); protocol: bare '510 laser labels' is humanly ambiguous (labels vs packs) - spec's canonical-unit default reads packs; trap intended", "realistic": true}
 {"id": "TST-SCN-000145", "labels_correct": true, "notes": "quirk:a fine (5 bag); oracle verified touchless (moq 5 met; $14.50 matches; bag -> pack)", "realistic": true}
@@ -23,20 +23,20 @@
 {"id": "TST-SCN-000181", "labels_correct": true, "notes": "quirk:a fine (250 each); minimal but plausible restock email; oracle verified touchless", "realistic": true}
 {"id": "TST-SCN-000207", "labels_correct": true, "notes": "quirk:a fine (250 unit of); quirk:c fine (unsigned, bare 'Cheers,'); oracle verified touchless ($2.10 matches; unit -> each)", "realistic": true}
 {"id": "TST-SCN-000208", "labels_correct": true, "notes": "quirk:a fine (36 rl / 8 roll / 82 roll); quirk:c fine (unsigned 'Kind regards,'); oracle verified above_max (big bubble 82 > 80); other items and prices clean", "realistic": true}
-{"id": "TST-SCN-000212", "labels_correct": null, "notes": "", "realistic": null}
+{"id": "TST-SCN-000212", "labels_correct": true, "notes": "quirk:c fine (unsigned bare 'Cheers,' -> buyer null correct); quirk:b fine ('heavy duty' on padded bags plausible; no-substitutions note product-neutral); oracle verified below_moq (fragile tape 29 < moq 36; other four items clean)", "realistic": true}
 {"id": "TST-SCN-000219", "labels_correct": true, "notes": "quirk:a fine (20 bubble roll / 144 roll); quirk:b fine (same-spec); quirk:c fine (bare 'Thanks,'); oracle verified price_mismatch (fragile tape $3.41 vs $3.10)", "realistic": true}
 {"id": "TST-SCN-000226", "labels_correct": true, "notes": "quirk:a fine (two dozen roll = 24; 4 carton); oracle verified below_moq (void fill 1 rls < moq 2); bare '15' -> unit null correct", "realistic": true}
 {"id": "TST-SCN-000252", "labels_correct": true, "notes": "quirk:a fine ('usual roll'); quirk:c fine (unsigned); pack_size_trap '100 mailers' correct; oracle verified (1476 > 1440 above_max + unresolvable_unit + quantity ask; Cairnwell single-site so no site ask)", "realistic": true}
 {"id": "TST-SCN-000259", "labels_correct": true, "notes": "oracle verified (brown tape 2196 rls > max 2160 above_max; Orbit no address -> delivery_site); gold verbatim", "realistic": true}
-{"id": "TST-SCN-000266", "labels_correct": null, "notes": "", "realistic": null}
+{"id": "TST-SCN-000266", "labels_correct": true, "notes": "quirk:a fine (12 rls / 20 roll); quirk:b fine (no-substitutions note product-neutral); oracle verified touchless (all quantities within moq/max; Fernvale single-site)", "realistic": true}
 {"id": "TST-SCN-000290", "labels_correct": true, "notes": "oracle verified clarification/quantity ('qty to confirm' -> null); address given so no site ask; gold verbatim", "realistic": true}
 {"id": "TST-SCN-000303", "labels_correct": true, "notes": "quirk:a fine (bare quantities); oracle verified clarification/delivery_site (Harbourline multi-site, no address; all items within moq/max so no violations)", "realistic": true}
-{"id": "TST-SCN-000310", "labels_correct": null, "notes": "", "realistic": null}
+{"id": "TST-SCN-000310", "labels_correct": true, "notes": "quirk:a fine (half a dozen pack = 6); quirk:b fine (no-substitutions note product-neutral); oracle verified clarification/quantity ('qty to confirm' -> null; $22.00 and $2.10 both match catalog)", "realistic": true}
 {"id": "TST-SCN-000357", "labels_correct": true, "notes": "typo 'nirtile gloves' correctly preserved; oracle verified ('boards' not a unit token -> unresolvable_unit; typo -> unresolvable_product; violation order follows line order)", "realistic": true}
 {"id": "TST-SCN-000361", "labels_correct": true, "notes": "quirk:c fine (unsigned 'Regards,'); buyer null correct; oracle verified touchless (euro pallet 100 within 10..500; $36.00 matches)", "realistic": true}
 {"id": "TST-SCN-000381", "labels_correct": true, "notes": "oracle verified above_max (large bubble wrap 84 > 80); plastic strapping 2 rl meets moq 2; gold verbatim", "realistic": true}
 {"id": "TST-SCN-000394", "labels_correct": true, "notes": "quirk:a fine (half a dozen rl); oracle verified clarification/delivery_site (Harbourline, no address; sticky tape 360, cartons 75, bubble roll 6 all within limits)", "realistic": true}
-{"id": "TST-SCN-000400", "labels_correct": null, "notes": "", "realistic": null}
+{"id": "TST-SCN-000400", "labels_correct": true, "notes": "quirk:b fine (no-substitutions note product-neutral - previously jarring colour note, refreeze fix verified); oracle verified touchless ($11.50 matches; 30 ctns within 5..500; Botany address given so no site ask)", "realistic": true}
 {"id": "TST-SCN-000413", "labels_correct": true, "notes": "quirk:a fine (4 roll / 4 cartons); quirk:b fine ('heavy duty' on tan tape - plausible); oracle verified clarification asks=[quantity, delivery_site] (tan tape qty null; Orbit multi-site, no address)", "realistic": true}
 {"id": "TST-SCN-000415", "labels_correct": true, "notes": "oracle verified price_mismatch (standard pallet $27.20 vs $32.00; euro pallet $36.00 matches); 'x' and 'pc' units handled correctly in gold", "realistic": true}
 {"id": "TST-SCN-000422", "labels_correct": true, "notes": "quirk:a fine (half a dozen); quirk:b fine (same-spec x2); typo 'wodoen pallet' preserved -> unresolvable_product verified; other three items clean; Cairnwell single-site so asks=[] correct", "realistic": true}
@@ -50,7 +50,7 @@
 {"id": "TST-SCN-000479", "labels_correct": true, "notes": "oracle verified clarification/quantity ('usual ea, qty to follow' -> null); 'Prestons overflow' address stated so no site ask despite Orbit multi-site", "realistic": true}
 {"id": "TST-SCN-000482", "labels_correct": true, "notes": "quirk:a fine (216 roll); oracle verified discontinued (steel strapping 8 @ $115.00 - price matches, only discontinued fires); brown tape and VFL prices match", "realistic": true}
 {"id": "TST-SCN-000483", "labels_correct": true, "notes": "oracle verified clarification/delivery_site (Harbourline, no address; big box 25 meets moq 25; both prices match)", "realistic": true}
-{"id": "TST-SCN-000501", "labels_correct": null, "notes": "", "realistic": null}
+{"id": "TST-SCN-000501", "labels_correct": true, "notes": "quirk:a fine (60 roll of / 12 roll of); quirk:b fine (no-substitutions note + 'heavy duty' on bubble wrap, both plausible); oracle verified touchless ($7.80/$42.00 match catalog)", "realistic": true}
 {"id": "TST-SCN-000535", "labels_correct": true, "notes": "quirk:a fine ('usual pack'); quirk:c fine (unsigned); oracle verified clarification/quantity (Metro Print single-site so no site ask despite no address)", "realistic": true}
 {"id": "TST-SCN-000544", "labels_correct": true, "notes": "quirk:a fine (16 roll); oracle verified touchless (void fill 16 within 2..100)", "realistic": true}
 {"id": "TST-SCN-000548", "labels_correct": true, "notes": "quirk:a fine (10 each); oracle verified touchless (hardwood pallet 10 meets moq 10)", "realistic": true}
@@ -64,8 +64,8 @@
 {"id": "TST-SCN-000624", "labels_correct": true, "notes": "quirk:a fine (288 roll / 250 pieces); oracle verified price_mismatch (kraft tape $2.04 vs $2.40; CTN-MD $1.45 and CTN-LG $2.10 match)", "realistic": true}
 {"id": "TST-SCN-000657", "labels_correct": true, "notes": "quirk:a fine (2 roll / 20 au pallet); oracle verified (steel strapping discontinued + bubble mailers 202 cartons > max 200 above_max + quantity ask for address labels); violation order follows line order", "realistic": true}
 {"id": "TST-SCN-000662", "labels_correct": true, "notes": "typo 'plastic maliers' preserved -> unresolvable_product; oracle verified (VFL 1 rls < moq 2 below_moq + $57.20 vs $52.00 price_mismatch); all three violations in line order", "realistic": true}
-{"id": "TST-SCN-000665", "labels_correct": null, "notes": "", "realistic": null}
-{"id": "TST-SCN-000673", "labels_correct": null, "notes": "", "realistic": null}
+{"id": "TST-SCN-000665", "labels_correct": true, "notes": "quirk:a fine (12 roll / 30 ea); quirk:b fine (no-substitutions note product-neutral on euro pallet); oracle verified discontinued (steel strapping); no timing in email -> requested_date null correct", "realistic": true}
+{"id": "TST-SCN-000673", "labels_correct": true, "notes": "quirk:a fine (12 roll); quirk:b fine (no-substitutions note product-neutral); oracle verified touchless (machine wrap 12 within 4..200)", "realistic": true}
 {"id": "TST-SCN-000675", "labels_correct": true, "notes": "quirk:a fine (12 roll); oracle verified touchless (all three prices match: $42.00/$49.00/$64.00; quantities within limits)", "realistic": true}
 {"id": "TST-SCN-000685", "labels_correct": true, "notes": "quirk:a fine (1 rl); quirk:b fine ('heavy duty' on shipping labels - durable label stock plausible); quirk:c fine (unsigned); oracle verified below_moq (wide bubble wrap 1 < moq 2)", "realistic": true}
 {"id": "TST-SCN-000689", "labels_correct": true, "notes": "quirk:a fine (3 pack of); quirk:b fine (same-spec); oracle verified below_moq (LBL-ADR-302 3 < moq 5; edge protectors 8 fine at moq 1)", "realistic": true}
