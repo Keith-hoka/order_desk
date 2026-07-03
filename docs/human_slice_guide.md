@@ -35,6 +35,71 @@ frozen slice). One block per email:
   new_order and amendment **must** carry a gold fence; the rest must not.
 - Senders must be fixture contacts, except `other` may use unknown domains.
 
+## ExtractedOrder JSON — the exact gold shape
+
+Authoritative definitions live in `src/order_desk/schemas.py` (its field
+descriptions double as the model-facing prompt) and the CI-pinned snapshot
+`tests/snapshots/extracted_order.schema.json`; this section restates them so
+nothing else needs opening while you write. Every key is required on every
+record: `null` marks anything the email does not state, keys are never
+omitted, unknown keys are rejected, empty strings are rejected, and types
+are strict — `"quantity": "6"` fails, it must be the integer `6`, and >= 1.
+
+```json
+{
+  "customer_po_text": "PO-48213",
+  "requested_date_text": "by next Friday",
+  "delivery_address_text": "Eastern Creek DC",
+  "buyer_name_text": "Dana",
+  "notes": "tailgate required",
+  "line_items": [
+    {
+      "product_text": "shrink wrap",
+      "quantity": 12,
+      "unit_text": "rolls",
+      "unit_price_text": "$7.80",
+      "item_notes": null
+    },
+    {
+      "product_text": "packing tape",
+      "quantity": null,
+      "unit_text": null,
+      "unit_price_text": null,
+      "item_notes": "whatever brand is on the shelf"
+    }
+  ]
+}
+```
+
+Order level:
+- `customer_po_text` — the PO reference exactly as written; null if none.
+- `requested_date_text` — the timing phrase verbatim ("by next Friday",
+  "ASAP"); never converted to a date.
+- `delivery_address_text` — the destination as written, site name or full
+  address; null if unstated.
+- `buyer_name_text` — the individual placing the order as named in the body
+  (sign-offs count); team sign-offs → null.
+- `notes` — order-level delivery/handling instructions verbatim; null if
+  none.
+
+Per line item:
+- `product_text` — the product exactly as the email says it, however vague
+  or typo'd; never normalised to a catalog name or SKU.
+- `quantity` — integer >= 1; number words become digits ("a dozen" → 12);
+  null when no quantity is stated.
+- `unit_text` — the unit word as written ("rolls", "ctns"); null if none.
+- `unit_price_text` — the per-unit price verbatim including the currency
+  symbol ("$7.80"); null if no price is stated.
+- `item_notes` — line-specific instructions verbatim; null if none.
+
+new_order gold needs at least one line item. Amendments share the shape and
+capture only what the email states: the referenced PO verbatim in
+`customer_po_text` (null when you point at "yesterday's order" instead), the
+changed line(s) in `line_items` — empty for a pure date change, which lives
+in `requested_date_text`. And the standing reminder: every string above must
+also appear character-exact in your subject or body (rule 1 below), so write
+the email first, then transcribe into gold.
+
 ## Gold rules (the ones that bite)
 1. Every **string** field in gold must appear character-exact in the subject
    or body — machine-checked. Keep each surface on a single line; a wrapped
