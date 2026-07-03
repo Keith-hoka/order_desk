@@ -2,6 +2,7 @@
 
 import argparse
 import sys
+from pathlib import Path
 
 from order_desk.materialize import (
     CORPUS_DIR,
@@ -20,7 +21,20 @@ def main() -> None:
         action="store_true",
         help="overwrite the frozen test split (record it in docs/frozen_test_fixlog.md)",
     )
+    parser.add_argument(
+        "--entry",
+        default=None,
+        help="text of the fixlog entry heading authorizing this refreeze",
+    )
     args = parser.parse_args()
+
+    if args.refreeze:
+        fixlog = Path("docs/frozen_test_fixlog.md").read_text(encoding="utf-8")
+        if not args.entry or args.entry not in fixlog:
+            sys.exit(
+                "REFUSED: --refreeze requires --entry TEXT already present in\n"
+                "docs/frozen_test_fixlog.md (entry-before-refreeze; see the ritual)."
+            )
 
     splits, manifest = build_all()
     test_text = to_jsonl(splits["test"])
