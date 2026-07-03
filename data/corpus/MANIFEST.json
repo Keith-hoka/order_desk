@@ -1,0 +1,58 @@
+{
+  "corpus_seed": 20260705,
+  "duplicate_stats": {
+    "test_in_train_or_val": {
+      "amendment": 0,
+      "cancellation": 3,
+      "inquiry": 22,
+      "new_order": 0,
+      "other": 25
+    },
+    "val_in_train": {
+      "amendment": 0,
+      "cancellation": 2,
+      "inquiry": 7,
+      "new_order": 0,
+      "other": 14
+    }
+  },
+  "frozen_files": [
+    "data/corpus/test.jsonl"
+  ],
+  "splits": {
+    "test": {
+      "counts": {
+        "amendment": 100,
+        "cancellation": 50,
+        "inquiry": 100,
+        "new_order": 700,
+        "other": 50
+      },
+      "n": 1000,
+      "sha256": "7d901aacc89033c1812753a9a95199084dd700dcda86c54bbb29b5ff9ecb7952"
+    },
+    "train": {
+      "counts": {
+        "amendment": 450,
+        "cancellation": 225,
+        "inquiry": 450,
+        "new_order": 3150,
+        "other": 225
+      },
+      "n": 4500,
+      "sha256": "c8cd287c832ca91296e1e2d95dd20da95a77ef91946ced43f6cfce70c58f0321"
+    },
+    "val": {
+      "counts": {
+        "amendment": 50,
+        "cancellation": 25,
+        "inquiry": 50,
+        "new_order": 350,
+        "other": 25
+      },
+      "n": 500,
+      "sha256": "0b5f7c01afd19ca490b8a4279bda488f15cc554f1530d7b2abc9d1512fe10403"
+    }
+  },
+  "version": 1
+}

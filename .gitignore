@@ -6,3 +6,5 @@ __pycache__/
 dist/
 .env
 .DS_Store
+data/corpus/train.jsonl
+data/corpus/val.jsonl

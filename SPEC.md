@@ -31,6 +31,8 @@ ingest → classify → extract → validate → route
    and contract pricing, which v1 does not model -- so price disputes route
    to the exception queue for a human, never to automated clarification.
 5. **Route** —
+   - sender domain resolves to no known customer → **exception queue**
+     (reason `unknown_sender`)
    - missing required fields → **clarification email** (quotes original, lists
      exactly the missing fields; the reply re-enters ingest via thread ref)
    - critical field below confidence threshold, or rule violation →
@@ -129,9 +131,15 @@ This ledger is the billing source of truth for Phase 11. Langfuse is
 observability, not billing.
 
 ## 7. Eval discipline
-- Frozen test slice (~100–150 emails, human-verified) is locked in Phase 1:
-  never trained on, never regenerated, never edited except to fix a documented
-  labeling error (each fix logged).
+- The frozen evaluation set, locked in Phase 1, has three parts: (1) the full
+  synthetic test split — 1,000 emails, machine contract-verified, generated
+  from split-independent streams (train 4,500 / val 500 / test 1,000, so
+  train can grow without touching the freeze), sha256-pinned in
+  data/corpus/MANIFEST.json and gated in CI; (2) a human-certified subsample
+  (~120 of those emails, audited in step 1.8); (3) a human-authored OOD slice
+  (test_human.jsonl, ~40–60 emails written and gold-labelled by hand against
+  the same fixtures). None of it is trained on; changing frozen bytes
+  requires an explicit refreeze recorded in docs/frozen_test_fixlog.md.
 - Baselines (Phase 2) precede any fine-tuning claim.
 - Adapter deploys are eval-gated: a new adapter must be ≥ current on the
   frozen set overall, with no per-field regression beyond threshold.
