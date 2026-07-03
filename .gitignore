@@ -8,3 +8,4 @@ dist/
 .DS_Store
 data/corpus/train.jsonl
 data/corpus/val.jsonl
+results/
