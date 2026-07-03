@@ -1,0 +1,16 @@
+{
+  "authoring_sha256": "cfb63a31e858171bd292606f37bd92768faffd0d3ac0b7ef62a2959482f9a815",
+  "counts": {
+    "amendment": 3,
+    "cancellation": 2,
+    "inquiry": 3,
+    "new_order": 54,
+    "other": 3
+  },
+  "frozen_files": [
+    "data/human/test_human.jsonl"
+  ],
+  "n": 65,
+  "sha256": "c29bd15c281aa056cd6252bcdc120b6bab0fb7d38ef93fc50154afeaae521fe0",
+  "version": 1
+}
