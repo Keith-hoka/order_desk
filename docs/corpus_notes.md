@@ -22,6 +22,10 @@ data/corpus/MANIFEST.json (measured duplicate rates live there, not here).
   **Adjudicated (1.8b):** 14 tagged fine -- kept; the Phase-6 re-check stands.
 - (d) Quirk (a)'s family extends into amendment glue ("add 216 roll of ...").
   **Adjudicated (1.8b):** 6/6 tagged fine -- kept.
+- (e) Amendment glue "please bump the {p} to {q}" reads oddly at tiny
+  quantities ("bump to 2"); surfaced twice in the audit (TST-AMD-000065,
+  TST-AMD-000094), judged passable both times. Kept; fold into the
+  category-aware pool rework if it lands.
 
 ## v1 simplifications (by design, recorded)
 - Amendments: exactly one change per email; change lines carry no noise
