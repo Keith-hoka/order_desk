@@ -49,9 +49,16 @@ malformed object.
    discriminating clause that wins the synthetic quote-lookalike case (a
    quote listing products is still an inquiry) backfires on polite blended
    order-plus-question emails. Three further new_order→amendment confusions
-   ("same as last time" phrasing) cost no extraction — both classes are
-   order-bearing. Synthetic misroutes: 2/1000, both new_order→amendment,
-   negligible; the two records are printed in this commit's run log.
+   cost no extraction — both classes are order-bearing (a phrasing
+   hypothesis for these three was withdrawn as unverified). Synthetic
+   misroutes: 2/1000, both new_order→amendment, negligible — and the
+   readout falsified the item-note hypothesis: neither record carries an
+   item note. Verified mechanism: one body says "send some more
+   MLR-PAD-501" (the missing-quantity prose glue "some more X" reads as
+   reorder continuity), the other's subject template is "Restock for
+   Redgum Furniture Co" ("restock" implies replenishing a prior order).
+   Two renderer template phrases carry weak amendment priors — legitimate
+   real-world ambiguity, recorded rather than fixed.
 
 5. **Notes fields (non-headline).** Token F1 0.590 / 0.777 synthetic falls
    to 0.288 / 0.250 on human; glue prefixes retained ("Just a heads up:").

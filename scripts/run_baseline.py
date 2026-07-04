@@ -37,7 +37,8 @@ def load_dotenv(path: Path = Path(".env")) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", choices=("synthetic", "human"), required=True)
-    parser.add_argument("--provider", choices=("openai",), default="openai")
+    parser.add_argument("--provider", choices=("openai", "vllm"), default="openai")
+    parser.add_argument("--base-url", default=None, help="vLLM OpenAI-compatible endpoint")
     parser.add_argument("--model", default="gpt-4o-mini")
     parser.add_argument("--variant", default="default")
     parser.add_argument("--name", default=None)
@@ -51,11 +52,24 @@ def main() -> None:
         from order_desk.openai_client import OpenAIBaselineClient
 
         client = OpenAIBaselineClient(args.model)
+    elif args.provider == "vllm":
+        if not args.base_url:
+            sys.exit("--base-url is required for --provider vllm")
+        from order_desk.vllm_client import VLLMBaselineClient
+
+        client = VLLMBaselineClient(
+            args.model,
+            args.base_url,
+            variant=args.variant,
+            api_key=os.environ.get("VLLM_API_KEY", "EMPTY"),
+        )
 
     records, sha = load_source(args.source)
     if args.limit:
         records = records[: args.limit]
     name = args.name or slug(args.model)
+    if args.variant != "default" and args.name is None:
+        name = f"{name}-{args.variant}"
     if args.limit:
         name = f"{name}-smoke"
 
@@ -101,6 +115,8 @@ def main() -> None:
     )
     if cost is not None:
         print(f"estimated fresh-call cost: ${cost:.4f}")
+    elif args.provider == "vllm":
+        print("cost: GPU-hour billed on the serving side (see Modal dashboard)")
 
     if args.limit:
         index = {record["id"]: record for record in records}
