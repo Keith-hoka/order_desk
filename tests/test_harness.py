@@ -129,6 +129,8 @@ def test_oracle_human_is_perfect(human) -> None:
     assert report["dataset"]["n_extraction"] == 57
     assert report["classification"]["accuracy"] == 1.0
     assert report["extraction"]["headline"]["f1"] == pytest.approx(1.0)
+    assert report["ci"]["accuracy"] == [1.0, 1.0]
+    assert report["ci"]["macro_f1"] == [1.0, 1.0]
     assert report["trap_items"] is None
     assert len(report["slices"]) == 5
 
@@ -166,6 +168,8 @@ def test_bootstrap_is_seeded_and_nondegenerate(human) -> None:
     assert low < high
     low_f1, high_f1 = first["ci"]["headline_f1"]
     assert low_f1 < high_f1
+    low_m, high_m = first["ci"]["macro_f1"]
+    assert low_m < high_m
     assert first["classification"]["order_missed"] > 0
 
 

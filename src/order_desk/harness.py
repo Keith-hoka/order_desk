@@ -22,7 +22,15 @@ Semantics locked in step 1.9:
   construction. It reuses scoring's package-private _align_items.
 - Bootstrap resamples records over compact per-record stats with a fixed
   seed; CIs cover the four top-level numbers only (headline F1, alignment
-  F1, classification accuracy, macro-F1).
+  F1, classification accuracy, macro-F1). Within a replicate, macro-F1
+  averages over classes with gold support in that replicate: a class absent
+  from a resample contributes no evidence, not a zero. This convention is
+  EVAL_VERSION 2 -- under v1's impute-zero, a perfect predictor on the human
+  slice drew a macro CI of [0.8, 1.0] purely because its support-2 class
+  drops out of ~13% of replicates, violating the oracle known-answer
+  invariant (reference predictors score perfectly, degenerate CIs
+  included). Small-support fragility remains visible where it is real:
+  accuracy is the classification headline on the human slice.
 """
 
 from __future__ import annotations
@@ -216,8 +224,10 @@ def _bootstrap(
                 tp_c = confusion[(cls, cls)]
                 fp_c = sum(v for (g, p), v in confusion.items() if p == cls and g != cls)
                 fn_c = sum(v for (g, p), v in confusion.items() if g == cls and p != cls)
+                if tp_c + fn_c == 0:
+                    continue  # absent from this replicate's gold: no evidence, not zero
                 f1_values.append(_f1(tp_c, fp_c, fn_c))
-            macros.append(sum(f1_values) / len(f1_values))
+            macros.append(sum(f1_values) / len(f1_values) if f1_values else 0.0)
     return {
         "headline_f1": _ci(heads),
         "alignment_f1": _ci(aligns),

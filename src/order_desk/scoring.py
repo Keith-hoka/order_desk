@@ -48,7 +48,7 @@ from typing import Any
 
 from order_desk.schemas import EmailClass, ExtractedOrder, LineItem
 
-EVAL_VERSION = 1
+EVAL_VERSION = 2
 
 ORDER_FIELDS = (
     "customer_po_text",
