@@ -1,0 +1,23 @@
+{
+  "dataset_sha256": "c29bd15c281aa056cd6252bcdc120b6bab0fb7d38ef93fc50154afeaae521fe0",
+  "estimated_cost_usd": 0.014937599999999999,
+  "generated_at": "2026-07-04T06:21:32+00:00",
+  "model": "gpt-4o-mini",
+  "n_records": 65,
+  "prompt_bundle_hash": "9d20d7d424716d971794920111f3935c81a9816140844ae521277e9e693eb006",
+  "provider": "openai",
+  "resolved_models": [
+    "gpt-4o-mini-2024-07-18"
+  ],
+  "source": "human",
+  "summary": {
+    "cached": 0,
+    "calls": 116,
+    "fresh": 116,
+    "input_tokens": 82524,
+    "latency_p50": 0.9406988745322451,
+    "latency_p95": 2.366110489354469,
+    "output_tokens": 4265
+  },
+  "variant": "default"
+}
