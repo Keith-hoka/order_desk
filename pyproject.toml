@@ -25,6 +25,7 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 
 [dependency-groups]
 dev = [
+    "modal>=1.5.1",
     "pytest>=9.1.1",
     "ruff>=0.15.20",
 ]
