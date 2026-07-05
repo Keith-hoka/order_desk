@@ -1,6 +1,6 @@
 # Eval report — gpt-4o-mini on human
 
-- eval_version: 2
+- eval_version: 3
 - dataset: n=65 (extraction 57), sha256 c29bd15c281aa056
 - bootstrap: 1000 iterations, seed 20260708
 

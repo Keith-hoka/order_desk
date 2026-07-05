@@ -1,0 +1,23 @@
+{
+  "dataset_sha256": "b71e122a36272df138b3185fa50abdbd7c72514ab43b5b99929fdc1e9197ef6a",
+  "estimated_cost_usd": null,
+  "generated_at": "2026-07-04T12:45:00+00:00",
+  "model": "qwen3-30b-a3b-instruct-2507",
+  "n_records": 1000,
+  "prompt_bundle_hash": "9d20d7d424716d971794920111f3935c81a9816140844ae521277e9e693eb006",
+  "provider": "vllm",
+  "resolved_models": [
+    "qwen3-30b-a3b-instruct-2507"
+  ],
+  "source": "synthetic",
+  "summary": {
+    "cached": 17,
+    "calls": 1799,
+    "fresh": 1782,
+    "input_tokens": 763588,
+    "latency_p50": 0.45336018688976765,
+    "latency_p95": 2.8401792690623546,
+    "output_tokens": 148775
+  },
+  "variant": "xgrammar"
+}

@@ -1,6 +1,6 @@
 # Eval report — gpt-4o-mini on synthetic
 
-- eval_version: 2
+- eval_version: 3
 - dataset: n=1000 (extraction 800), sha256 b71e122a36272df1
 - bootstrap: 1000 iterations, seed 20260708
 
