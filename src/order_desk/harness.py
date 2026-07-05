@@ -55,9 +55,11 @@ from order_desk.scoring import (
     ClassificationTally,
     ExtractionTally,
     _align_items,
+    _ratio,
     classification_metrics,
     empty_extraction,
     extraction_metrics,
+    item_semantics,
     merge_tallies,
     norm_text,
     score_classification,
@@ -354,6 +356,39 @@ def _trap_report(
     }
 
 
+def _item_semantics_report(
+    records: list[dict[str, Any]], predictions: dict[str, Prediction]
+) -> dict[str, Any]:
+    """Aggregate the segmentation-independent diagnostic over gold-bearing records."""
+    totals = {
+        "anchorable_gold": 0,
+        "anchorable_pred": 0,
+        "matched": 0,
+        "product_exact": 0,
+        "product_contains": 0,
+        "quantity_hit": 0,
+        "unit_hit": 0,
+    }
+    for record in records:
+        if record["gold_extraction"] is None:
+            continue
+        gold = ExtractedOrder.model_validate(record["gold_extraction"])
+        prediction = predictions[record["id"]]
+        parsed = prediction.extraction.parsed if prediction.extraction is not None else None
+        pred = ExtractedOrder.model_validate(parsed) if parsed is not None else None
+        for key, value in item_semantics(gold, pred).items():
+            totals[key] += value
+    matched = totals["matched"]
+    return {
+        **totals,
+        "match_rate": _ratio(matched, totals["anchorable_gold"]),
+        "product_exact_rate": _ratio(totals["product_exact"], matched),
+        "product_contains_rate": _ratio(totals["product_contains"], matched),
+        "span_gap": _ratio(totals["product_contains"] - totals["product_exact"], matched),
+        "unit_hit_rate": _ratio(totals["unit_hit"], matched),
+    }
+
+
 def evaluate(
     records: list[dict[str, Any]],
     predictions: dict[str, Prediction],
@@ -423,6 +458,9 @@ def evaluate(
         else {"headline_f1": None, "alignment_f1": None, "accuracy": None, "macro_f1": None},
         "slices": _slice_rows(records, class_pairs, ext_tallies, source),
         "trap_items": _trap_report(records, predictions) if source == "synthetic" else None,
+        "item_semantics": _item_semantics_report(records, predictions)
+        if source == "synthetic"
+        else None,
     }
     return report
 

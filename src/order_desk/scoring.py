@@ -48,7 +48,7 @@ from typing import Any
 
 from order_desk.schemas import EmailClass, ExtractedOrder, LineItem
 
-EVAL_VERSION = 2
+EVAL_VERSION = 3
 
 ORDER_FIELDS = (
     "customer_po_text",
@@ -314,6 +314,71 @@ def score_extraction(
         if pred_item.item_notes is not None:
             _score_tokens(tally.notes["item_notes"], None, pred_item.item_notes)
     return tally
+
+
+def item_semantics(gold: ExtractedOrder, pred: ExtractedOrder | None) -> dict[str, int]:
+    """Segmentation-independent diagnostic (EVAL_VERSION 3).
+
+    Aligns line items by the (quantity, unit_text) composite key instead of
+    product_text, so a model whose spans are polluted by quantity-first
+    stuffing ("4 carton MLR-PLY-502") is still credited for the semantics it
+    got right. Only items with a non-null quantity on both sides are anchored
+    (removals and missing-quantity lines have no stable key and are excluded
+    from these denominators).
+
+    On matched pairs, product_text scores three ways: exact (the same
+    normalized-equality used by the headline), contains (gold product is a
+    normalized substring of the predicted product -- the stuffing signature),
+    or miss. contains-minus-exact is a direct measure of the span-discipline
+    gap that fine-tuning should drive to zero.
+    """
+    counts = {
+        "anchorable_gold": 0,
+        "anchorable_pred": 0,
+        "matched": 0,
+        "product_exact": 0,
+        "product_contains": 0,
+        "quantity_hit": 0,
+        "unit_hit": 0,
+    }
+    if pred is None:
+        pred = empty_extraction()
+
+    def keyed(items: list[LineItem]) -> dict[tuple[int, str | None], list[LineItem]]:
+        buckets: dict[tuple[int, str | None], list[LineItem]] = {}
+        for item in items:
+            if item.quantity is None:
+                continue
+            unit = norm_text(item.unit_text) if item.unit_text is not None else None
+            buckets.setdefault((item.quantity, unit), []).append(item)
+        return buckets
+
+    gold_buckets = keyed(gold.line_items)
+    pred_buckets = keyed(pred.line_items)
+    counts["anchorable_gold"] = sum(len(v) for v in gold_buckets.values())
+    counts["anchorable_pred"] = sum(len(v) for v in pred_buckets.values())
+
+    for key, gold_items in gold_buckets.items():
+        pred_items = pred_buckets.get(key, [])
+        for gold_item, pred_item in zip(gold_items, pred_items, strict=False):
+            counts["matched"] += 1
+            counts["quantity_hit"] += 1  # equal by construction of the key
+            gold_unit = gold_item.unit_text
+            pred_unit = pred_item.unit_text
+            if (gold_unit is None and pred_unit is None) or (
+                gold_unit is not None
+                and pred_unit is not None
+                and norm_text(gold_unit) == norm_text(pred_unit)
+            ):
+                counts["unit_hit"] += 1
+            gold_product = norm_text(gold_item.product_text)
+            pred_product = norm_text(pred_item.product_text)
+            if gold_product == pred_product:
+                counts["product_exact"] += 1
+                counts["product_contains"] += 1
+            elif gold_product in pred_product:
+                counts["product_contains"] += 1
+    return counts
 
 
 def _prf(tp: int, fp: int, fn: int) -> dict[str, float]:

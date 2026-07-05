@@ -8,6 +8,7 @@ from order_desk.scoring import (
     classification_metrics,
     empty_extraction,
     extraction_metrics,
+    item_semantics,
     merge_tallies,
     norm_text,
     score_classification,
@@ -213,3 +214,46 @@ def test_classification_metrics_known_answer() -> None:
     assert metrics["per_class"]["new_order"]["recall"] == pytest.approx(5 / 6)
     assert metrics["per_class"]["amendment"]["recall"] == 0.0
     assert metrics["confusion"]["other->invalid"] == 1
+
+
+def test_item_semantics_separates_stuffing_from_semantics() -> None:
+    gold = order(
+        items=[
+            item("MLR-PLY-502", 4, "carton"),
+            item("heavy duty box", 40, "each"),
+            item("removed thing", None, None),
+        ]
+    )
+    clean = order(items=[item("MLR-PLY-502", 4, "carton"), item("heavy duty box", 40, "each")])
+    exact = item_semantics(gold, clean)
+    assert exact["anchorable_gold"] == 2  # the null-quantity removal is excluded
+    assert exact["matched"] == 2
+    assert exact["product_exact"] == 2
+    assert exact["product_contains"] == 2
+    assert exact["unit_hit"] == 2
+
+    stuffed = order(
+        items=[
+            item("4 carton MLR-PLY-502", 4, "carton"),
+            item("40 each heavy duty box", 40, "each"),
+        ]
+    )
+    poll = item_semantics(gold, stuffed)
+    assert poll["matched"] == 2
+    assert poll["product_exact"] == 0  # spans polluted -> exact fails
+    assert poll["product_contains"] == 2  # ...but the gold string is contained
+    assert poll["quantity_hit"] == 2
+    assert poll["unit_hit"] == 2
+
+
+def test_item_semantics_oracle_and_empty(gold_corpus) -> None:
+    totals = {"matched": 0, "product_exact": 0, "product_contains": 0}
+    for gold in gold_corpus:
+        counts = item_semantics(gold, gold)
+        for key in totals:
+            totals[key] += counts[key]
+    assert totals["matched"] > 0
+    assert totals["product_exact"] == totals["matched"]
+    assert totals["product_contains"] == totals["matched"]
+    empty = item_semantics(gold_corpus[0], None)
+    assert empty["matched"] == 0
