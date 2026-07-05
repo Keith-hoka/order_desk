@@ -4,7 +4,12 @@ import json
 from pathlib import Path
 
 from order_desk.materialize import to_jsonl
-from order_desk.sft import build_manifest, build_sft_pool, curve_subsets
+from order_desk.sft import (
+    build_manifest,
+    build_sft_pool,
+    build_val_gold,
+    curve_subsets,
+)
 
 SFT_DIR = Path("data/sft")
 MANIFEST_PATH = SFT_DIR / "MANIFEST.json"
@@ -20,6 +25,11 @@ def main() -> None:
         path = SFT_DIR / f"train_{label}.jsonl"
         path.write_text(to_jsonl(examples), encoding="utf-8")
         print(f"wrote {path} ({len(examples)} examples)")
+
+    val_examples = build_val_gold()
+    val_path = SFT_DIR / "val_gold.jsonl"
+    val_path.write_text(to_jsonl(val_examples), encoding="utf-8")
+    print(f"wrote {val_path} ({len(val_examples)} examples)")
 
     MANIFEST_PATH.write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"

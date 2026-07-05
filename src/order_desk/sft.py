@@ -75,6 +75,22 @@ def build_sft_pool(seed: int = SFT_SHUFFLE_SEED) -> list[dict[str, Any]]:
     return examples
 
 
+def build_val_gold() -> list[dict[str, Any]]:
+    """Val split's gold-bearing records as SFT examples (trainer in-training eval).
+
+    Not shuffled and not part of the curve; used only for val-loss checkpoint
+    selection. Asserts the VAL- namespace so the trainer's eval never touches
+    train or the frozen test.
+    """
+    splits, _ = build_all()
+    val = splits["val"]
+    for record in val:
+        if not record["id"].startswith("VAL-"):
+            raise RuntimeError(f"val split leaked a non-VAL id: {record['id']}")
+    gold_records = [r for r in val if r["email_class"] in GOLD_CLASSES]
+    return [build_example(record) for record in gold_records]
+
+
 def curve_subsets(pool: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
     """Nested prefixes: 500, 1000, 2000, full (full = len(pool))."""
     sizes = [n for n in CURVE_SIZES if n < len(pool)] + [len(pool)]

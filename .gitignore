@@ -10,3 +10,4 @@ data/corpus/train.jsonl
 data/corpus/val.jsonl
 results/
 data/sft/train_*.jsonl
+data/sft/val_gold.jsonl

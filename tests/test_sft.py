@@ -9,6 +9,7 @@ from order_desk.sft import (
     build_example,
     build_manifest,
     build_sft_pool,
+    build_val_gold,
     canonical_assistant,
     curve_subsets,
 )
@@ -92,3 +93,13 @@ def test_manifest_asserts_eval_purity(pool, subsets) -> None:
     assert manifest["subsets"]["full"]["composition"]["n"] == len(pool)
     assert manifest["subsets"]["full"]["composition"]["amendment"] > 0
     assert manifest["subsets"]["full"]["composition"]["new_order"] > 0
+
+
+def test_val_gold_is_val_namespace_and_gold_bearing() -> None:
+    val = build_val_gold()
+    assert len(val) > 0
+    assert all(example["id"].startswith("VAL-") for example in val)
+    system = extraction_system_prompt()
+    for example in val[:50]:
+        assert example["messages"][0] == {"role": "system", "content": system}
+        ExtractedOrder.model_validate_json(example["messages"][2]["content"])
