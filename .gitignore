@@ -9,3 +9,4 @@ dist/
 data/corpus/train.jsonl
 data/corpus/val.jsonl
 results/
+data/sft/train_*.jsonl

@@ -1,0 +1,45 @@
+{
+  "pool_size": 3600,
+  "prompt_bundle_hash": "9d20d7d424716d971794920111f3935c81a9816140844ae521277e9e693eb006",
+  "shuffle_seed": 20260710,
+  "subsets": {
+    "1000": {
+      "composition": {
+        "amendment": 127,
+        "avg_line_items": 2.177,
+        "n": 1000,
+        "new_order": 873
+      },
+      "sha256": "ad63ae1afb92e8d11a83bb531235028d1130e259fdb33386d03bee45f33722bd"
+    },
+    "2000": {
+      "composition": {
+        "amendment": 268,
+        "avg_line_items": 2.166,
+        "n": 2000,
+        "new_order": 1732
+      },
+      "sha256": "537aa1020de0ee50a195ac3fe2a0636c331dd2e8e6219b68a36145a557169cd1"
+    },
+    "500": {
+      "composition": {
+        "amendment": 66,
+        "avg_line_items": 2.18,
+        "n": 500,
+        "new_order": 434
+      },
+      "sha256": "3fabc0bd4548fea871ec7ab67ae7d9a435f4319f58120a9a1368fb08b785efac"
+    },
+    "full": {
+      "composition": {
+        "amendment": 450,
+        "avg_line_items": 2.17,
+        "n": 3600,
+        "new_order": 3150
+      },
+      "sha256": "af56fc5e2406421f77ece3fabb4d3a12063b877d785d8ccd09ee287e547a9631"
+    }
+  },
+  "train_split_sha256": "41cca8bb652be5348553b6a453b4615e10c8993d0ccf2e8825a87b6aced4b001",
+  "version": 1
+}
