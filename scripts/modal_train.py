@@ -63,7 +63,7 @@ def upload_sft(files: dict[str, str]) -> None:
     volume.commit()
 
 
-@app.function(image=image, gpu="A10G", volumes={"/models": volume}, timeout=4 * HOURS)
+@app.function(image=image, gpu="L40S", volumes={"/models": volume}, timeout=4 * HOURS)
 def train(subset: str, rank: int, epochs: int = 3, seed: int = 42) -> dict:
     import torch
     from datasets import load_dataset
@@ -101,8 +101,11 @@ def train(subset: str, rank: int, epochs: int = 3, seed: int = 42) -> dict:
     config = SFTConfig(
         output_dir=out_dir,
         num_train_epochs=epochs,
-        per_device_train_batch_size=4,
-        gradient_accumulation_steps=4,
+        per_device_train_batch_size=8,
+        gradient_accumulation_steps=2,
+        gradient_checkpointing=True,
+        gradient_checkpointing_kwargs={"use_reentrant": False},
+        tf32=True,
         learning_rate=2e-4,
         lr_scheduler_type="cosine",
         warmup_ratio=0.03,
@@ -141,6 +144,8 @@ def train(subset: str, rank: int, epochs: int = 3, seed: int = 42) -> dict:
         "lora_alpha": 2 * rank,
         "epochs": epochs,
         "seed": seed,
+        "gpu": "L40S",
+        "effective_batch": 16,
         "best_val_loss": min(eval_losses) if eval_losses else None,
         "final_val_loss": eval_losses[-1] if eval_losses else None,
         "eval_losses": eval_losses,

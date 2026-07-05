@@ -16,6 +16,8 @@ def test_train_script_pins_stack_and_base_model() -> None:
 
 def test_train_script_qlora_and_completion_only() -> None:
     text = SCRIPT.read_text(encoding="utf-8")
+    assert 'gpu="L40S"' in text
+    assert "gradient_checkpointing=True" in text
     assert 'bnb_4bit_quant_type="nf4"' in text
     assert "bnb_4bit_use_double_quant=True" in text
     assert "completion_only_loss=True" in text
