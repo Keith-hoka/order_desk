@@ -102,6 +102,49 @@ def qwen3_30b_a3b() -> None:
     _serve("qwen3-30b-a3b-instruct-2507")
 
 
+ADAPTERS = {
+    "qwen3-4b-sft-full-r16": "/models/adapters/qwen3-4b-sft-full-r16",
+}
+
+
+def _serve_lora(served_names: dict[str, str]) -> None:
+    # base model served with LoRA modules mounted; request `model` selects the
+    # adapter by name. VLLM_API_KEY arrives via the secret's environment.
+    modules = [f"{name}={path}" for name, path in served_names.items()]
+    subprocess.Popen(
+        [
+            "vllm",
+            "serve",
+            "Qwen/Qwen3-4B-Instruct-2507",
+            "--enable-lora",
+            "--max-lora-rank",
+            "32",
+            "--lora-modules",
+            *modules,
+            "--host",
+            "0.0.0.0",
+            "--port",
+            str(VLLM_PORT),
+            "--max-model-len",
+            "8192",
+        ]
+    )
+
+
+@app.function(
+    image=image,
+    gpu="L40S",
+    volumes={"/models": volume},
+    secrets=[secret],
+    scaledown_window=8 * MINUTES,
+    timeout=30 * MINUTES,
+)
+@modal.concurrent(max_inputs=8)
+@modal.web_server(port=VLLM_PORT, startup_timeout=20 * MINUTES)
+def qwen3_4b_adapter() -> None:
+    _serve_lora(ADAPTERS)
+
+
 @app.function(image=image, volumes={"/models": volume}, timeout=60 * MINUTES)
 def download_weights() -> None:
     from huggingface_hub import snapshot_download
