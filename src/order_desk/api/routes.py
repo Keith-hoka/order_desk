@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 
+from order_desk.api.auth import Principal, require_auth
 from order_desk.api.models import ExtractMeta, ExtractRequest, ExtractResponse
 from order_desk.baseline import parse_extraction
 from order_desk.confidence import field_confidences, overall_confidence
@@ -34,7 +35,9 @@ def ready(request: Request) -> dict[str, str]:
 
 @router.post("/extract", response_model=ExtractResponse)
 def extract(
-    payload: ExtractRequest, client: ExtractClient = Depends(get_client)
+    payload: ExtractRequest,
+    client: ExtractClient = Depends(get_client),
+    principal: Principal | None = Depends(require_auth),
 ) -> ExtractResponse:
     result = client.extract(payload.subject, payload.body)
     parsed, repaired = parse_extraction(result.raw)

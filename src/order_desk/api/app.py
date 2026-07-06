@@ -13,6 +13,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(router)
     settings = settings or Settings.from_env()
     app.state.settings = settings
+    app.state.jwt_secret = settings.jwt_secret
     if settings.vllm_base_url:
         from order_desk.extract_client import VLLMExtractClient
 

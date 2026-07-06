@@ -39,7 +39,9 @@ class FakeExtractClient:
 
 
 def app_with(client) -> TestClient:
-    app = create_app(Settings(adapter_model="x", vllm_base_url="", vllm_api_key="EMPTY"))
+    app = create_app(
+        Settings(adapter_model="x", vllm_base_url="", vllm_api_key="EMPTY", jwt_secret="")
+    )
     app.state.extract_client = client
     return TestClient(app)
 
@@ -70,7 +72,9 @@ def test_health_ok() -> None:
 def test_ready_reflects_backend() -> None:
     ready = app_with(FakeExtractClient(ORDER))
     assert ready.get("/ready").json()["status"] == "ready"
-    app = create_app(Settings(adapter_model="x", vllm_base_url="", vllm_api_key="EMPTY"))
+    app = create_app(
+        Settings(adapter_model="x", vllm_base_url="", vllm_api_key="EMPTY", jwt_secret="")
+    )
     assert TestClient(app).get("/ready").status_code == 503
 
 
@@ -94,6 +98,8 @@ def test_extract_rejects_empty_fields() -> None:
 
 
 def test_extract_503_without_backend() -> None:
-    app = create_app(Settings(adapter_model="x", vllm_base_url="", vllm_api_key="EMPTY"))
+    app = create_app(
+        Settings(adapter_model="x", vllm_base_url="", vllm_api_key="EMPTY", jwt_secret="")
+    )
     resp = TestClient(app).post("/extract", json={"subject": "a", "body": "b"})
     assert resp.status_code == 503
