@@ -12,6 +12,8 @@ class Settings:
     vllm_base_url: str
     vllm_api_key: str
     jwt_secret: str
+    redis_url: str
+    rate_limit_per_minute: int
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -20,4 +22,6 @@ class Settings:
             vllm_base_url=os.environ.get("VLLM_BASE_URL", ""),
             vllm_api_key=os.environ.get("VLLM_API_KEY", "EMPTY"),
             jwt_secret=os.environ.get("JWT_SECRET", ""),
+            redis_url=os.environ.get("REDIS_URL", ""),
+            rate_limit_per_minute=int(os.environ.get("RATE_LIMIT_PER_MINUTE", "60")),
         )

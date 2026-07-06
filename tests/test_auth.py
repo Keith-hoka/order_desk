@@ -45,7 +45,14 @@ ORDER = ExtractedOrder(
 
 def guarded_client(secret: str) -> TestClient:
     app = create_app(
-        Settings(adapter_model="x", vllm_base_url="", vllm_api_key="EMPTY", jwt_secret=secret)
+        Settings(
+            adapter_model="x",
+            vllm_base_url="",
+            vllm_api_key="EMPTY",
+            jwt_secret=secret,
+            redis_url="",
+            rate_limit_per_minute=60,
+        )
     )
     app.state.extract_client = FakeExtractClient(ORDER)
     return TestClient(app)
@@ -104,7 +111,14 @@ def test_extract_rejects_bad_token() -> None:
 
 def test_auth_disabled_when_no_secret() -> None:
     app = create_app(
-        Settings(adapter_model="x", vllm_base_url="", vllm_api_key="EMPTY", jwt_secret="")
+        Settings(
+            adapter_model="x",
+            vllm_base_url="",
+            vllm_api_key="EMPTY",
+            jwt_secret="",
+            redis_url="",
+            rate_limit_per_minute=60,
+        )
     )
     app.state.extract_client = FakeExtractClient(ORDER)
     client = TestClient(app)
