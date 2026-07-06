@@ -9,9 +9,13 @@ CURVE = [
     "qwen3-4b-sft-500-r16-xgrammar",
     "qwen3-4b-sft-1000-r16-xgrammar",
     "qwen3-4b-sft-2000-r16-xgrammar",
-    "qwen3-4b-sft-full-r16",
+    "qwen3-4b-sft-full-r16-xgrammar",
 ]
-RANKS = ["qwen3-4b-sft-full-r8-xgrammar", "qwen3-4b-sft-full-r16", "qwen3-4b-sft-full-r32-xgrammar"]
+RANKS = [
+    "qwen3-4b-sft-full-r8-xgrammar",
+    "qwen3-4b-sft-full-r16-xgrammar",
+    "qwen3-4b-sft-full-r32-xgrammar",
+]
 REFS = {"gpt-4o-mini": "gpt-4o-mini", "qwen3-4b baseline": "qwen3-4b-instruct-2507-xgrammar"}
 
 
@@ -55,11 +59,11 @@ def main() -> None:
         "qwen3-4b-sft-500-r16-xgrammar": "500",
         "qwen3-4b-sft-1000-r16-xgrammar": "1000",
         "qwen3-4b-sft-2000-r16-xgrammar": "2000",
-        "qwen3-4b-sft-full-r16": "full (3600)",
+        "qwen3-4b-sft-full-r16-xgrammar": "full (3600)",
     }
     ranks = {
         "qwen3-4b-sft-full-r8-xgrammar": "r8",
-        "qwen3-4b-sft-full-r16": "r16",
+        "qwen3-4b-sft-full-r16-xgrammar": "r16",
         "qwen3-4b-sft-full-r32-xgrammar": "r32",
     }
     show("data-scaling curve (rank 16)", CURVE, lambda n: sizes[n])
