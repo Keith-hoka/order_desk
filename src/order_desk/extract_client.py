@@ -84,7 +84,13 @@ class VLLMExtractClient:
         tokens: list[TokenLogprob] = []
         if choice.logprobs is not None and choice.logprobs.content is not None:
             for entry in choice.logprobs.content:
-                tokens.append(TokenLogprob(token=entry.token, logprob=entry.logprob))
+                # Skip special/stop tokens (e.g. <|im_end|>): they carry no value
+                # characters and would break the reconstructed-text == raw invariant
+                # that char-span confidence alignment relies on.
+                token = entry.token
+                if token.startswith("<|") and token.endswith("|>"):
+                    continue
+                tokens.append(TokenLogprob(token=token, logprob=entry.logprob))
         usage = response.usage
         return ExtractionResult(
             raw=content,
