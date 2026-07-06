@@ -103,7 +103,15 @@ def qwen3_30b_a3b() -> None:
 
 
 ADAPTERS = {
-    "qwen3-4b-sft-full-r16": "/models/adapters/qwen3-4b-sft-full-r16",
+    name: f"/models/adapters/{name}"
+    for name in (
+        "qwen3-4b-sft-500-r16",
+        "qwen3-4b-sft-1000-r16",
+        "qwen3-4b-sft-2000-r16",
+        "qwen3-4b-sft-full-r8",
+        "qwen3-4b-sft-full-r16",
+        "qwen3-4b-sft-full-r32",
+    )
 }
 
 
