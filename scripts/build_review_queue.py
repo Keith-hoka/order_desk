@@ -62,9 +62,7 @@ def main() -> None:
             print(f"  [{i + 1}/{len(raws)}] processed", flush=True)
 
     queue = sort_queue(items)
-    OUT.write_text(
-        json.dumps([item_to_dict(it) for it in queue], indent=2), encoding="utf-8"
-    )
+    OUT.write_text(json.dumps([item_to_dict(it) for it in queue], indent=2), encoding="utf-8")
 
     # summary
     with_asks = sum(1 for it in queue if it.asks)
@@ -74,8 +72,10 @@ def main() -> None:
     print(f"  with asks: {with_asks}, with band fields: {with_band}, with violations: {with_viol}")
     print("  top 5 by priority:")
     for it in queue[:5]:
-        print(f"    {it.id} pri={it.priority:.1f} band={it.band_field_count} "
-              f"asks={len(it.asks)} viol={len(it.violations)} :: {it.subject!r}")
+        print(
+            f"    {it.id} pri={it.priority:.1f} band={it.band_field_count} "
+            f"asks={len(it.asks)} viol={len(it.violations)} :: {it.subject!r}"
+        )
 
 
 if __name__ == "__main__":
