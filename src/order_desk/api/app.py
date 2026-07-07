@@ -6,6 +6,7 @@ from fastapi import FastAPI
 
 from order_desk.api.config import Settings
 from order_desk.api.routes import router
+from order_desk.api.tracing import build_tracer
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -23,6 +24,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         app.state.rate_limiter = RateLimiter(counter, settings.rate_limit_per_minute)
     else:
         app.state.rate_limiter = None
+    app.state.tracer = build_tracer(
+        settings.langfuse_public_key, settings.langfuse_secret_key, settings.langfuse_host
+    )
     if settings.vllm_base_url:
         from order_desk.extract_client import VLLMExtractClient
 

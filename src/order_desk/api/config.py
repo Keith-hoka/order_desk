@@ -14,6 +14,9 @@ class Settings:
     jwt_secret: str
     redis_url: str
     rate_limit_per_minute: int
+    langfuse_public_key: str = ""
+    langfuse_secret_key: str = ""
+    langfuse_host: str = ""
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -24,4 +27,7 @@ class Settings:
             jwt_secret=os.environ.get("JWT_SECRET", ""),
             redis_url=os.environ.get("REDIS_URL", ""),
             rate_limit_per_minute=int(os.environ.get("RATE_LIMIT_PER_MINUTE", "60")),
+            langfuse_public_key=os.environ.get("LANGFUSE_PUBLIC_KEY", ""),
+            langfuse_secret_key=os.environ.get("LANGFUSE_SECRET_KEY", ""),
+            langfuse_host=os.environ.get("LANGFUSE_HOST", ""),
         )
