@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #FAFAF8;
+  --ink: #1A1D21;
+  --ink-soft: #6B7178;
+  --ink-faint: #9AA0A6;
+  --line: #E8E7E2;
+  --line-soft: #F0EFEA;
+  --surface: #FFFFFF;
+
+  --ship: #2D5F8A;
+  --ship-bg: #EAF1F7;
+  --brick: #B54534;
+  --brick-bg: #F7ECEA;
+  --amber: #C08A3E;
+  --amber-bg: #F8F1E6;
+  --sage: #5B8A5B;
+  --sage-bg: #EDF3ED;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-surface: var(--surface);
+  --color-ship: var(--ship);
+  --color-ship-bg: var(--ship-bg);
+  --color-brick: var(--brick);
+  --color-brick-bg: var(--brick-bg);
+  --color-amber: var(--amber);
+  --color-amber-bg: var(--amber-bg);
+  --color-sage: var(--sage);
+  --color-sage-bg: var(--sage-bg);
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+}
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+* { box-sizing: border-box; }
