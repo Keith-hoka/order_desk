@@ -69,3 +69,104 @@ def test_in_memory_counter_expiry() -> None:
     # deterministic via monkeypatched-free approach: rely on window_seconds arithmetic
     assert counter.incr_in_window("k", 60) == 1
     assert counter.incr_in_window("k", 60) == 2
+
+
+# --- API-level tests (limiter wired into a live app) ---
+import json  # noqa: E402
+
+from fastapi.testclient import TestClient  # noqa: E402
+
+from order_desk.api.app import create_app  # noqa: E402
+from order_desk.api.auth import issue_token  # noqa: E402
+from order_desk.api.config import Settings  # noqa: E402
+from order_desk.extract_client import ExtractionResult, TokenLogprob  # noqa: E402
+from order_desk.schemas import ExtractedOrder  # noqa: E402
+
+_SECRET = "rate-limit-test-secret-32-bytes-long!"
+_ORDER = ExtractedOrder(
+    customer_po_text="PO-1",
+    requested_date_text=None,
+    delivery_address_text=None,
+    buyer_name_text=None,
+    notes=None,
+    line_items=[],
+)
+
+
+class _FakeClient:
+    model = "adapter"
+
+    def extract(self, subject: str, body: str) -> ExtractionResult:
+        raw = json.dumps(_ORDER.model_dump(), ensure_ascii=False)
+        return ExtractionResult(
+            raw=raw,
+            tokens=[TokenLogprob(token=c, logprob=-0.001) for c in raw],
+            input_tokens=10,
+            output_tokens=len(raw),
+            latency_s=0.01,
+            model="adapter",
+        )
+
+
+def _limited_app(limit: int, secret: str = _SECRET) -> TestClient:
+    app = create_app(
+        Settings(
+            adapter_model="x",
+            vllm_base_url="",
+            vllm_api_key="EMPTY",
+            jwt_secret=secret,
+            redis_url="",
+            rate_limit_per_minute=limit,
+        )
+    )
+    app.state.extract_client = _FakeClient()
+    app.state.rate_limiter = RateLimiter(InMemoryCounter(), limit_per_minute=limit)
+    return TestClient(app)
+
+
+def _post(client: TestClient, token: str | None):
+    headers = {"Authorization": f"Bearer {token}"} if token else {}
+    return client.post("/extract", json={"subject": "a", "body": "b"}, headers=headers)
+
+
+def test_api_throttles_after_limit() -> None:
+    client = _limited_app(limit=2)
+    token = issue_token(_SECRET, "client-a")
+    assert _post(client, token).status_code == 200
+    assert _post(client, token).status_code == 200
+    blocked = _post(client, token)
+    assert blocked.status_code == 429
+    assert int(blocked.headers["Retry-After"]) > 0
+
+
+def test_api_isolates_identities() -> None:
+    client = _limited_app(limit=1)
+    a, b = issue_token(_SECRET, "a"), issue_token(_SECRET, "b")
+    assert _post(client, a).status_code == 200
+    assert _post(client, a).status_code == 429
+    assert _post(client, b).status_code == 200  # separate budget
+
+
+def test_api_no_limiter_when_unconfigured() -> None:
+    app = create_app(
+        Settings(
+            adapter_model="x",
+            vllm_base_url="",
+            vllm_api_key="EMPTY",
+            jwt_secret=_SECRET,
+            redis_url="",
+            rate_limit_per_minute=1,
+        )
+    )
+    app.state.extract_client = _FakeClient()
+    # rate_limiter left as None by create_app (redis_url empty)
+    client = TestClient(app)
+    token = issue_token(_SECRET, "a")
+    for _ in range(5):
+        assert _post(client, token).status_code == 200  # never throttled
+
+
+def test_health_not_rate_limited() -> None:
+    client = _limited_app(limit=1)
+    for _ in range(5):
+        assert client.get("/health").status_code == 200

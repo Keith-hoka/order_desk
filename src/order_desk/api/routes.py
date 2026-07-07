@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 
 from order_desk.api.auth import Principal, require_auth
 from order_desk.api.models import ExtractMeta, ExtractRequest, ExtractResponse
+from order_desk.api.rate_limit import enforce_rate_limit
 from order_desk.baseline import parse_extraction
 from order_desk.confidence import field_confidences, overall_confidence
 from order_desk.extract_client import ExtractClient
@@ -38,6 +39,7 @@ def extract(
     payload: ExtractRequest,
     client: ExtractClient = Depends(get_client),
     principal: Principal | None = Depends(require_auth),
+    _rate: None = Depends(enforce_rate_limit),
 ) -> ExtractResponse:
     result = client.extract(payload.subject, payload.body)
     parsed, repaired = parse_extraction(result.raw)

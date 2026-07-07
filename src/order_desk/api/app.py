@@ -14,6 +14,15 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or Settings.from_env()
     app.state.settings = settings
     app.state.jwt_secret = settings.jwt_secret
+    if settings.redis_url:
+        import redis as redis_lib
+
+        from order_desk.api.rate_limit import RateLimiter, RedisCounter
+
+        counter = RedisCounter(redis_lib.from_url(settings.redis_url))
+        app.state.rate_limiter = RateLimiter(counter, settings.rate_limit_per_minute)
+    else:
+        app.state.rate_limiter = None
     if settings.vllm_base_url:
         from order_desk.extract_client import VLLMExtractClient
 

@@ -18,6 +18,10 @@ import time
 from dataclasses import dataclass
 from typing import Protocol
 
+from fastapi import Depends, HTTPException, Request
+
+from order_desk.api.auth import Principal, require_auth
+
 
 class WindowCounter(Protocol):
     def incr_in_window(self, key: str, window_seconds: int) -> int:
@@ -79,4 +83,33 @@ class RateLimiter:
         retry_after = 0 if allowed else self._window - (int(now) % self._window)
         return RateLimitDecision(
             allowed=allowed, count=count, limit=self._limit, retry_after=retry_after
+        )
+
+
+def enforce_rate_limit(
+    request: Request,
+    principal: Principal | None = Depends(require_auth),
+) -> None:
+    """Guard dependency: throttle per authenticated sub, else per client IP.
+
+    Depends on require_auth so the identity is the JWT sub when present;
+    FastAPI's per-request dependency cache means require_auth runs once and
+    both auth and rate limiting see the same principal. No-op when the limiter
+    is unconfigured (REDIS_URL unset).
+    """
+    limiter: RateLimiter | None = getattr(request.app.state, "rate_limiter", None)
+    if limiter is None:
+        return
+    if principal is not None:
+        identity = principal.sub
+    elif request.client is not None:
+        identity = request.client.host
+    else:
+        identity = "anonymous"
+    decision = limiter.check(identity)
+    if not decision.allowed:
+        raise HTTPException(
+            status_code=429,
+            detail=f"rate limit exceeded ({decision.limit}/min)",
+            headers={"Retry-After": str(decision.retry_after)},
         )
