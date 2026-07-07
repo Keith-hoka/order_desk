@@ -11,3 +11,4 @@ data/corpus/val.jsonl
 results/
 data/sft/train_*.jsonl
 data/sft/val_gold.jsonl
+results/calibration/val_pairs.jsonl
