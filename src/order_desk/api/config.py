@@ -12,8 +12,8 @@ class Settings:
     vllm_base_url: str
     vllm_api_key: str
     jwt_secret: str
-    redis_url: str
-    rate_limit_per_minute: int
+    redis_url: str = ""
+    rate_limit_per_minute: int = 60
     langfuse_public_key: str = ""
     langfuse_secret_key: str = ""
     langfuse_host: str = ""
