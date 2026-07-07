@@ -37,11 +37,15 @@ def main() -> None:
         sys.exit("VLLM_BASE_URL not set")
 
     # pick a few order-class packed .eml files (prefer noisy ones)
-    human = {json.loads(line)["id"]: json.loads(line)
-             for line in Path("data/human/test_human.jsonl").read_text().splitlines() if line}
+    human = {
+        json.loads(line)["id"]: json.loads(line)
+        for line in Path("data/human/test_human.jsonl").read_text().splitlines()
+        if line
+    }
     eml_dir = Path("data/human_eml")
-    order_ids = [rid for rid, r in human.items()
-                 if r["email_class"] in ("new_order", "amendment")][:5]
+    order_ids = [rid for rid, r in human.items() if r["email_class"] in ("new_order", "amendment")][
+        :5
+    ]
 
     app = build_production_pipeline(
         classifier_model=os.environ.get("CLASSIFIER_MODEL", "gpt-4o-mini"),
@@ -63,10 +67,16 @@ def main() -> None:
 
         print("=" * 72)
         print(f"{rid}: {std.subject!r}")
-        eml_items = [i.product_text for i in state_eml.extraction.line_items] \
-            if state_eml.extraction else []
-        raw_items = [i.product_text for i in state_raw.extraction.line_items] \
-            if state_raw.extraction else []
+        eml_items = (
+            [i.product_text for i in state_eml.extraction.line_items]
+            if state_eml.extraction
+            else []
+        )
+        raw_items = (
+            [i.product_text for i in state_raw.extraction.line_items]
+            if state_raw.extraction
+            else []
+        )
         print(f"  route (eml): {state_eml.route.value}   route (raw): {state_raw.route.value}")
         print(f"  items (from .eml): {eml_items}")
         print(f"  items (from raw):  {raw_items}")
