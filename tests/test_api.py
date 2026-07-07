@@ -124,3 +124,30 @@ def test_extract_503_without_backend() -> None:
     )
     resp = TestClient(app).post("/extract", json={"subject": "a", "body": "b"})
     assert resp.status_code == 503
+
+
+def test_extract_records_a_trace() -> None:
+    from order_desk.api.tracing import RecordingTracer
+
+    tracer = RecordingTracer()
+    app = create_app(
+        Settings(
+            adapter_model="x",
+            vllm_base_url="",
+            vllm_api_key="EMPTY",
+            jwt_secret="",
+            redis_url="",
+            rate_limit_per_minute=60,
+        )
+    )
+    app.state.extract_client = FakeExtractClient(ORDER)
+    app.state.tracer = tracer
+    client = TestClient(app)
+    resp = client.post("/extract", json={"subject": "order", "body": "send tape"})
+    assert resp.status_code == 200
+    assert len(tracer.events) == 1
+    event = tracer.events[0]
+    assert event.input == {"subject": "order", "body": "send tape"}
+    assert event.output["extraction"]["customer_po_text"] == "PO-4472"
+    assert event.metadata["adapter"] == "qwen3-4b-sft-full-r8"
+    assert "overall_confidence" in event.metadata
