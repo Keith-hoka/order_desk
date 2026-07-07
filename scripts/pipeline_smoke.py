@@ -82,3 +82,7 @@ def main() -> None:
             print(f"  asks: {state.asks}")
         if state.violations:
             print(f"  violations: {state.violations}")
+
+
+if __name__ == "__main__":
+    main()
