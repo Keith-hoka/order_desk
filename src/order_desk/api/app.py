@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from order_desk.api.config import Settings
+from order_desk.api.review_routes import review_router
 from order_desk.api.routes import router
 from order_desk.api.tracing import build_tracer
 
@@ -12,6 +14,13 @@ from order_desk.api.tracing import build_tracer
 def create_app(settings: Settings | None = None) -> FastAPI:
     app = FastAPI(title="order_desk extraction service", version="0.1.0")
     app.include_router(router)
+    app.include_router(review_router)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://localhost:3000"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
     settings = settings or Settings.from_env()
     app.state.settings = settings
     app.state.jwt_secret = settings.jwt_secret
@@ -35,6 +44,13 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         )
     else:
         app.state.extract_client = None
+    queue_path = settings.review_queue_path
+    if queue_path:
+        from order_desk.api.review_store import JsonReviewStore
+
+        app.state.review_store = JsonReviewStore(queue_path)
+    else:
+        app.state.review_store = None
     return app
 
 

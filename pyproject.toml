@@ -32,6 +32,7 @@ target-version = "py312"
 "src/order_desk/api/routes.py" = ["B008"]  # FastAPI Depends() in defaults is idiomatic
 "src/order_desk/api/auth.py" = ["B008"]  # FastAPI Depends() in defaults is idiomatic
 "src/order_desk/api/rate_limit.py" = ["B008"]  # FastAPI Depends() in defaults is idiomatic
+"src/order_desk/api/review_routes.py" = ["B008"]  # FastAPI Depends() in defaults is idiomatic
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
