@@ -1,0 +1,28 @@
+# order_desk extraction service: API + Redis.
+# Langfuse is not self-hosted here (it needs Postgres + Clickhouse); use
+# Langfuse Cloud via LANGFUSE_* env, or leave unset for a no-op tracer.
+# The vLLM+LoRA backend is the remote Modal endpoint (VLLM_BASE_URL), not a
+# compose service.
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      # Override so the app reaches Redis by service name inside the network.
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
