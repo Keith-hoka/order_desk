@@ -16,6 +16,15 @@ class FieldFlagOut(BaseModel):
     in_band: bool
 
 
+class FulfillmentOut(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    submitted: bool
+    order_id: str | None
+    reason: str
+    unresolved: list[str]
+
+
 class ReviewItemOut(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -29,6 +38,7 @@ class ReviewItemOut(BaseModel):
     priority: float
     status: ReviewStatus
     edits: dict[str, str]
+    fulfillment: FulfillmentOut | None = None
 
 
 class ReviewAction(BaseModel):

@@ -9,6 +9,7 @@ from order_desk.api.config import Settings
 from order_desk.api.review_routes import review_router
 from order_desk.api.routes import router
 from order_desk.api.tracing import build_tracer
+from order_desk.fulfillment.notify import build_notifier
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -51,6 +52,14 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         app.state.review_store = JsonReviewStore(queue_path)
     else:
         app.state.review_store = None
+
+    if settings.erp_sink_path:
+        from order_desk.fulfillment.erp import LocalOrderSink
+
+        app.state.order_sink = LocalOrderSink(settings.erp_sink_path)
+    else:
+        app.state.order_sink = None
+    app.state.notifier = build_notifier(settings.slack_webhook_url or None)
     return app
 
 

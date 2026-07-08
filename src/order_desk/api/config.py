@@ -18,6 +18,8 @@ class Settings:
     langfuse_secret_key: str = ""
     langfuse_host: str = ""
     review_queue_path: str = ""
+    erp_sink_path: str = ""
+    slack_webhook_url: str = ""
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -32,4 +34,6 @@ class Settings:
             langfuse_secret_key=os.environ.get("LANGFUSE_SECRET_KEY", ""),
             langfuse_host=os.environ.get("LANGFUSE_HOST", ""),
             review_queue_path=os.environ.get("REVIEW_QUEUE_PATH", ""),
+            erp_sink_path=os.environ.get("ERP_SINK_PATH", ""),
+            slack_webhook_url=os.environ.get("SLACK_WEBHOOK_URL", ""),
         )

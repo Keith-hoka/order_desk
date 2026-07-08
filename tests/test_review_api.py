@@ -127,3 +127,112 @@ def test_review_503_without_store() -> None:
     # review_store left as None (no queue path)
     client = TestClient(app)
     assert client.get("/exceptions", headers=_auth()).status_code == 503
+
+
+# --- Phase 8: approve triggers fulfillment ---
+
+
+def _order_item(id_, product_text, qty):
+    from order_desk.review.priority import ReviewItem, ReviewStatus
+
+    return ReviewItem(
+        id=id_,
+        subject=f"order-{id_}",
+        body="body",
+        extraction={
+            "customer_po_text": "PO-9",
+            "requested_date_text": None,
+            "delivery_address_text": "Botany",
+            "buyer_name_text": "Dana",
+            "notes": None,
+            "line_items": [
+                {
+                    "product_text": product_text,
+                    "quantity": qty,
+                    "unit_text": "each",
+                    "unit_price_text": None,
+                    "item_notes": None,
+                }
+            ],
+        },
+        field_flags=[],
+        asks=[],
+        violations=[],
+        priority=1.0,
+        status=ReviewStatus.PENDING,
+    )
+
+
+def _app_with_fulfillment(items):
+    from order_desk.fulfillment.notify import MockNotifier
+
+    app = create_app(
+        Settings(
+            adapter_model="x",
+            vllm_base_url="",
+            vllm_api_key="EMPTY",
+            jwt_secret=SECRET,
+        )
+    )
+    app.state.review_store = InMemoryReviewStore(items)
+
+    class FakeSink:
+        def __init__(self):
+            self.submitted = []
+
+        def submit(self, order):
+            from order_desk.fulfillment.erp import OrderReceipt
+
+            self.submitted.append(order)
+            return OrderReceipt(
+                order_id="ORD-APITEST",
+                status="accepted",
+                submitted_at="2026-01-01T00:00:00Z",
+                total_cents=order.total_cents,
+            )
+
+    app.state.order_sink = FakeSink()
+    app.state.notifier = MockNotifier()
+    return TestClient(app), app
+
+
+def test_approve_clean_order_submits_to_erp() -> None:
+    # small carton moq 25; qty 50 resolves + validates
+    client, app = _app_with_fulfillment([_order_item("EXC-1", "small carton", 50)])
+    resp = client.post(
+        "/exceptions/EXC-1/review", headers=_auth(), json={"action": "approved", "edits": {}}
+    )
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["status"] == "approved"
+    assert data["fulfillment"]["submitted"] is True
+    assert data["fulfillment"]["order_id"] == "ORD-APITEST"
+    assert data["fulfillment"]["reason"] == "submitted"
+    # sink actually received it
+    assert len(app.state.order_sink.submitted) == 1
+    # notification sent
+    assert len(app.state.notifier.sent) == 1
+
+
+def test_approve_unresolved_holds() -> None:
+    client, app = _app_with_fulfillment([_order_item("EXC-2", "mystery widget xyz", 50)])
+    resp = client.post(
+        "/exceptions/EXC-2/review", headers=_auth(), json={"action": "approved", "edits": {}}
+    )
+    data = resp.json()
+    assert data["status"] == "approved"  # approval still succeeds
+    assert data["fulfillment"]["submitted"] is False
+    assert data["fulfillment"]["reason"] == "held_for_mapping"
+    assert "mystery widget xyz" in data["fulfillment"]["unresolved"]
+    assert len(app.state.order_sink.submitted) == 0  # nothing submitted
+
+
+def test_reject_does_not_fulfill() -> None:
+    client, app = _app_with_fulfillment([_order_item("EXC-3", "small carton", 50)])
+    resp = client.post(
+        "/exceptions/EXC-3/review", headers=_auth(), json={"action": "rejected", "edits": {}}
+    )
+    data = resp.json()
+    assert data["status"] == "rejected"
+    assert data["fulfillment"] is None  # only approve fulfills
+    assert len(app.state.order_sink.submitted) == 0

@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 
 from order_desk.api.auth import Principal, require_auth
 from order_desk.api.review_models import FieldFlagOut, ReviewAction, ReviewItemOut
-from order_desk.review.priority import ReviewItem
+from order_desk.review.priority import ReviewItem, ReviewStatus
 
 review_router = APIRouter(prefix="/exceptions")
 
@@ -63,4 +63,32 @@ def submit_review(
     item = store.submit_review(item_id, action.action, action.edits)
     if item is None:
         raise HTTPException(status_code=404, detail="exception not found")
-    return _to_out(item)
+
+    out = _to_out(item)
+    sink = getattr(request.app.state, "order_sink", None)
+    notifier = getattr(request.app.state, "notifier", None)
+    if (
+        action.action == ReviewStatus.APPROVED
+        and sink is not None
+        and notifier is not None
+        and item.extraction
+    ):
+        from order_desk.api.review_models import FulfillmentOut
+        from order_desk.fulfillment.fulfill import fulfill_order
+
+        try:
+            fr = fulfill_order(item.extraction, sink, notifier)
+            out.fulfillment = FulfillmentOut(
+                submitted=fr.submitted,
+                order_id=fr.order_id,
+                reason=fr.reason,
+                unresolved=fr.unresolved,
+            )
+        except Exception as exc:  # fulfillment failure must not fail the approval
+            out.fulfillment = FulfillmentOut(
+                submitted=False,
+                order_id=None,
+                reason=f"error: {exc}",
+                unresolved=[],
+            )
+    return out
