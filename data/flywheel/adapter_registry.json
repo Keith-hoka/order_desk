@@ -6,22 +6,55 @@
   "gates": {
     "gate_1_targeted_improvement": {
       "metric": "blended non-counter line-item precision",
-      "base_full_r8": 0.50,
-      "flywheel_full_r8": 1.00,
+      "base_full_r8": 0.5,
+      "flywheel_full_r8": 1.0,
       "verdict": "PASS -- over-extraction eliminated; counter-example recall held at 1.00 (no over-suppression)"
     },
     "gate_2_no_regression": {
       "metric": "frozen eval micro-F1 (tolerance 0.01)",
-      "synthetic": {"base": 0.9978, "flywheel": 0.9972, "delta": -0.0006},
-      "human_ood": {"base": 0.9508, "flywheel": 0.9418, "delta": -0.0090},
+      "synthetic": {
+        "base": 0.9978,
+        "flywheel": 0.9972,
+        "delta": -0.0006
+      },
+      "human_ood": {
+        "base": 0.9508,
+        "flywheel": 0.9418,
+        "delta": -0.009
+      },
       "verdict": "PASS within tolerance -- synthetic unchanged; human OOD -0.009 (mainly one parse failure), a small real tradeoff surfaced by the gate"
     }
   },
   "base_size_ablation": {
     "question": "does a smaller base (500) give a better flywheel tradeoff?",
     "answer": "no -- full base wins on every axis",
-    "flywheel_full_r8": {"blended_precision": 1.00, "human_ood_f1": 0.9418, "synthetic_f1": 0.9972, "human_hallucination": 0.0798},
-    "flywheel_500_r8": {"blended_precision": 0.92, "human_ood_f1": 0.9392, "synthetic_f1": 0.9879, "human_hallucination": 0.1064},
+    "flywheel_full_r8": {
+      "blended_precision": 1.0,
+      "human_ood_f1": 0.9418,
+      "synthetic_f1": 0.9972,
+      "human_hallucination": 0.0798
+    },
+    "flywheel_500_r8": {
+      "blended_precision": 0.92,
+      "human_ood_f1": 0.9392,
+      "synthetic_f1": 0.9879,
+      "human_hallucination": 0.1064
+    },
     "finding": "correction-integration quality depends on base quality: a stronger base integrates targeted fixes more precisely (blended 1.00 vs 0.92) and generalises better, with lower hallucination. The intuition that a smaller base gives corrections more relative weight is refuted."
+  },
+  "regression_gate": {
+    "tolerance": 0.01,
+    "baseline_adapter": "qwen3-4b-sft-full-r8",
+    "candidate_adapter": "qwen3-4b-sft-flywheel-r8",
+    "sources": {
+      "synthetic": {
+        "baseline_report": "qwen3-4b-sft-full-r8-xgrammar_synthetic.json",
+        "candidate_report": "flywheel-r8-synthetic_synthetic.json"
+      },
+      "human": {
+        "baseline_report": "qwen3-4b-sft-full-r8-xgrammar_human.json",
+        "candidate_report": "flywheel-r8-human_human.json"
+      }
+    }
   }
 }
