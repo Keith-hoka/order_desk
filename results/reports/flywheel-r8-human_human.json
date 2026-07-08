@@ -1,0 +1,291 @@
+{
+  "bootstrap": {
+    "iterations": 1000,
+    "seed": 20260708
+  },
+  "ci": {
+    "accuracy": [
+      0.8153846153846154,
+      0.9542307692307689
+    ],
+    "alignment_f1": [
+      0.864406779661017,
+      0.9760094488188976
+    ],
+    "headline_f1": [
+      0.909404231834169,
+      0.9673280555833917
+    ],
+    "macro_f1": [
+      0.4869967532467533,
+      0.83549011870007
+    ]
+  },
+  "classification": {
+    "accuracy": 0.8923076923076924,
+    "confusion": {
+      "amendment->amendment": 3,
+      "cancellation->cancellation": 2,
+      "inquiry->inquiry": 3,
+      "new_order->amendment": 3,
+      "new_order->inquiry": 1,
+      "new_order->new_order": 50,
+      "other->cancellation": 1,
+      "other->inquiry": 2
+    },
+    "eval_version": 3,
+    "invalid_predictions": 0,
+    "macro_f1": 0.6189743589743589,
+    "order_missed": 1,
+    "order_missed_rate": 0.017543859649122806,
+    "per_class": {
+      "amendment": {
+        "f1": 0.6666666666666666,
+        "precision": 0.5,
+        "recall": 1.0,
+        "support": 3
+      },
+      "cancellation": {
+        "f1": 0.8,
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "support": 2
+      },
+      "inquiry": {
+        "f1": 0.6666666666666666,
+        "precision": 0.5,
+        "recall": 1.0,
+        "support": 3
+      },
+      "new_order": {
+        "f1": 0.9615384615384615,
+        "precision": 1.0,
+        "recall": 0.9259259259259259,
+        "support": 54
+      },
+      "other": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "support": 3
+      }
+    },
+    "records": 65
+  },
+  "dataset": {
+    "n": 65,
+    "n_extraction": 57,
+    "sha256": "c29bd15c281aa056cd6252bcdc120b6bab0fb7d38ef93fc50154afeaae521fe0"
+  },
+  "eval_version": 3,
+  "extraction": {
+    "alignment": {
+      "f1": 0.9279999999999999,
+      "gold_items": 62,
+      "greedy_runs": 0,
+      "matched": 59,
+      "precision": 0.9206349206349206,
+      "pred_items": 63,
+      "product_tp": 58,
+      "recall": 0.9354838709677419
+    },
+    "eval_version": 3,
+    "fields": {
+      "buyer_name_text": {
+        "accuracy": 0.9473684210526315,
+        "f1": 0.9724770642201834,
+        "fn": 1,
+        "fp": 2,
+        "hallucination": 2,
+        "hallucination_rate": 0.6666666666666666,
+        "miss": 1,
+        "null_agree": 1,
+        "precision": 0.9636363636363636,
+        "recall": 0.9814814814814815,
+        "strict_rate": 1.0,
+        "tp": 53,
+        "wrong": 0
+      },
+      "customer_po_text": {
+        "accuracy": 1.0,
+        "f1": 1.0,
+        "fn": 0,
+        "fp": 0,
+        "hallucination": 0,
+        "hallucination_rate": 0.0,
+        "miss": 0,
+        "null_agree": 22,
+        "precision": 1.0,
+        "recall": 1.0,
+        "strict_rate": 1.0,
+        "tp": 35,
+        "wrong": 0
+      },
+      "delivery_address_text": {
+        "accuracy": 0.9122807017543859,
+        "f1": 0.7428571428571428,
+        "fn": 4,
+        "fp": 5,
+        "hallucination": 1,
+        "hallucination_rate": 0.025,
+        "miss": 0,
+        "null_agree": 39,
+        "precision": 0.7222222222222222,
+        "recall": 0.7647058823529411,
+        "strict_rate": 1.0,
+        "tp": 13,
+        "wrong": 4
+      },
+      "product_text": {
+        "accuracy": 0.8787878787878788,
+        "f1": 0.9279999999999999,
+        "fn": 4,
+        "fp": 5,
+        "hallucination": 4,
+        "hallucination_rate": 1.0,
+        "miss": 3,
+        "null_agree": 0,
+        "precision": 0.9206349206349206,
+        "recall": 0.9354838709677419,
+        "strict_rate": 0.9827586206896551,
+        "tp": 58,
+        "wrong": 1
+      },
+      "quantity": {
+        "accuracy": 0.9032258064516129,
+        "f1": 0.9454545454545454,
+        "fn": 2,
+        "fp": 4,
+        "hallucination": 4,
+        "hallucination_rate": 0.5,
+        "miss": 2,
+        "null_agree": 4,
+        "precision": 0.9285714285714286,
+        "recall": 0.9629629629629629,
+        "strict_rate": 1.0,
+        "tp": 52,
+        "wrong": 0
+      },
+      "requested_date_text": {
+        "accuracy": 0.9473684210526315,
+        "f1": 0.7777777777777777,
+        "fn": 1,
+        "fp": 3,
+        "hallucination": 2,
+        "hallucination_rate": 0.04081632653061224,
+        "miss": 0,
+        "null_agree": 47,
+        "precision": 0.7,
+        "recall": 0.875,
+        "strict_rate": 1.0,
+        "tp": 7,
+        "wrong": 1
+      },
+      "unit_price_text": {
+        "accuracy": 1.0,
+        "f1": 1.0,
+        "fn": 0,
+        "fp": 0,
+        "hallucination": 0,
+        "hallucination_rate": 0.0,
+        "miss": 0,
+        "null_agree": 51,
+        "precision": 1.0,
+        "recall": 1.0,
+        "strict_rate": 1.0,
+        "tp": 8,
+        "wrong": 0
+      },
+      "unit_text": {
+        "accuracy": 0.9508196721311475,
+        "f1": 0.9702970297029702,
+        "fn": 1,
+        "fp": 2,
+        "hallucination": 2,
+        "hallucination_rate": 0.18181818181818182,
+        "miss": 1,
+        "null_agree": 9,
+        "precision": 0.9607843137254902,
+        "recall": 0.98,
+        "strict_rate": 1.0,
+        "tp": 49,
+        "wrong": 0
+      }
+    },
+    "headline": {
+      "f1": 0.9417808219178083,
+      "fn": 13,
+      "fp": 21,
+      "hallucination_rate": 0.0797872340425532,
+      "precision": 0.9290540540540541,
+      "recall": 0.9548611111111112,
+      "strict_rate": 0.9963636363636363,
+      "tp": 275
+    },
+    "notes": {
+      "item_notes": {
+        "null_agree": 46,
+        "token_f1": 0.07207207207207207,
+        "token_fn": 48,
+        "token_fp": 55,
+        "token_precision": 0.06779661016949153,
+        "token_recall": 0.07692307692307693,
+        "token_tp": 4
+      },
+      "notes": {
+        "null_agree": 44,
+        "token_f1": 0.4482758620689655,
+        "token_fn": 3,
+        "token_fp": 61,
+        "token_precision": 0.2988505747126437,
+        "token_recall": 0.896551724137931,
+        "token_tp": 26
+      }
+    },
+    "records": 57,
+    "validity": {
+      "attempted": 56,
+      "attempted_rate": 0.9824561403508771,
+      "extraction_on_non_gold": 0,
+      "parse_rate": 0.9824561403508771,
+      "parsed": 56,
+      "repair_rate": 0.0,
+      "repair_used": 0
+    }
+  },
+  "item_semantics": null,
+  "predictor": "flywheel-r8-human",
+  "slices": {
+    "class:amendment": {
+      "accuracy": 1.0,
+      "alignment_f1": 0.5,
+      "headline_f1": 0.7200000000000001,
+      "n": 3,
+      "n_extraction": 3
+    },
+    "class:cancellation": {
+      "accuracy": 1.0,
+      "n": 2,
+      "n_extraction": 0
+    },
+    "class:inquiry": {
+      "accuracy": 1.0,
+      "n": 3,
+      "n_extraction": 0
+    },
+    "class:new_order": {
+      "accuracy": 0.9259259259259259,
+      "alignment_f1": 0.9421487603305784,
+      "headline_f1": 0.9516994633273702,
+      "n": 54,
+      "n_extraction": 54
+    },
+    "class:other": {
+      "accuracy": 0.0,
+      "n": 3,
+      "n_extraction": 0
+    }
+  },
+  "source": "human",
+  "trap_items": null
+}
