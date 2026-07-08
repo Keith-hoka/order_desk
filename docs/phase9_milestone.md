@@ -93,13 +93,28 @@ tradeoff recorded.
 
 ## Honest scope
 
-The corrections here are constructed to model reviewer edits on a specific
-known weakness -- this proves the mechanism and the gate, not a production-scale
-accumulation. A real flywheel needs enough genuine reviewer corrections from
-production; a handful of edits would not move the model measurably. What is
-demonstrated: the loop is correct (edited-only signal, retrain, gate), the gate
-catches real regressions (the -0.009 was surfaced, not hidden), and the
-base-size ablation shows targeted fixes integrate better on a stronger base.
+**The corrections are synthetic, not real human-in-the-loop edits.** Two things
+must be kept separate:
+
+- The *extraction mechanism* (`flywheel/corrections.py`) is real and tested: it
+  turns an edited review item into corrected gold by applying the reviewer's
+  field edits. If a reviewer edited exceptions in the Phase 7 UI, this is the
+  code that would convert those edits into training signal.
+- The *150 corrections actually fed into retraining* are **not** produced by
+  anyone editing in the UI. They are programmatically generated
+  (`flywheel/blended.py`) to model the scenario "a reviewer corrected a blended
+  over-extraction." No order was hand-edited through the front end; the review
+  store was not populated by real review sessions.
+
+So this phase proves the **mechanism and the gate** on a controlled failure
+mode with modelled corrections -- not a real reviewer-driven improvement, and
+not a production-scale accumulation. A real flywheel needs enough genuine
+corrections from production review sessions; a handful of real edits would not
+move the model measurably, which is why a controlled synthetic slice is used to
+exercise the machinery. What is genuinely demonstrated: the loop is correct
+(edited-only signal, retrain, gate), the gate catches real regressions (the
+-0.009 was surfaced, not hidden), and the base-size ablation shows targeted
+fixes integrate better on a stronger base.
 
 ## Exit
 
