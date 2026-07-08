@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from order_desk.api.config import Settings
 from order_desk.api.metering import InMemoryMeteringStore, SqliteMeteringStore
+from order_desk.api.orgs import InMemoryOrgStore, SqliteOrgStore
 from order_desk.api.review_routes import review_router
 from order_desk.api.routes import router
 from order_desk.api.tracing import build_tracer
@@ -30,6 +31,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         app.state.metering = SqliteMeteringStore(settings.metering_db_path)
     else:
         app.state.metering = InMemoryMeteringStore()
+    if settings.org_db_path:
+        app.state.org_store = SqliteOrgStore(settings.org_db_path)
+    else:
+        app.state.org_store = InMemoryOrgStore()
     if settings.redis_url:
         import redis as redis_lib
 
