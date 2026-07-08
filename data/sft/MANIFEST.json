@@ -48,6 +48,16 @@
         "corrections_seed": 90210
       },
       "sha256": "c689b190acfcf9bce2f7830f179a95a9a610bd3697158437a9b1a1a1e79eb239"
+    },
+    "flywheel_500": {
+      "composition": {
+        "n": 650,
+        "base_500": 500,
+        "blended_corrections": 150,
+        "counter_examples": 30,
+        "corrections_seed": 90210
+      },
+      "sha256": "8528850102e6150be219b5b74306704db33b59ac64dfb48ef56dafd52ac195b0"
     }
   },
   "train_split_sha256": "41cca8bb652be5348553b6a453b4615e10c8993d0ccf2e8825a87b6aced4b001",

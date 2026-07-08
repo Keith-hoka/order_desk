@@ -22,6 +22,7 @@ from order_desk.scoring import score_extraction
 
 BASE = "qwen3-4b-sft-full-r8"
 FLYWHEEL = "qwen3-4b-sft-flywheel-r8"
+FLYWHEEL_500 = "qwen3-4b-sft-flywheel_500-r8"
 
 
 def load_dotenv(path: Path = Path(".env")) -> None:
@@ -87,33 +88,50 @@ def main() -> None:
     print(f"blended slice: {len(cases)} ({n_nc} non-counter, {n_c} counter)\n")
 
     results = {}
-    for adapter in (BASE, FLYWHEEL):
+    for adapter in (BASE, FLYWHEEL, FLYWHEEL_500):
         print(f"running {adapter} ...", flush=True)
         client = VLLMExtractClient(adapter, base_url, api_key=api_key)
         results[adapter] = evaluate(client, cases)
 
-    b, f = results[BASE], results[FLYWHEEL]
+    b = results[BASE]
+    ff = results[FLYWHEEL]
+    f5 = results[FLYWHEEL_500]
 
-    def row(label: str, bv: float, fv: float) -> None:
-        print(f"{label:<28}{bv:>14.4f}{fv:>14.4f}")
+    def row(label: str, bv: float, fv: float, f5v: float) -> None:
+        print(f"{label:<26}{bv:>13.4f}{fv:>15.4f}{f5v:>16.4f}")
 
-    print("\n" + "=" * 56)
-    print(f"{'metric':<28}{'base full-r8':>14}{'flywheel-r8':>14}")
-    print("-" * 56)
-    row("non-counter precision", b["non_counter"].precision, f["non_counter"].precision)
-    row("non-counter recall", b["non_counter"].recall, f["non_counter"].recall)
-    row("counter recall", b["counter"].recall, f["counter"].recall)
-    row("counter precision", b["counter"].precision, f["counter"].precision)
-    print("=" * 56)
+    print("\n" + "=" * 70)
+    print(f"{'metric':<26}{'base full-r8':>13}{'flywheel-full':>15}{'flywheel-500':>16}")
+    print("-" * 70)
+    row(
+        "non-counter precision",
+        b["non_counter"].precision,
+        ff["non_counter"].precision,
+        f5["non_counter"].precision,
+    )
+    row(
+        "non-counter recall",
+        b["non_counter"].recall,
+        ff["non_counter"].recall,
+        f5["non_counter"].recall,
+    )
+    row("counter recall", b["counter"].recall, ff["counter"].recall, f5["counter"].recall)
+    row(
+        "counter precision",
+        b["counter"].precision,
+        ff["counter"].precision,
+        f5["counter"].precision,
+    )
+    print("=" * 70)
 
-    prec_gain = f["non_counter"].precision - b["non_counter"].precision
-    recall_drop = b["counter"].recall - f["counter"].recall
-    over = "reduced" if prec_gain > 0 else "NOT reduced"
-    held = "held" if recall_drop < 0.05 else "DROPPED"
-    print(f"\nnon-counter precision gain: {prec_gain:+.4f} (over-extraction {over})")
-    print(f"counter recall change: {-recall_drop:+.4f} ({held})")
-    gate1 = prec_gain > 0 and recall_drop < 0.05
-    print(f"\nGate 1 (targeted improvement): {'PASS' if gate1 else 'FAIL'}")
+    for name, r in [("flywheel-full", ff), ("flywheel-500", f5)]:
+        gain = r["non_counter"].precision - b["non_counter"].precision
+        drop = b["counter"].recall - r["counter"].recall
+        gate1 = gain > 0 and drop < 0.05
+        print(
+            f"{name}: precision gain {gain:+.4f}, counter recall {-drop:+.4f} "
+            f"-> Gate 1 {'PASS' if gate1 else 'FAIL'}"
+        )
 
 
 if __name__ == "__main__":
