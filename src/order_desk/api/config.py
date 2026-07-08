@@ -22,6 +22,7 @@ class Settings:
     slack_webhook_url: str = ""
     metering_db_path: str = ""
     org_db_path: str = ""
+    stripe_api_key: str = ""
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -40,4 +41,5 @@ class Settings:
             slack_webhook_url=os.environ.get("SLACK_WEBHOOK_URL", ""),
             metering_db_path=os.environ.get("METERING_DB_PATH", ""),
             org_db_path=os.environ.get("ORG_DB_PATH", ""),
+            stripe_api_key=os.environ.get("STRIPE_API_KEY", ""),
         )

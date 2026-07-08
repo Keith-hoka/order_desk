@@ -5,6 +5,7 @@ from __future__ import annotations
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from order_desk.api.billing import build_billing
 from order_desk.api.config import Settings
 from order_desk.api.metering import InMemoryMeteringStore, SqliteMeteringStore
 from order_desk.api.orgs import InMemoryOrgStore, SqliteOrgStore
@@ -35,6 +36,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         app.state.org_store = SqliteOrgStore(settings.org_db_path)
     else:
         app.state.org_store = InMemoryOrgStore()
+    app.state.billing = build_billing(settings.stripe_api_key or None)
     if settings.redis_url:
         import redis as redis_lib
 
