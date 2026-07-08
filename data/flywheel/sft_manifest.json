@@ -1,0 +1,27 @@
+{
+  "description": "Flywheel retraining sets: full/500 base + 150 blended over-extraction corrections",
+  "corrections_seed": 90210,
+  "subsets": {
+    "flywheel": {
+      "base": "full",
+      "base_n": 3600,
+      "blended_corrections": 150,
+      "counter_examples": 30,
+      "n": 3750,
+      "note": "train_flywheel.jsonl (gitignored, regenerate via scripts/build_flywheel_sft.py)"
+    },
+    "flywheel_500": {
+      "base": "500",
+      "base_n": 500,
+      "blended_corrections": 150,
+      "counter_examples": 30,
+      "n": 650,
+      "note": "train_flywheel_500.jsonl (gitignored, ablation base-size comparison)"
+    }
+  },
+  "eval_slice": {
+    "n": 50,
+    "seed": 70131,
+    "note": "held-out blended slice (data/flywheel/eval_slice.jsonl, gitignored)"
+  }
+}

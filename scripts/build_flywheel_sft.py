@@ -43,21 +43,24 @@ def main() -> None:
     print(f"merged: {len(merged)} -> {out_path}")
     print(f"train_flywheel sha256: {merged_sha}")
 
-    # update manifest with the flywheel subset
-    manifest_path = SFT_DIR / "MANIFEST.json"
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    manifest["subsets"]["flywheel"] = {
-        "composition": {
-            "n": len(merged),
-            "base_full": len(full_examples),
-            "blended_corrections": len(correction_examples),
-            "counter_examples": counter,
-            "corrections_seed": CORRECTIONS_SEED,
-        },
+    # write flywheel composition to its OWN manifest -- do not touch the Phase 3
+    # MANIFEST.json, which a test pins to the exact SFT-pool subsets
+    fw_manifest_path = Path("data/flywheel/sft_manifest.json")
+    fw_manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    fw_manifest = {}
+    if fw_manifest_path.exists():
+        fw_manifest = json.loads(fw_manifest_path.read_text(encoding="utf-8"))
+    fw_manifest.setdefault("subsets", {})["flywheel"] = {
+        "base": "full",
+        "base_n": len(full_examples),
+        "blended_corrections": len(correction_examples),
+        "counter_examples": counter,
+        "n": len(merged),
+        "corrections_seed": CORRECTIONS_SEED,
         "sha256": merged_sha,
     }
-    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-    print(f"updated {manifest_path} with 'flywheel' subset")
+    fw_manifest_path.write_text(json.dumps(fw_manifest, indent=2) + "\n", encoding="utf-8")
+    print(f"updated {fw_manifest_path} with 'flywheel' subset")
 
 
 if __name__ == "__main__":
