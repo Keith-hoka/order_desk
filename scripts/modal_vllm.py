@@ -111,6 +111,7 @@ ADAPTERS = {
         "qwen3-4b-sft-full-r8",
         "qwen3-4b-sft-full-r16",
         "qwen3-4b-sft-full-r32",
+        "qwen3-4b-sft-flywheel-r8",
     )
 }
 
