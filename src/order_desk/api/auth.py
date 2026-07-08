@@ -28,11 +28,26 @@ _bearer = HTTPBearer(auto_error=False)
 @dataclass(frozen=True)
 class Principal:
     sub: str
+    org_id: str | None = None
+    scopes: tuple[str, ...] = ()
+
+    def has_scope(self, scope: str) -> bool:
+        return scope in self.scopes
 
 
-def issue_token(secret: str, sub: str, ttl_seconds: int = DEFAULT_TTL_SECONDS) -> str:
+def issue_token(
+    secret: str,
+    sub: str,
+    ttl_seconds: int = DEFAULT_TTL_SECONDS,
+    org_id: str | None = None,
+    scopes: list[str] | tuple[str, ...] = (),
+) -> str:
     now = int(time.time())
     payload = {"sub": sub, "iat": now, "exp": now + ttl_seconds}
+    if org_id is not None:
+        payload["org_id"] = org_id
+    if scopes:
+        payload["scopes"] = list(scopes)
     return jwt.encode(payload, secret, algorithm=ALGORITHM)
 
 
@@ -46,7 +61,14 @@ def decode_token(secret: str, token: str) -> Principal:
     sub = payload.get("sub")
     if not isinstance(sub, str) or not sub:
         raise HTTPException(status_code=401, detail="token missing subject")
-    return Principal(sub=sub)
+    org_id = payload.get("org_id")
+    scopes = payload.get("scopes", [])
+    scopes_tuple = tuple(scopes) if isinstance(scopes, list) else ()
+    return Principal(
+        sub=sub,
+        org_id=org_id if isinstance(org_id, str) else None,
+        scopes=scopes_tuple,
+    )
 
 
 def require_auth(
