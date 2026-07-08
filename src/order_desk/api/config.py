@@ -20,6 +20,7 @@ class Settings:
     review_queue_path: str = ""
     erp_sink_path: str = ""
     slack_webhook_url: str = ""
+    metering_db_path: str = ""
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -36,4 +37,5 @@ class Settings:
             review_queue_path=os.environ.get("REVIEW_QUEUE_PATH", ""),
             erp_sink_path=os.environ.get("ERP_SINK_PATH", ""),
             slack_webhook_url=os.environ.get("SLACK_WEBHOOK_URL", ""),
+            metering_db_path=os.environ.get("METERING_DB_PATH", ""),
         )

@@ -63,6 +63,14 @@ def extract(
             "overall_confidence": overall,
         },
     )
+    if principal is not None and principal.org_id is not None:
+        metering = getattr(request.app.state, "metering", None)
+        if metering is not None:
+            metering.record(
+                principal.org_id,
+                input_tokens=result.input_tokens,
+                output_tokens=result.output_tokens,
+            )
     return ExtractResponse(
         extraction=parsed,
         confidence=confidences,
