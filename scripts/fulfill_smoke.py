@@ -39,23 +39,49 @@ def main() -> None:
 
     # a clean order (small carton, above moq) and a held one (unknown product)
     clean = {
-        "customer_po_text": "PO-73218", "requested_date_text": None,
-        "delivery_address_text": "Botany warehouse", "buyer_name_text": "Dana", "notes": None,
+        "customer_po_text": "PO-73218",
+        "requested_date_text": None,
+        "delivery_address_text": "Botany warehouse",
+        "buyer_name_text": "Dana",
+        "notes": None,
         "line_items": [
-            {"product_text": "small carton", "quantity": 100, "unit_text": "each",
-             "unit_price_text": None, "item_notes": None},
-            {"product_text": "medium carton", "quantity": 50, "unit_text": "each",
-             "unit_price_text": None, "item_notes": None},
+            {
+                "product_text": "small carton",
+                "quantity": 100,
+                "unit_text": "each",
+                "unit_price_text": None,
+                "item_notes": None,
+            },
+            {
+                "product_text": "medium carton",
+                "quantity": 50,
+                "unit_text": "each",
+                "unit_price_text": None,
+                "item_notes": None,
+            },
         ],
     }
     held = {
-        "customer_po_text": "PO-99001", "requested_date_text": None,
-        "delivery_address_text": "Eagle Farm", "buyer_name_text": "Tom", "notes": None,
+        "customer_po_text": "PO-99001",
+        "requested_date_text": None,
+        "delivery_address_text": "Eagle Farm",
+        "buyer_name_text": "Tom",
+        "notes": None,
         "line_items": [
-            {"product_text": "small carton", "quantity": 50, "unit_text": "each",
-             "unit_price_text": None, "item_notes": None},
-            {"product_text": "artisanal unobtainium widget", "quantity": 5, "unit_text": None,
-             "unit_price_text": None, "item_notes": None},
+            {
+                "product_text": "small carton",
+                "quantity": 50,
+                "unit_text": "each",
+                "unit_price_text": None,
+                "item_notes": None,
+            },
+            {
+                "product_text": "artisanal unobtainium widget",
+                "quantity": 5,
+                "unit_text": None,
+                "unit_price_text": None,
+                "item_notes": None,
+            },
         ],
     }
 
