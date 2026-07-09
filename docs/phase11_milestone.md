@@ -52,6 +52,42 @@ subscription needs a default payment method, and attaching a shared test token
 clones it to a customer-scoped id that must be used as the default. Those are
 exactly the edges real billing integration has to handle.
 
+## UI authentication and tenant-isolated review data
+
+The sections above cover the API: machine callers hold a JWT carrying an org
+scope. But the review UI had no notion of a human user -- it shipped a
+long-lived token to the browser via `NEXT_PUBLIC_API_TOKEN` and let anyone who
+opened the page work the queue. Two gaps, one visible and one not:
+
+**The data was not actually tenant-scoped.** Auth was org-aware; the review
+queue was not. `ReviewItem` had no owner, so any authenticated caller saw every
+exception. Org-scoped tokens over a global queue is isolation in name only. The
+fix gives each item an `org_id`, filters the store by it, and returns *not
+found* -- not *forbidden* -- for a cross-tenant id, so id enumeration cannot
+reveal that another tenant's item exists. The pre-tenancy Phase 7 queue is
+attributed to a demo org on load, via a default in the deserialiser, so 66
+existing exceptions migrate with no script and no data edit. A brand-new org
+sees an empty queue, and a test says so.
+
+**The browser held an API token.** Now the Next.js server holds it: a signed-in
+user carries only a session cookie, and each request mints a short-lived HS256
+JWT server-side, carrying that user's org and scopes. The claims match the
+backend's `decode_token`, verified across languages -- a token signed by jose in
+Node decodes in PyJWT with `sub`, `org_id` and `scopes` intact. Auth.js needs a
+split config for this: middleware runs on the Edge runtime and cannot load
+better-sqlite3's native `fs` dependency, so the edge-safe half (callbacks,
+pages, the authorised check) lives apart from the half that touches the user
+store.
+
+Roles gate the UI, and the server enforces them. An admin sees a members page;
+a reviewer does not -- and a reviewer who types the URL is redirected, because
+hiding a nav link is not authorisation. Adding a member takes the org from the
+*session*, never the form: a tampered form field must not let an admin plant
+users in someone else's tenant. Removal is an org-scoped delete that refuses to
+remove the caller or an admin, so an org always keeps someone who can manage it.
+Registering founds a new organisation, whose queue is empty; the sample queue
+belongs to the demo org, and demo credentials are on the sign-in page.
+
 ## Honest scope
 
 This is a subscription skeleton, and its edges are stated plainly:
@@ -62,10 +98,19 @@ This is a subscription skeleton, and its edges are stated plainly:
   are production extensions, not built here.
 - **Quotas are enforced locally**, decoupled from Stripe; a production system
   might reconcile the two.
+- **UI accounts live in their own SQLite store**, separate from the API's
+  tenancy model. The UI authenticates people; the API authorises machine calls.
+  Production would unify them behind one identity service.
+- **Sign-in is credentials-only** (no OAuth), and invites are simplified: an
+  admin sets a new reviewer's password directly. Emailed single-use invitations,
+  promotion to admin, email verification and password reset are production flows
+  this skeleton leaves out.
 
 What is genuinely demonstrated: the multi-tenant shape end to end -- org-scoped
-identity and permissions, durable per-org metering, plan-based quota
-enforcement, and a real (test-mode) Stripe subscription flow.
+identity and permissions, tenant-isolated review data with no cross-tenant
+existence leak, session-based UI auth with no token in the browser, durable
+per-org metering, plan-based quota enforcement, and a real (test-mode) Stripe
+subscription flow.
 
 ## v3
 
