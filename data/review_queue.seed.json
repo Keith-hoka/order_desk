@@ -1,0 +1,5072 @@
+[
+  {
+    "id": "EXC-0000",
+    "subject": "Re: Packing tape reorder - PO-73218",
+    "body": "72 rolls please, same as last time.",
+    "extraction": {
+      "customer_po_text": "PO-73218",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": null,
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "packing tape",
+          "quantity": 72,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": "same as last time"
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999999072817058,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999957084838798,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999983310727032,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999970197767496,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999934435319415,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9993833843286354,
+        "calibrated_confidence": 0.9444444444444444,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.9999998807907318,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999582003807196,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999948740268748,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9994641867848755,
+        "calibrated_confidence": 0.9444444444444444,
+        "in_band": false
+      }
+    ],
+    "asks": [
+      "email is a reply; order details may be in the conversation history not included here -- review against the thread"
+    ],
+    "violations": [],
+    "priority": 4.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0051",
+    "subject": "label restock",
+    "body": "Hey team,\n\nNearly out of labels again, can you send 2 boxes of thermal labels? Same 4x6 ones as always.\n\nCheers,\nPriya",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Priya",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "thermal labels",
+          "quantity": 2,
+          "unit_text": "boxes",
+          "unit_price_text": null,
+          "item_notes": null
+        },
+        {
+          "product_text": "4x6 ones",
+          "quantity": null,
+          "unit_text": null,
+          "unit_price_text": null,
+          "item_notes": "same as always"
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999969005680498,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999988079084972,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999994039539004,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999998211861261,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9987981476398257,
+        "calibrated_confidence": 0.9318181818181818,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999989867235985,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.9999997615814777,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999984900191932,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999992847447459,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.7310540249367818,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.product_text",
+        "raw_confidence": 0.9084592367031815,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": true
+      },
+      {
+        "path": "line_items.1.quantity",
+        "raw_confidence": 0.9999710329823779,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_text",
+        "raw_confidence": 0.9999896288992495,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_price_text",
+        "raw_confidence": 0.9999990463265931,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.item_notes",
+        "raw_confidence": 0.9069341914150968,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": true
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 2.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0004",
+    "subject": "bubble wrap",
+    "body": "6 rolls bubble wrap to port adelaide pls Thanks",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": null,
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "bubble wrap",
+          "quantity": 6,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": "pls"
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999961853172863,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9998398083816806,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9525648467973141,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999992847447459,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.6212251873986047,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999982416692732,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.999973973809626,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999995231630692,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9363915053014371,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": true
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 1.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0008",
+    "subject": "Gloves for Eagle Farm - MPO/2214",
+    "body": "Good morning,\n\nPlease supply 20 boxes of nitrile gloves against purchase order MPO/2214.\nDelivery to our Eagle Farm store, as usual.\nBefore we take receipt, could you confirm whether these gloves are latex-free? We need this noted on our compliance register.\n\nKind regards\nElaine Fox",
+    "extraction": {
+      "customer_po_text": "MPO/2214",
+      "requested_date_text": null,
+      "delivery_address_text": "Eagle Farm store",
+      "buyer_name_text": "Elaine Fox",
+      "notes": "These gloves are latex-free.",
+      "line_items": [
+        {
+          "product_text": "nitrile gloves",
+          "quantity": 20,
+          "unit_text": "boxes",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999889136593714,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.8906239278763225,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": true
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999996423724482,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9785579841603342,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999806496506458,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.9999999403953606,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999918143795817,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999994039539004,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9997002784985602,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 1.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0012",
+    "subject": "reorder",
+    "body": "same as last time but 10 rolls this time please.\nThanks\nSofia",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Sofia",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "same as last time",
+          "quantity": 10,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999961853172863,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999406372966204,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999992847447459,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999476753186411,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999628080845125,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9449324847251204,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": true
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.9999970197804018,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999404792722149,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999995231630692,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999237118751575,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 1.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0016",
+    "subject": "thermal labels top up",
+    "body": "Hey team,\n\nCan we grab 40 rolls of thermal labels when you get a sec? Nothing urgent, just topping up.\n\nCheers,\nPriya",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Priya",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "thermal labels",
+          "quantity": 40,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999976158197796,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.8519492945932224,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": true
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999990463265931,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999997615815364,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.999724821483066,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999997913838503,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.999953353778956,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999992847447459,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9995679338777427,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 1.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0022",
+    "subject": "hd cartons",
+    "body": "Send 80 heavy duty cartons to the Port Adelaide depot.\nPlus 2 rolls of pallet wrap.\nLeave at the side door for the forklift.\nThanks\nSofia",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": "Port Adelaide depot",
+      "buyer_name_text": "Sofia",
+      "notes": "Leave at the side door for the forklift.",
+      "line_items": [
+        {
+          "product_text": "heavy duty cartons",
+          "quantity": 80,
+          "unit_text": null,
+          "unit_price_text": null,
+          "item_notes": null
+        },
+        {
+          "product_text": "pallet wrap",
+          "quantity": 2,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999969005680498,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999984502816872,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9977922507107713,
+        "calibrated_confidence": 0.9150597191786656,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999882940560741,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999929669116969,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999958873268011,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.8807948287782343,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": true
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999995231630692,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999995231630692,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.product_text",
+        "raw_confidence": 0.9987222387308127,
+        "calibrated_confidence": 0.9318181818181818,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_text",
+        "raw_confidence": 0.9999856555609347,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_price_text",
+        "raw_confidence": 0.9999996423722521,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.item_notes",
+        "raw_confidence": 0.9999997615814777,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 1.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0037",
+    "subject": "Stretch wrap - 48 rolls",
+    "body": "48 rolls of hand stretch wrap at $6.20 a roll as per last invoice.\nPO 4500485072.\nRegards\nMarcus Yeo",
+    "extraction": {
+      "customer_po_text": "4500485072",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Marcus Yeo",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "hand stretch wrap",
+          "quantity": 48,
+          "unit_text": "rolls",
+          "unit_price_text": "$6.20",
+          "item_notes": "as per last invoice"
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999916554191085,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999949932351057,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999985456522057,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9240630124360255,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": true
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999994277958638,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9997652664244059,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999999205271624,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9997476155809818,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 1.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0043",
+    "subject": "Euro pallets for Prestons",
+    "body": "30 euro pallets to the Prestons overflow.\nAlso 6 rolls of poly strapping.\nPO OC-1229-8. Confirm delivery day.\nRegards\nAlan Kwok",
+    "extraction": {
+      "customer_po_text": "OC-1229-8",
+      "requested_date_text": "delivery day",
+      "delivery_address_text": "Prestons overflow",
+      "buyer_name_text": "Alan Kwok",
+      "notes": "Confirm delivery day.",
+      "line_items": [
+        {
+          "product_text": "euro pallets",
+          "quantity": 30,
+          "unit_text": null,
+          "unit_price_text": null,
+          "item_notes": null
+        },
+        {
+          "product_text": "poly strapping",
+          "quantity": 6,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999999761581452,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999933541789402,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9989783937863903,
+        "calibrated_confidence": 0.9318181818181818,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999997615815033,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.822636544328907,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": true
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.999948866322641,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9997946445681429,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999996423722521,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9998991591117187,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.product_text",
+        "raw_confidence": 0.9999996423723232,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_text",
+        "raw_confidence": 0.9999687691162994,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_price_text",
+        "raw_confidence": 0.9999997615814777,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.item_notes",
+        "raw_confidence": 0.9999995231630692,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 1.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0001",
+    "subject": "Packing tape reorder - PO-73218",
+    "body": "Good morning,\n\nWe would like to reorder 72 rolls of clear packing tape for our Botany warehouse. Please book this against PO-73218 and confirm a delivery date at your convenience.\n\nKind regards,\nDana Whitfield\nHarbourline Logistics Pty Ltd",
+    "extraction": {
+      "customer_po_text": "PO-73218",
+      "requested_date_text": null,
+      "delivery_address_text": "Botany warehouse",
+      "buyer_name_text": "Dana Whitfield",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "clear packing tape",
+          "quantity": 72,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999999867545243,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999806884689187,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999989509597585,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999938211146376,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.7706382635073716,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999971628354617,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999797749680837,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999992847447459,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999974966112362,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0002",
+    "subject": "first order - poly mailers",
+    "body": "Hi there,\nThis is my first time ordering with you so apologies if I've got the process wrong. We're a small nursery out at Fernvale and we've just started posting plants, so nothing big to kick off with I'm afraid.\nCould I please get 2 cartons of poly mailers and one roll of bubble wrap?\nDelivery to 210 Banks Creek Road, Fernvale QLD 4306. Happy to sort payment however suits, just let me know what you need from me.\nSorry it's such a small order, hopefully bigger ones to come as we grow!\nCheers,\nJosh",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": "210 Banks Creek Road, Fernvale QLD 4306",
+      "buyer_name_text": "Josh",
+      "notes": "Happy to sort payment however suits, just let me know what you need from me.",
+      "line_items": [
+        {
+          "product_text": "poly mailers",
+          "quantity": 2,
+          "unit_text": "cartons",
+          "unit_price_text": null,
+          "item_notes": null
+        },
+        {
+          "product_text": "bubble wrap",
+          "quantity": 1,
+          "unit_text": "roll",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999959469005546,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999985694905718,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999992566994749,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999996423723848,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.985938704638887,
+        "calibrated_confidence": 0.7,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999981403414975,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.9999998807907247,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999765765641597,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999990463265931,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999983310727032,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.product_text",
+        "raw_confidence": 0.9999964237474755,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_text",
+        "raw_confidence": 0.9999994039542605,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_price_text",
+        "raw_confidence": 0.9999998807907247,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.item_notes",
+        "raw_confidence": 0.9999996423722521,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0003",
+    "subject": "padded mailers - is email the right channel?",
+    "body": "Hi,\n\nTom from SwiftShip ops here. Could we get 10 cartons of padded mailers out to our Alexandria fulfilment centre?\nI've not placed one of these orders before - is email how you normally take them, or is there a portal I should be using?\n\nCheers,\nTom",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0005",
+    "subject": "Packing tape - PO MPG-004871",
+    "body": "Good morning,\nPlease supply the following against PO MPG-004871, as per your quote of March 2024:\nClear Packing Tape 48mm x 75m - 216 rolls @ $2.20 per roll\nPlease confirm receipt and expected dispatch.\nKind regards\nSam O'Neill",
+    "extraction": {
+      "customer_po_text": "MPG-004871",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Sam O'Neill",
+      "notes": "Please confirm receipt and expected dispatch.",
+      "line_items": [
+        {
+          "product_text": "Clear Packing Tape 48mm x 75m",
+          "quantity": 216,
+          "unit_text": "rolls",
+          "unit_price_text": "$2.20",
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999982877387852,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9998946300913916,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999979734461775,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999995470052585,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9687863621555962,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999960491434634,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9998019525063478,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999999403953629,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999914170043662,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0006",
+    "subject": "URGENT - machine film, line down",
+    "body": "Packing line is down. Need 12 rolls of machine stretch film ASAP.\nDeliver to the Dandenong plant.\nUnload at dock 2.\nPO 4500481127.\nRegards\nMarcus Yeo",
+    "extraction": {
+      "customer_po_text": "4500481127",
+      "requested_date_text": "ASAP",
+      "delivery_address_text": "the Dandenong plant",
+      "buyer_name_text": "Marcus Yeo",
+      "notes": "Unload at dock 2.",
+      "line_items": [
+        {
+          "product_text": "machine stretch film",
+          "quantity": 12,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.999998986722419,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999983310765848,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999896529462691,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.999997292266637,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999998331070554,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999808477747658,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999955892755635,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999957084838798,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0007",
+    "subject": "OC-1184-3 - small cartons",
+    "body": "PO OC-1184-3.\nPlease supply 600 pcs small shipping cartons.\nConfirm price and lead time.\nRegards\nAlan Kwok",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0009",
+    "subject": "OC-1184-3 delivery change",
+    "body": "Re our PO OC-1184-3, the 600 pcs small shipping cartons.\nDeliver to the Prestons overflow instead of Silverwater HQ.\nQuantity unchanged.\nRegards\nAlan Kwok",
+    "extraction": {
+      "customer_po_text": "OC-1184-3",
+      "requested_date_text": null,
+      "delivery_address_text": "the Prestons overflow",
+      "buyer_name_text": "Alan Kwok",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "small shipping cartons",
+          "quantity": 600,
+          "unit_text": "pcs",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999966621509202,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999484093724935,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999995708468031,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9907166604889954,
+        "calibrated_confidence": 0.84,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999935032195387,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999895097312207,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999991655356624,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999967813595916,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0010",
+    "subject": "Stretch film for Eastern Creek",
+    "body": "Hello,\n\nCould you please arrange a delivery of hand stretch film to our Eastern Creek DC. We expect to need 60-80 rolls depending on how the month tracks, so please advise what you can allocate. Our reference is PO-73342.\n\nKind regards,\nDana Whitfield",
+    "extraction": {
+      "customer_po_text": "PO-73342",
+      "requested_date_text": null,
+      "delivery_address_text": "Eastern Creek DC",
+      "buyer_name_text": "Dana Whitfield",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "hand stretch film",
+          "quantity": null,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999999867545243,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999947548186582,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.99991211781036,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999640628867353,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999865295319578,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999998092652246,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.9999753242852847,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999578424519792,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999994039539004,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9525650632607543,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0011",
+    "subject": "Sharper interstate pallet rates for Meridian",
+    "body": "Hi team, Translane Freight runs daily palletised linehaul Sydney to Melbourne and Brisbane, and right now we are beating most carriers by 15 to 20 percent on standard pallet rates. Packaging suppliers are exactly the freight profile we handle best. Happy to price your top three lanes today, no obligation. Can I grab ten minutes with whoever books your outbound freight this week? Rates this sharp will not sit around long. Steve Callinan Business Development, Translane Freight",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0013",
+    "subject": "Mailing tubes",
+    "body": "Dear Meridian team,\nCould you please supply 40 mailing tubes for an upcoming poster job. Our PO is MPG-004902.\nI was not sure of the exact spec you carry, so happy to take your standard size.\nKind regards\nHelen Diaz",
+    "extraction": {
+      "customer_po_text": "MPG-004902",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Helen Diaz",
+      "notes": "I was not sure of the exact spec you carry, so happy to take your standard size.",
+      "line_items": [
+        {
+          "product_text": "mailing tubes",
+          "quantity": 40,
+          "unit_text": null,
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999996098614098,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999946356109105,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999986886995842,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.999999952316291,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9959496875651471,
+        "calibrated_confidence": 0.875,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999872211753199,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999412332751231,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999998807907247,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999701985655173,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0014",
+    "subject": "Black pallet wrap",
+    "body": "24 rolls of black pallet wrap for the flat pack line.\nPO 4500482293.\nRegards\nMarcus Yeo",
+    "extraction": {
+      "customer_po_text": "4500482293",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Marcus Yeo",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "black pallet wrap",
+          "quantity": 24,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": "for the flat pack line"
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999959469005546,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999952316511552,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999977588754848,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999494578154603,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999995946886469,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.999976238738848,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999995231630692,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9966817770790143,
+        "calibrated_confidence": 0.875,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0015",
+    "subject": "strech flim needed",
+    "body": "Need 12 rolls of strech flim.\nPO OC-1191-7. Same spec as last order.\nRegards\nAlan Kwok",
+    "extraction": {
+      "customer_po_text": "OC-1191-7",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Alan Kwok",
+      "notes": "Same spec as last order.",
+      "line_items": [
+        {
+          "product_text": "strech flim",
+          "quantity": 12,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999955892755635,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999973774024795,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999993562703449,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9929781851722267,
+        "calibrated_confidence": 0.84,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9981563405880395,
+        "calibrated_confidence": 0.9318181818181818,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999751262331683,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999988079084972,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999964237340748,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0017",
+    "subject": "cancel yesterday's label order",
+    "body": "Morning,\n\nReally sorry to muck you around, but can we cancel the 40 rolls of thermal labels I ordered yesterday? Found a whole carton hiding at the back of the store room, classic.\n\nCheers,\nPriya",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0018",
+    "subject": "Purchase order MPO/2247",
+    "body": "Hello,\n\nCould you please arrange 15 cartons of padded mailers on purchase order MPO/2247. We would also like 4 packs of address labels added to the same order. An order confirmation for our records would be appreciated.\n\nKind regards Elaine Fox",
+    "extraction": {
+      "customer_po_text": "MPO/2247",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Elaine Fox",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "padded mailers",
+          "quantity": 15,
+          "unit_text": "cartons",
+          "unit_price_text": null,
+          "item_notes": null
+        },
+        {
+          "product_text": "address labels",
+          "quantity": 4,
+          "unit_text": "packs",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999933243243502,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999988079084972,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9998531986574313,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.6154351436765024,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999959469311788,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.999970586435227,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999994039539004,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.999998927117538,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.product_text",
+        "raw_confidence": 0.9999983310741829,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_text",
+        "raw_confidence": 0.9998206703619819,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_price_text",
+        "raw_confidence": 0.9999997615814777,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.item_notes",
+        "raw_confidence": 0.9859353381912022,
+        "calibrated_confidence": 0.7,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0019",
+    "subject": "Medium cartons - PO-73519",
+    "body": "For PO-73519 we need:\n400 medium shipping cartons\n36 rolls of brown packing tape\n60 rolls of hand stretch film\nKindly confirm the dispatch date by return.\n\nKind regards,\nWarehouse Team\nHarbourline Logistics",
+    "extraction": {
+      "customer_po_text": "PO-73519",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Warehouse Team",
+      "notes": "Kindly confirm the dispatch date by return.",
+      "line_items": [
+        {
+          "product_text": "medium shipping cartons",
+          "quantity": 400,
+          "unit_text": null,
+          "unit_price_text": null,
+          "item_notes": null
+        },
+        {
+          "product_text": "brown packing tape",
+          "quantity": 36,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        },
+        {
+          "product_text": "hand stretch film",
+          "quantity": 60,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999999735090502,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999911785905904,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.999997854237364,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9846018177420239,
+        "calibrated_confidence": 0.7,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.998763629230446,
+        "calibrated_confidence": 0.9318181818181818,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999876621484878,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999028538701035,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999995231630692,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999984502816872,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.product_text",
+        "raw_confidence": 0.999986339025451,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_text",
+        "raw_confidence": 0.9999058814005791,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_price_text",
+        "raw_confidence": 0.9999890328655274,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.item_notes",
+        "raw_confidence": 0.9999998807907247,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.2.product_text",
+        "raw_confidence": 0.9999999046325857,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.2.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.2.unit_text",
+        "raw_confidence": 0.9999590748273427,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.2.unit_price_text",
+        "raw_confidence": 0.9999998807907247,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.2.item_notes",
+        "raw_confidence": 0.9999998807907247,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0020",
+    "subject": "our usual order",
+    "body": "Hey guys,\nNearly through what you sent us last time - can you do the usual again?\nCheers,\nJosh",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Josh",
+      "notes": null,
+      "line_items": []
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999969005680498,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9914187275454603,
+        "calibrated_confidence": 0.84,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999992847447459,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999993642178574,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999986886995842,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0021",
+    "subject": "Amendment to PO-73519",
+    "body": "Further to the order our warehouse team placed earlier this week under PO-73519, could we please increase the medium shipping cartons from 400 to 500.\nEverything else on that order stands as submitted.\n\nKind regards,\nDana Whitfield",
+    "extraction": {
+      "customer_po_text": "PO-73519",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Dana Whitfield",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "medium shipping cartons",
+          "quantity": 500,
+          "unit_text": null,
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999980926550052,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999986886995842,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999984105476692,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9980654068435807,
+        "calibrated_confidence": 0.9318181818181818,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999924303178139,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.9999999205271529,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9998752034468528,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999995231630692,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999947548186582,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0023",
+    "subject": "Edge protectors order",
+    "body": "Send 10 bundles of edge protectors.\nPO 4500483610.\nRegards\nMarcus Yeo",
+    "extraction": {
+      "customer_po_text": "4500483610",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Marcus Yeo",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "edge protectors",
+          "quantity": 10,
+          "unit_text": "bundles",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999958276922101,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999973774024795,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999953747394201,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9997307787248307,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999961376639486,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999976952941962,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999994039539004,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999980926550052,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0024",
+    "subject": "OC-1203-2 - machine film",
+    "body": "Machine stretch film, somewhere between 8 and 12 rolls - final count to be confirmed.\nDeliver to Silverwater HQ.\nPO OC-1203-2.\nRegards\nAlan Kwok",
+    "extraction": {
+      "customer_po_text": "OC-1203-2",
+      "requested_date_text": null,
+      "delivery_address_text": "Silverwater HQ",
+      "buyer_name_text": "Alan Kwok",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "machine stretch film",
+          "quantity": null,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": "final count to be confirmed"
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999979734461775,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999779238707951,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999990463275552,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999371806494093,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9996571967884028,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.9980652880972999,
+        "calibrated_confidence": 0.9318181818181818,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9998277062999855,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999983310727032,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9998571287324088,
+        "calibrated_confidence": 0.9523642278170078,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0025",
+    "subject": "Cancel PO 4500483610",
+    "body": "Please cancel PO 4500483610, the edge protectors. Job fell through. Regards Marcus Yeo",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0026",
+    "subject": "packing peanuts?",
+    "body": "Morning,\n\nWe're kitting up some fragile glassware bundles this month, could we get 5 bags of packing peanuts if you stock them?\nWhatever your standard bag size is works for us.\n\nCheers,\nPriya",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0027",
+    "subject": "Address labels",
+    "body": "Hello Meridian,\nWe require 20 packs of the laser address labels for the despatch office.\nPlease charge to PO MPG-004955 as usual.\nKind regards\nSam O'Neill",
+    "extraction": {
+      "customer_po_text": "MPG-004955",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Sam O'Neill",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "laser address labels",
+          "quantity": 20,
+          "unit_text": "packs",
+          "unit_price_text": null,
+          "item_notes": "for the despatch office"
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999997073958578,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999914170043662,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999700793634253,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999996423725136,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9998626897559931,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.999995509844867,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.9999998211861101,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.999959085548127,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999996423722521,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9857808296927112,
+        "calibrated_confidence": 0.7,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0028",
+    "subject": "Heavy duty carton order",
+    "body": "Dear Meridian team,\n\nPlease book in 60 heavy duty cartons at the agreed rate of $3.85 each, for delivery to the Botany warehouse. The purchase order is PO-73790.\n\nKind regards,\nDana Whitfield",
+    "extraction": {
+      "customer_po_text": "PO-73790",
+      "requested_date_text": null,
+      "delivery_address_text": "the Botany warehouse",
+      "buyer_name_text": "Dana Whitfield",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "heavy duty cartons",
+          "quantity": 60,
+          "unit_text": null,
+          "unit_price_text": "$3.85",
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999999867545243,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999947548186582,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9936761715216657,
+        "calibrated_confidence": 0.84,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999976754361454,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999479082542545,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9834371849902146,
+        "calibrated_confidence": 0.7,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9525715536382257,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999999205271624,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999971389852362,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0029",
+    "subject": "tape for easter rush",
+    "body": "we need 36 rolls of fragile tape before Good Friday.\neaster orders already piling up here.\nThanks\nSofia",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Sofia",
+      "notes": "easter orders already piling up here",
+      "line_items": [
+        {
+          "product_text": "fragile tape",
+          "quantity": 36,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999976158197796,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.6791758222620464,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.999940756491565,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9998579391844481,
+        "calibrated_confidence": 0.9699026821451004,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9997471929188451,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9998867896328422,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999810464373748,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999994039539004,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999983310727032,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0030",
+    "subject": "Void fill paper requirement",
+    "body": "Good afternoon,\n\nPlease put through an order of void fill packing paper against purchase order MPO/2286.\nWe can take either 4 or 6 rolls depending on what this month's budget allows - happy for you to confirm pricing first.\nApologies for the imprecision; finance are still finalising the quarter.\n\nKind regards\nElaine Fox",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0031",
+    "subject": "paper for wrapping plants",
+    "body": "G'day,\nWe've started wrapping the bare root stock for posting and the paper is disappearing quicker than I thought. Can I grab 4 rolls of kraft packing paper?\nThat should see us through the season.\nOh and chuck in a couple of rolls of packing tape too if you can.\nCheers,\nJosh",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Josh",
+      "notes": "That should see us through the season.",
+      "line_items": [
+        {
+          "product_text": "kraft packing paper",
+          "quantity": 4,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        },
+        {
+          "product_text": "packing tape",
+          "quantity": 2,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": "if you can"
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999974966112362,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9988290685399853,
+        "calibrated_confidence": 0.9318181818181818,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999988079084972,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999996423723848,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9859147810597948,
+        "calibrated_confidence": 0.7,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999936223945187,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999339270435865,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999988079084972,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.999998927117538,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.product_text",
+        "raw_confidence": 0.9999268486335504,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.quantity",
+        "raw_confidence": 0.9999998807907247,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_text",
+        "raw_confidence": 0.9995708168746568,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.unit_price_text",
+        "raw_confidence": 0.9999996423722521,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.1.item_notes",
+        "raw_confidence": 0.9843310893691137,
+        "calibrated_confidence": 0.7,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0032",
+    "subject": "clear tape",
+    "body": "Can you send one box of clear tape. Ran out this morning. Thanks Sofia",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Sofia",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "clear tape",
+          "quantity": 1,
+          "unit_text": "box",
+          "unit_price_text": null,
+          "item_notes": "Ran out this morning."
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999974966112362,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999984502816872,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999986886995842,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999996423722877,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9997802263800086,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999997218451434,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999994039539004,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9802502488441566,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0033",
+    "subject": "more padded mailers",
+    "body": "Autumn sale is going gangbusters so we need to top up on padded mailers.\n15 to 20 cartons should do it, I'll lock in the exact number once I've eyeballed the shelf.\n\nCheers,\nPriya",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Priya",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "padded mailers",
+          "quantity": 15,
+          "unit_text": "cartons",
+          "unit_price_text": null,
+          "item_notes": "I'll lock in the exact number once I've eyeballed the shelf."
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999969005680498,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9998392125181896,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999988079084972,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999998211861261,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9957199487875262,
+        "calibrated_confidence": 0.8620581898666759,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9995202332406362,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.9999973774056663,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9847121021707562,
+        "calibrated_confidence": 0.7,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9932844485998665,
+        "calibrated_confidence": 0.84,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9895407571588678,
+        "calibrated_confidence": 0.84,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0034",
+    "subject": "Brown tape - PO OC-1217-4",
+    "body": "Please supply 72 rolls of brown tape against PO OC-1217-4.\nSend the order confirmation to this mailbox.\nRegards\nOrbit Purchasing",
+    "extraction": {
+      "customer_po_text": "OC-1217-4",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Orbit Purchasing",
+      "notes": "Send the order confirmation to this mailbox.",
+      "line_items": [
+        {
+          "product_text": "brown tape",
+          "quantity": 72,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999958276922101,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999983310727032,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999488482808337,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9985108614906526,
+        "calibrated_confidence": 0.9318181818181818,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999994039543054,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.999964637070217,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999990463265931,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999980926550052,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0035",
+    "subject": "Pallets - PO to follow",
+    "body": "I am writing from our shared mailbox while my own account is being migrated.\nWe would like to order 20 standard hardwood pallets.\nThe purchase order has not been raised yet; the number will follow separately once finance issues it.\n\nKind regards,\nDana Whitfield",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Dana Whitfield",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "standard hardwood pallets",
+          "quantity": 20,
+          "unit_text": null,
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999920130413283,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999982118638471,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999984502816872,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999957879808251,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.999974847472739,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999049162252214,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9995687676334781,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999997615814777,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999988079084972,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0036",
+    "subject": "Still waiting on my parcel",
+    "body": "To whoever runs Meridian,\nThe tracking page says your depot has had my parcel since the 30th of March and it still has not turned up. It was a birthday present and it is now well overdue.\nI have rung twice and got voicemail both times. Tracking number is MP4482913 if that helps someone actually look.\nPlease tell me when it is going to be delivered or refund the postage. Not impressed.\nKylie Morton",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0038",
+    "subject": "Bubble wrap order (MPO/2315)",
+    "body": "Dear Meridian team,\n\nPlease supply 6 rolls of the large bubble wrap at $98.00 per roll, per our current pricing agreement.\nPurchase order MPO/2315 refers. Kindly include the invoice with the delivery paperwork.\n\nKind regards\nElaine Fox",
+    "extraction": {
+      "customer_po_text": "MPO/2315",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Elaine Fox",
+      "notes": "Kindly include the invoice with the delivery paperwork.",
+      "line_items": [
+        {
+          "product_text": "large bubble wrap",
+          "quantity": 6,
+          "unit_text": "rolls",
+          "unit_price_text": "$98.00",
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999947548186582,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999983310727032,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999997377397353,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9635510527047471,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9924181411887676,
+        "calibrated_confidence": 0.84,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9998848294920416,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999997445516687,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9967759227121578,
+        "calibrated_confidence": 0.875,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0039",
+    "subject": "stretch film",
+    "body": "Morning, Pallets heading out to the garden centres again so we're after more wrap. Can you put us down for 3 cases of stretch film? Not sure if cases is the right word for it but you know what I mean. Cheers, Josh",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Josh",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "stretch film",
+          "quantity": 3,
+          "unit_text": "cases",
+          "unit_price_text": null,
+          "item_notes": "Not sure if cases is the right word for it but you know what I mean."
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999967813595916,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999960661089133,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.999998927117538,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999976952977584,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9997759367581687,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999884370331567,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999938011834498,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999983310727032,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.990199301921598,
+        "calibrated_confidence": 0.84,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0040",
+    "subject": "strapping",
+    "body": "4 rolls of poly strapping at $49 a roll please.\nThanks\nSofia",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Sofia",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "poly strapping",
+          "quantity": 4,
+          "unit_text": "rolls",
+          "unit_price_text": "$49",
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999976158197796,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999990463265931,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999990463265931,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999993801127107,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999927282861518,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999987602262049,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999247505121738,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999999403953641,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999922514562126,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0041",
+    "subject": "gloves again",
+    "body": "Hiya,\nThe crew are going through the blue gloves faster than I can keep track of. Can you send us another lot, whatever we got last time was about right.\nWe'd need them before the long weekend if that's doable.\nCheers,\nJosh",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": "before the long weekend",
+      "delivery_address_text": null,
+      "buyer_name_text": "Josh",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "blue gloves",
+          "quantity": null,
+          "unit_text": null,
+          "unit_price_text": null,
+          "item_notes": "whatever we got last time was about right"
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999967813595916,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.999999344350264,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999985694905718,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999994039542605,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.998807542620686,
+        "calibrated_confidence": 0.9318181818181818,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999894502464326,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.9999973774024795,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9975269357220583,
+        "calibrated_confidence": 0.8754252991254406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999032114269176,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9974234361731711,
+        "calibrated_confidence": 0.875,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0042",
+    "subject": "Thermal labels needed this week",
+    "body": "We require 12 rolls of thermal shipping labels, ideally arriving by Friday as we have a large consignment moving next week. Please charge this to PO-74102.\n\nKind regards,\nDana Whitfield",
+    "extraction": {
+      "customer_po_text": "PO-74102",
+      "requested_date_text": "by Friday",
+      "delivery_address_text": null,
+      "buyer_name_text": "Dana Whitfield",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "thermal shipping labels",
+          "quantity": 12,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999999867545243,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9998776094396437,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999934435319415,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999965827030569,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.7235063333619149,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.999999666214234,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999675771680646,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.999998927117538,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999934435319415,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0044",
+    "subject": "courier satchels + size question",
+    "body": "Afternoon,\n\nCould we get 4 cartons of courier satchels for Alexandria?\nAlso, is there a bigger size than the standard one? Some of our bulkier orders are a real squeeze and I wasn't sure what else you carry.\n\nCheers,\nTom",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0045",
+    "subject": "Carton order - MPG-005110",
+    "body": "Hi team,\nCould we order 300 large shipping cartons under PO MPG-005110.\nIf it suits, send them with our regular Thursday delivery.\nKind regards\nHelen Diaz",
+    "extraction": {
+      "customer_po_text": "MPG-005110",
+      "requested_date_text": "our regular Thursday delivery",
+      "delivery_address_text": null,
+      "buyer_name_text": "Helen Diaz",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "large shipping cartons",
+          "quantity": 300,
+          "unit_text": null,
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999950258697624,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9751191390988189,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999964237340748,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999999046325815,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9998138297528844,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999915561292223,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999541065280364,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999997615814777,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999984502816872,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0046",
+    "subject": "MPO/2348 - small cartons",
+    "body": "Please treat this email as confirmation of purchase order MPO/2348. We require a pallet of the small cartons for the repack area. Let me know if anything further is needed to process it.\n\nKind regards Elaine Fox",
+    "extraction": {
+      "customer_po_text": "MPO/2348",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Elaine Fox",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "small cartons",
+          "quantity": 1,
+          "unit_text": "pallet",
+          "unit_price_text": null,
+          "item_notes": "for the repack area"
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999967813595916,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999526761523544,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.999928442021437,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9963916085504404,
+        "calibrated_confidence": 0.875,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9977482853393113,
+        "calibrated_confidence": 0.9084918957447349,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.987483947604154,
+        "calibrated_confidence": 0.7,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9769763715080303,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999984502816872,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9965915757511532,
+        "calibrated_confidence": 0.875,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0047",
+    "subject": "Change to MPG-005110",
+    "body": "Regarding PO MPG-005110 for 300 large shipping cartons.\nOur bindery schedule has moved, so please push the delivery back to the week of the 18th.\nNo other changes to the order.\nKind regards\nHelen Diaz",
+    "extraction": {
+      "customer_po_text": "MPG-005110",
+      "requested_date_text": "the week of the 18th",
+      "delivery_address_text": null,
+      "buyer_name_text": "Helen Diaz",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "large shipping cartons",
+          "quantity": 300,
+          "unit_text": null,
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999968030849319,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999999761581452,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999966621509202,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999998807907516,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999032114269176,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999882383756921,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9998761568862077,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999998807907247,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999988079084972,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0048",
+    "subject": "Steel strapping",
+    "body": "We are low on steel strapping. Send through 4 rolls.\nPO 4500486341.\nRegards\nMarcus Yeo",
+    "extraction": {
+      "customer_po_text": "4500486341",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Marcus Yeo",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "steel strapping",
+          "quantity": 4,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999967813595916,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.999997854237364,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999958754071395,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999204937224269,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999964714325881,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999554991525023,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999992847447459,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999980926550052,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0049",
+    "subject": "Bubble wrap plus a question",
+    "body": "Two things from us today.\nFirst, please supply 4 rolls of bubble wrap for the Eastern Creek DC, charged to PO-74277.\nSecond, is a wider roll available? The 500mm width is proving tight on some of our longer freight.\n\nKind regards,\nDana Whitfield",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0050",
+    "subject": "Strapping buckles",
+    "body": "Order: a bag of strapping buckles.\nPO OC-1240-1.\nRegards\nAlan Kwok",
+    "extraction": {
+      "customer_po_text": "OC-1240-1",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Alan Kwok",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "strapping buckles",
+          "quantity": 1,
+          "unit_text": "bag",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999979734461775,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999973774024795,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999988794349488,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999781851762466,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.999975464777997,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 0.9999425444247136,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999943574895771,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999988079084972,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999973774024795,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0052",
+    "subject": "Kraft board supply cooperation - Huali Board Co., Ltd",
+    "body": "Dear Purchasing Department,\nGreeting from Huali Board Co., Ltd. We are professional mill of kraft board and testliner located in Shandong, China, annual capacity 350,000 tons.\nNow we can offer raw kraft board 120gsm to 250gsm with very competitive FOB Qingdao price. Quality is stable and MOQ is one 40ft container.\nKindly inform your monthly quantity demand, we will send best quotation and free sample. Hope to establish long term cooperation with your esteemed company.\nBest regards,\nLin Wei\nExport Desk, Huali Board Co., Ltd.",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0053",
+    "subject": "MPO/2391 - address labels + delivery window",
+    "body": "We would like to order 8 packs of address labels under purchase order MPO/2391. Delivery between the 15th and the 17th would suit us best, as our receiving dock is closed either side of that window. Please confirm the timing by return.\n\nKind regards Elaine Fox",
+    "extraction": {
+      "customer_po_text": "MPO/2391",
+      "requested_date_text": "between the 15th and the 17th",
+      "delivery_address_text": null,
+      "buyer_name_text": "Elaine Fox",
+      "notes": "our receiving dock is closed either side of that window",
+      "line_items": [
+        {
+          "product_text": "address labels",
+          "quantity": 8,
+          "unit_text": "packs",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999999574252668,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999958276922101,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999279415123384,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9752081836143118,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999994635585985,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999851291765782,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999995231630692,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999979734461775,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0054",
+    "subject": "cartons",
+    "body": "Chasing 250 large cartons early next week.\nNo PO yet, will send it through.\nRegards\nMarcus",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": "early next week",
+      "delivery_address_text": null,
+      "buyer_name_text": "Marcus",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "large cartons",
+          "quantity": 250,
+          "unit_text": "cartons",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999985694905718,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999996423724695,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999980926550052,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999991655359276,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999828341569776,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9998174472887235,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999032209838724,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999994039539004,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999972581939645,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0055",
+    "subject": "Hand stretch film",
+    "body": "Afternoon,\nCould we get 24 rolls of hand stretch film at $7.80 a roll, as per current pricing.\nPO MPG-005342 covers this order.\nKind regards\nHelen Diaz",
+    "extraction": {
+      "customer_po_text": "MPG-005342",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Helen Diaz",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "hand stretch film",
+          "quantity": 24,
+          "unit_text": "rolls",
+          "unit_price_text": "$7.80",
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999996532100611,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999959469005546,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.999997854237364,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.999999928474436,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9992240732159233,
+        "calibrated_confidence": 0.9318181818181818,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999998807907275,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999494999558293,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999999602635756,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.982002376897983,
+        "calibrated_confidence": 0.7,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0056",
+    "subject": "SA overnight?",
+    "body": "quick one - do you do overnight delivery to SA? and roughly what does freight cost on a small order?\nThanks\nSofia",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0057",
+    "subject": "Address labels - OC-1252-6",
+    "body": "Confirming our order for 10 packs of address labels at $14.50 per pack.\nShip to Silverwater HQ.\nPO OC-1252-6.\nRegards\nAlan Kwok",
+    "extraction": {
+      "customer_po_text": "OC-1252-6",
+      "requested_date_text": null,
+      "delivery_address_text": "Silverwater HQ",
+      "buyer_name_text": "Alan Kwok",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "address labels",
+          "quantity": 10,
+          "unit_text": "packs",
+          "unit_price_text": "$14.50",
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999958276922101,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999804031105373,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.999999690055989,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9910858359564984,
+        "calibrated_confidence": 0.84,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999994635587992,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999614096299538,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999999148505354,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999969005680498,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0058",
+    "subject": "Printed tape for Banksmeadow",
+    "body": "Hello,\n\nCould you please arrange 36 rolls of fragile printed tape on our usual terms. Delivery is to Unit 4, 118 Beauchamp Road, Banksmeadow; the driver should report to the site office on arrival. The purchase order for this shipment is PO-74413.\n\nKind regards,\nDana Whitfield",
+    "extraction": {
+      "customer_po_text": "PO-74413",
+      "requested_date_text": null,
+      "delivery_address_text": "Unit 4, 118 Beauchamp Road, Banksmeadow",
+      "buyer_name_text": "Dana Whitfield",
+      "notes": "the driver should report to the site office on arrival",
+      "line_items": [
+        {
+          "product_text": "fragile printed tape",
+          "quantity": 36,
+          "unit_text": "rolls",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999999867545243,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999966621509202,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999930068445204,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999980727944655,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9569505258684349,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9998011185172623,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999740931656957,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999717481958249,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999972581939645,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0059",
+    "subject": "anything biodegradable?",
+    "body": "Afternoon,\nA few customers keep asking us about plastic-free packaging. Do you stock anything biodegradable or compostable that would suit packing up plants? Compostable mailers, paper tape, that sort of thing?\nNo order just yet, just scoping out options.\nCheers,\nJosh",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0060",
+    "subject": "Nitrile gloves - certification query",
+    "body": "Dear team,\n\nAhead of an internal audit, could you advise whether the nitrile gloves you supply carry food-contact certification? If spec sheets or declarations of conformity are available, we would appreciate copies for our records. No order at this stage; this is for our compliance file only.\n\nKind regards Elaine Fox",
+    "extraction": null,
+    "field_flags": [],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0061",
+    "subject": "clear tape",
+    "body": "Can we do 144 rolls of clear tape at $2.40 a roll, delivered to Alexandria as usual.\nHopefully that price still stands, it's what we paid last time.\n\nCheers,\nPriya",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": "as usual",
+      "delivery_address_text": "Alexandria",
+      "buyer_name_text": "Priya",
+      "notes": "Hopefully that price still stands, it's what we paid last time.",
+      "line_items": [
+        {
+          "product_text": "clear tape",
+          "quantity": 144,
+          "unit_text": "rolls",
+          "unit_price_text": "$2.40",
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999980926550052,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9800230046618491,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999366158091738,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999999403953641,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9915638975164373,
+        "calibrated_confidence": 0.84,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999999105930457,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999087021541588,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999999801317865,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999940395710211,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0062",
+    "subject": "Bubble wrap",
+    "body": "Need 400 metres of bubble wrap for the sofa line.\nPO 4500489034.\nRegards\nMarcus Yeo",
+    "extraction": {
+      "customer_po_text": "4500489034",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Marcus Yeo",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "bubble wrap",
+          "quantity": 400,
+          "unit_text": "metres",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999959469005546,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999973774024795,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.999994707186,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.999974847472739,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999987185038095,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9998519665111502,
+        "calibrated_confidence": 0.9492753623188406,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999992847447459,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9990850720766429,
+        "calibrated_confidence": 0.9318181818181818,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0063",
+    "subject": "Nitrile gloves - MPO/2452",
+    "body": "Good afternoon,\n\nPlease supply 400 pairs of nitrile gloves against purchase order MPO/2452 for the cleanroom stores.\nIf they are only supplied in full boxes, please round the quantity up.\n\nKind regards\nElaine Fox",
+    "extraction": {
+      "customer_po_text": "MPO/2452",
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Elaine Fox",
+      "notes": "If they are only supplied in full boxes, please round the quantity up.",
+      "line_items": [
+        {
+          "product_text": "nitrile gloves",
+          "quantity": 400,
+          "unit_text": "pairs",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999958276922101,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9932992683034642,
+        "calibrated_confidence": 0.84,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999997138978668,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9863939371647962,
+        "calibrated_confidence": 0.7,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999960264076986,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999980131840078,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999992847447459,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.9999904633477849,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0064",
+    "subject": "pallet wrap",
+    "body": "need pallet wrap again. enough for 60 pallets or so.\nThanks\nSofia",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Sofia",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "pallet wrap",
+          "quantity": 60,
+          "unit_text": "pallets",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999959469005546,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999899865198352,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.999998927117538,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999593069180084,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999947548186582,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999179085775796,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9913875278024497,
+        "calibrated_confidence": 0.84,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.999998927117538,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.777294700621594,
+        "calibrated_confidence": 0.6538461538461539,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  },
+  {
+    "id": "EXC-0065",
+    "subject": "address labels",
+    "body": "G'day,\nStarting to put proper address labels on the plant boxes - can you send 300 sheets?\nCheers,\nJosh",
+    "extraction": {
+      "customer_po_text": null,
+      "requested_date_text": null,
+      "delivery_address_text": null,
+      "buyer_name_text": "Josh",
+      "notes": null,
+      "line_items": [
+        {
+          "product_text": "address labels",
+          "quantity": 300,
+          "unit_text": "sheets",
+          "unit_price_text": null,
+          "item_notes": null
+        }
+      ]
+    },
+    "field_flags": [
+      {
+        "path": "customer_po_text",
+        "raw_confidence": 0.9999980926550052,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "requested_date_text",
+        "raw_confidence": 0.9999985694905718,
+        "calibrated_confidence": 0.9983136593591906,
+        "in_band": false
+      },
+      {
+        "path": "delivery_address_text",
+        "raw_confidence": 0.9999994039539004,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "buyer_name_text",
+        "raw_confidence": 0.9999995231632965,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "notes",
+        "raw_confidence": 0.9999934435319415,
+        "calibrated_confidence": 0.9973474801061007,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.product_text",
+        "raw_confidence": 0.9999969899868105,
+        "calibrated_confidence": 0.9975062344139651,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.quantity",
+        "raw_confidence": 1.0,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_text",
+        "raw_confidence": 0.9999882780244301,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.unit_price_text",
+        "raw_confidence": 0.9999995231630692,
+        "calibrated_confidence": 1.0,
+        "in_band": false
+      },
+      {
+        "path": "line_items.0.item_notes",
+        "raw_confidence": 0.999874369188163,
+        "calibrated_confidence": 0.9901800327332242,
+        "in_band": false
+      }
+    ],
+    "asks": [],
+    "violations": [],
+    "priority": 0.0,
+    "status": "pending",
+    "edits": {},
+    "org_id": "org-demo"
+  }
+]
