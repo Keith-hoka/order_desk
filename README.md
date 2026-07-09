@@ -54,13 +54,16 @@ Two more findings worth the space:
 
 ## What it does
 
+```
 .eml  →  ingest        MIME parsing, HTML→text, pluggable EmailSource
-→  route         LangGraph: order / amendment / enquiry
-→  extract       fine-tuned 4B adapter, constrained decoding (xgrammar)
-→  calibrate     isotonic; per-field confidence bands
-→  review        flagged vs clean queue, human decides in a Next.js UI
-→  resolve       product text → SKU (exact, then fuzzy ≥80)
-→  fulfil        ERP sink + Slack notification
+      →  route         LangGraph: order / amendment / enquiry
+      →  extract       fine-tuned 4B adapter, constrained decoding (xgrammar)
+      →  calibrate     isotonic; per-field confidence bands
+      →  review        flagged vs clean queue; a human approves, edits fields,
+                       or rejects, in a Next.js UI
+      →  resolve       product text → SKU (exact, then fuzzy ≥80)
+      →  fulfil        ERP sink + Slack notification
+```
 
 Reviewer edits feed the flywheel: corrections become training examples, the
 model retrains, and **two gates** decide whether it ships — a targeted gate (did
@@ -76,11 +79,18 @@ one GPU run; the API reads it offline.
 ```bash
 uv sync
 cp .env.example .env                       # set JWT_SECRET (openssl rand -base64 32)
-echo "REVIEW_QUEUE_PATH=data/review_queue.json" >> .env
 uv run python scripts/reset_review_queue.py
 
+JWT_SECRET=$(grep '^JWT_SECRET=' .env | cut -d= -f2-) \
+REVIEW_QUEUE_PATH=data/review_queue.json \
+ERP_SINK_PATH=data/erp_orders.json \
 uv run uvicorn order_desk.api.app:create_app --factory --port 8000   # terminal 1
 ```
+
+Without `ERP_SINK_PATH`, an approval is recorded but goes nowhere downstream —
+and the UI says so rather than claiming otherwise. Set `SLACK_WEBHOOK_URL` too
+and approvals post to Slack for real; without it the notifier is a mock that
+records silently.
 
 ```bash
 cd web && npm install
@@ -99,10 +109,11 @@ Live extraction additionally needs the adapter served on a GPU (Modal + vLLM);
 
 Every one of these is stated in the milestone docs too, not just here.
 
-- **The flywheel's corrections are synthetic.** The mechanism, the gates and the
-  retraining are real and tested. The 150 corrections were generated, not
-  collected from human reviewers. This proves the loop, not reviewer-driven
-  improvement.
+- **The flywheel's corrections are synthetic.** The loop is closed end to end —
+  a reviewer edits fields in the UI, the corrected order reaches the ERP, and the
+  edits become training signal. But the 150 corrections used to retrain were
+  *generated*, so the experiment could be controlled. This proves the mechanism
+  and the gates, not reviewer-driven improvement at scale.
 - **Human OOD is n=65.** The CIs are wide. Every claim above is stated with one.
 - **The ERP is a mock.** Vendor-specific, needs credentials, not reproducible.
   Slack is real (an outbound webhook is). Stripe is real, in test mode.
@@ -127,7 +138,7 @@ Every one of these is stated in the milestone docs too, not just here.
 | `docs/` | one milestone per phase |
 | `data/`, `results/` | frozen fixtures, committed eval reports |
 
-323 tests. One milestone per phase:
+325 tests. One milestone per phase:
 [corpus notes](docs/corpus_notes.md) and [audit](docs/audit_report.md) (1) ·
 [baselines](docs/baselines/phase2_milestone.md) (2) ·
 [fine-tune](docs/baselines/phase3_milestone.md) (3) ·
