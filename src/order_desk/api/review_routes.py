@@ -33,12 +33,17 @@ def _to_out(item: ReviewItem) -> ReviewItemOut:
     )
 
 
+def _org_of(principal: Principal | None) -> str | None:
+    """Scope requests to the caller's org; None means no tenant filtering."""
+    return principal.org_id if principal is not None else None
+
+
 @review_router.get("", response_model=list[ReviewItemOut])
 def list_exceptions(
     request: Request, principal: Principal | None = Depends(require_auth)
 ) -> list[ReviewItemOut]:
     store = _get_store(request)
-    return [_to_out(it) for it in store.list_items()]
+    return [_to_out(it) for it in store.list_items(org_id=_org_of(principal))]
 
 
 @review_router.get("/{item_id}", response_model=ReviewItemOut)
@@ -46,7 +51,7 @@ def get_exception(
     item_id: str, request: Request, principal: Principal | None = Depends(require_auth)
 ) -> ReviewItemOut:
     store = _get_store(request)
-    item = store.get_item(item_id)
+    item = store.get_item(item_id, org_id=_org_of(principal))
     if item is None:
         raise HTTPException(status_code=404, detail="exception not found")
     return _to_out(item)
@@ -60,7 +65,7 @@ def submit_review(
     principal: Principal | None = Depends(require_auth),
 ) -> ReviewItemOut:
     store = _get_store(request)
-    item = store.submit_review(item_id, action.action, action.edits)
+    item = store.submit_review(item_id, action.action, action.edits, org_id=_org_of(principal))
     if item is None:
         raise HTTPException(status_code=404, detail="exception not found")
 

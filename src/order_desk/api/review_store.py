@@ -44,27 +44,51 @@ def item_from_dict(d: dict) -> ReviewItem:
 
 
 class ReviewStore(Protocol):
-    def list_items(self) -> list[ReviewItem]: ...
-    def get_item(self, item_id: str) -> ReviewItem | None: ...
+    def list_items(self, org_id: str | None = None) -> list[ReviewItem]: ...
+    def get_item(self, item_id: str, org_id: str | None = None) -> ReviewItem | None: ...
     def submit_review(
-        self, item_id: str, action: ReviewStatus, edits: dict[str, str]
+        self,
+        item_id: str,
+        action: ReviewStatus,
+        edits: dict[str, str],
+        org_id: str | None = None,
     ) -> ReviewItem | None: ...
+
+
+def _visible(item: ReviewItem | None, org_id: str | None) -> ReviewItem | None:
+    """An item from another org is indistinguishable from a missing one.
+
+    Returning 404 rather than 403 on a cross-tenant id keeps the existence of
+    other tenants' items from leaking through id enumeration.
+    """
+    if item is None:
+        return None
+    if org_id is not None and item.org_id != org_id:
+        return None
+    return item
 
 
 class InMemoryReviewStore:
     def __init__(self, items: list[ReviewItem]) -> None:
         self._items = {it.id: it for it in items}
 
-    def list_items(self) -> list[ReviewItem]:
-        return sort_queue(list(self._items.values()))
+    def list_items(self, org_id: str | None = None) -> list[ReviewItem]:
+        items = list(self._items.values())
+        if org_id is not None:
+            items = [it for it in items if it.org_id == org_id]
+        return sort_queue(items)
 
-    def get_item(self, item_id: str) -> ReviewItem | None:
-        return self._items.get(item_id)
+    def get_item(self, item_id: str, org_id: str | None = None) -> ReviewItem | None:
+        return _visible(self._items.get(item_id), org_id)
 
     def submit_review(
-        self, item_id: str, action: ReviewStatus, edits: dict[str, str]
+        self,
+        item_id: str,
+        action: ReviewStatus,
+        edits: dict[str, str],
+        org_id: str | None = None,
     ) -> ReviewItem | None:
-        item = self._items.get(item_id)
+        item = _visible(self._items.get(item_id), org_id)
         if item is None:
             return None
         item.status = action
@@ -84,16 +108,23 @@ class JsonReviewStore:
         data = [item_to_dict(it) for it in self._items.values()]
         self.path.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
-    def list_items(self) -> list[ReviewItem]:
-        return sort_queue(list(self._items.values()))
+    def list_items(self, org_id: str | None = None) -> list[ReviewItem]:
+        items = list(self._items.values())
+        if org_id is not None:
+            items = [it for it in items if it.org_id == org_id]
+        return sort_queue(items)
 
-    def get_item(self, item_id: str) -> ReviewItem | None:
-        return self._items.get(item_id)
+    def get_item(self, item_id: str, org_id: str | None = None) -> ReviewItem | None:
+        return _visible(self._items.get(item_id), org_id)
 
     def submit_review(
-        self, item_id: str, action: ReviewStatus, edits: dict[str, str]
+        self,
+        item_id: str,
+        action: ReviewStatus,
+        edits: dict[str, str],
+        org_id: str | None = None,
     ) -> ReviewItem | None:
-        item = self._items.get(item_id)
+        item = _visible(self._items.get(item_id), org_id)
         if item is None:
             return None
         item.status = action
