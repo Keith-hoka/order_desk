@@ -1,19 +1,19 @@
 /**
- * Auth.js (NextAuth v5) configuration: credentials sign-in for the review UI.
+ * Full Auth.js config: the edge-safe base plus the credentials provider.
  *
- * The session carries org_id and role, which drive both the UI (role-gated
- * views) and the server-side API bridge (a JWT minted per request with the
- * session's org scope). Credentials only -- no OAuth providers in this
- * skeleton.
+ * This module imports the SQLite user store, so it must only be used from the
+ * Node runtime (route handlers, server components, server actions) -- never
+ * from middleware. Middleware imports auth.config.ts instead.
  */
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { authConfig } from "./auth.config";
 import { seedDemoUsers, verifyUser } from "@/lib/users";
 
 seedDemoUsers();
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  session: { strategy: "jwt" },
+  ...authConfig,
   providers: [
     Credentials({
       credentials: {
@@ -30,21 +30,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    jwt({ token, user }) {
-      if (user) {
-        token.orgId = (user as { orgId: string }).orgId;
-        token.role = (user as { role: string }).role;
-      }
-      return token;
-    },
-    session({ session, token }) {
-      if (session.user) {
-        (session.user as { orgId?: string }).orgId = token.orgId as string;
-        (session.user as { role?: string }).role = token.role as string;
-      }
-      return session;
-    },
-  },
-  pages: { signIn: "/login" },
 });
