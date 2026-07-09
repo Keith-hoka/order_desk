@@ -58,6 +58,7 @@ class ReviewItem:
     priority: float
     status: ReviewStatus = ReviewStatus.PENDING
     edits: dict[str, str] = field(default_factory=dict)
+    org_id: str = "org-demo"
 
     @property
     def band_field_count(self) -> int:

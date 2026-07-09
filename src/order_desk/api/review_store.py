@@ -15,6 +15,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Protocol
 
+from order_desk.api.tenancy import DEMO_ORG_ID
 from order_desk.review.priority import ReviewItem, ReviewStatus, sort_queue
 
 
@@ -38,6 +39,7 @@ def item_from_dict(d: dict) -> ReviewItem:
         priority=d["priority"],
         status=ReviewStatus(d["status"]),
         edits=d.get("edits", {}),
+        org_id=d.get("org_id", DEMO_ORG_ID),
     )
 
 

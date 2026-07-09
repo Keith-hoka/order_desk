@@ -21,6 +21,11 @@ class Plan(StrEnum):
 
 
 # monthly extraction quota by plan; enterprise is effectively unlimited
+# the org that owns the pre-tenancy Phase 7 review queue; unauthenticated or
+# legacy items are attributed here so existing demo data stays visible
+DEMO_ORG_ID = "org-demo"
+
+
 PLAN_QUOTAS: dict[Plan, int] = {
     Plan.FREE: 100,
     Plan.PRO: 10_000,
