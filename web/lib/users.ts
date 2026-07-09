@@ -76,6 +76,14 @@ export function verifyUser(email: string, password: string): User | null {
   return { email: row.email, orgId: row.org_id, role: row.role };
 }
 
+/** Delete a user, scoped to an org so a caller can never remove another tenant's. */
+export function removeUser(email: string, orgId: string): boolean {
+  const info = db()
+    .prepare("DELETE FROM users WHERE email = ? AND org_id = ?")
+    .run(email.toLowerCase(), orgId);
+  return info.changes > 0;
+}
+
 export function listUsersInOrg(orgId: string): User[] {
   const rows = db()
     .prepare("SELECT email, org_id, role FROM users WHERE org_id = ? ORDER BY email")

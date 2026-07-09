@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { auth, signOut } from "@/auth";
 import { fetchExceptions } from "@/lib/api-server";
 import { ReviewQueue } from "./review-queue";
@@ -60,7 +61,17 @@ export default async function Page() {
               </>
             )}
           </p>
-          <SignOutButton />
+          <div className="flex items-baseline gap-3">
+            {user?.role === "admin" && (
+              <Link
+                href="/members"
+                className="text-xs text-ink-faint underline underline-offset-2 hover:text-ink-soft"
+              >
+                Members
+              </Link>
+            )}
+            <SignOutButton />
+          </div>
         </div>
       </header>
 

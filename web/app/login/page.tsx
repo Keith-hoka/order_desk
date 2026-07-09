@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth, signIn } from "@/auth";
 
@@ -56,6 +57,13 @@ export default async function LoginPage({
             Sign in
           </button>
         </form>
+
+        <p className="mt-4 text-sm text-ink-soft">
+          No account?{" "}
+          <Link href="/signup" className="underline underline-offset-2 hover:text-ink">
+            Create an organisation
+          </Link>
+        </p>
 
         <div className="mt-8 rounded border border-line bg-paper-soft p-4">
           <p className="mb-2 text-xs font-medium text-ink-soft">Demo accounts</p>
