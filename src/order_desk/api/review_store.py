@@ -55,6 +55,18 @@ class ReviewStore(Protocol):
     ) -> ReviewItem | None: ...
 
 
+def _effective_status(action: ReviewStatus, edits: dict[str, str]) -> ReviewStatus:
+    """An "edited" submission that changed nothing is an approval.
+
+    The flywheel treats every EDITED item as a correction signal, so recording an
+    edit that carries no edits would teach the model that its own output was a
+    reviewer's fix. Downgrade rather than lie.
+    """
+    if action == ReviewStatus.EDITED and not edits:
+        return ReviewStatus.APPROVED
+    return action
+
+
 def _visible(item: ReviewItem | None, org_id: str | None) -> ReviewItem | None:
     """An item from another org is indistinguishable from a missing one.
 
@@ -91,7 +103,7 @@ class InMemoryReviewStore:
         item = _visible(self._items.get(item_id), org_id)
         if item is None:
             return None
-        item.status = action
+        item.status = _effective_status(action, edits)
         item.edits = dict(edits)
         return item
 
@@ -127,7 +139,7 @@ class JsonReviewStore:
         item = _visible(self._items.get(item_id), org_id)
         if item is None:
             return None
-        item.status = action
+        item.status = _effective_status(action, edits)
         item.edits = dict(edits)
         self._persist()
         return item

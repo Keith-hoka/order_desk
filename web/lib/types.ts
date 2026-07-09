@@ -24,6 +24,13 @@ export interface Extraction {
   line_items: LineItem[];
 }
 
+export interface Fulfillment {
+  submitted: boolean;
+  order_id: string | null;
+  reason: string;
+  unresolved: string[];
+}
+
 export interface ReviewItem {
   id: string;
   subject: string;
@@ -35,4 +42,5 @@ export interface ReviewItem {
   priority: number;
   status: ReviewStatus;
   edits: Record<string, string>;
+  fulfillment?: Fulfillment | null;
 }

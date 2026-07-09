@@ -73,16 +73,22 @@ def submit_review(
     sink = getattr(request.app.state, "order_sink", None)
     notifier = getattr(request.app.state, "notifier", None)
     if (
-        action.action == ReviewStatus.APPROVED
+        action.action in (ReviewStatus.APPROVED, ReviewStatus.EDITED)
         and sink is not None
         and notifier is not None
         and item.extraction
     ):
         from order_desk.api.review_models import FulfillmentOut
+        from order_desk.flywheel.corrections import apply_edits
         from order_desk.fulfillment.fulfill import fulfill_order
 
+        # an edited item goes downstream as the reviewer corrected it, not as the
+        # model first extracted it -- sending the uncorrected version would put a
+        # known-wrong order into the ERP
+        extraction = apply_edits(item.extraction, item.edits) if item.edits else item.extraction
+
         try:
-            fr = fulfill_order(item.extraction, sink, notifier)
+            fr = fulfill_order(extraction, sink, notifier)
             out.fulfillment = FulfillmentOut(
                 submitted=fr.submitted,
                 order_id=fr.order_id,

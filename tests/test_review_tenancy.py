@@ -58,3 +58,25 @@ def test_submit_own_org_works() -> None:
 def test_unknown_org_sees_empty_queue() -> None:
     # a freshly-registered org has no review items
     assert _store().list_items(org_id="org-new") == []
+
+
+def test_edit_with_no_edits_downgrades_to_approved() -> None:
+    """An "edited" submission that changed nothing must not become a correction.
+
+    The flywheel reads every EDITED item as a reviewer's fix; an empty edit would
+    teach the model that its own output was the correction.
+    """
+    store = _store()
+    item = store.submit_review("A-1", ReviewStatus.EDITED, {}, org_id="org-a")
+    assert item is not None
+    assert item.status == ReviewStatus.APPROVED
+    assert item.edits == {}
+
+
+def test_edit_with_real_edits_stays_edited() -> None:
+    store = _store()
+    edits = {"customer_po_text": "PO-99999"}
+    item = store.submit_review("A-1", ReviewStatus.EDITED, edits, org_id="org-a")
+    assert item is not None
+    assert item.status == ReviewStatus.EDITED
+    assert item.edits == edits

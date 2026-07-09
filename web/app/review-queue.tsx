@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { submitReviewAction } from "./actions";
-import type { FieldFlag, ReviewItem, ReviewStatus } from "@/lib/types";
+import type { FieldFlag, Fulfillment, ReviewItem, ReviewStatus } from "@/lib/types";
 
 type ReasonKind = "reply" | "band" | "violation";
 
@@ -36,14 +36,18 @@ export function ReviewQueue({ items }: { items: ReviewItem[] }) {
     items.length > 0 ? items[0].id : null
   );
   const [pending, startTransition] = useTransition();
+  const [outcome, setOutcome] = useState<{ id: string; fulfillment?: Fulfillment | null } | null>(
+    null
+  );
   const router = useRouter();
 
   const selected = items.find((it) => it.id === selectedId) ?? null;
 
-  function handleReview(action: ReviewStatus) {
+  function handleReview(action: ReviewStatus, edits: Record<string, string> = {}) {
     if (!selected) return;
     startTransition(async () => {
-      await submitReviewAction(selected.id, action);
+      const reviewed = await submitReviewAction(selected.id, action, edits);
+      setOutcome({ id: reviewed.id, fulfillment: reviewed.fulfillment });
       router.refresh();
     });
   }
@@ -61,7 +65,11 @@ export function ReviewQueue({ items }: { items: ReviewItem[] }) {
       <QueueList items={items} selectedId={selectedId} onSelect={setSelectedId} />
       {selected ? (
         <div className={pending ? "opacity-60 transition-opacity" : ""}>
-          <Detail item={selected} onReview={handleReview} />
+          <Detail
+            item={selected}
+            onReview={handleReview}
+            outcome={outcome?.id === selected.id ? outcome.fulfillment : undefined}
+          />
         </div>
       ) : (
         <div className="grid place-items-center text-ink-faint">
@@ -121,14 +129,43 @@ function QueueList({
 function Detail({
   item,
   onReview,
+  outcome,
 }: {
   item: ReviewItem;
-  onReview: (action: ReviewStatus) => void;
+  onReview: (action: ReviewStatus, edits?: Record<string, string>) => void;
+  outcome?: Fulfillment | null;
 }) {
   const reason = reasonFor(item);
   const style = KIND_STYLE[reason.kind];
   const ex = item.extraction;
   const flagMap = new Map(item.field_flags.map((f) => [f.path, f]));
+
+  const [editing, setEditing] = useState(false);
+  // only paths the reviewer actually changed; an unchanged field must never
+  // reach the flywheel as a "correction"
+  const [draft, setDraft] = useState<Record<string, string>>({});
+
+  function stage(path: string, original: string, next: string) {
+    setDraft((prev) => {
+      const copy = { ...prev };
+      if (next === original) delete copy[path];
+      else copy[path] = next;
+      return copy;
+    });
+  }
+
+  function save() {
+    const edits = draft;
+    setEditing(false);
+    setDraft({});
+    // nothing changed -- this is an approval, not a correction
+    onReview(Object.keys(edits).length === 0 ? "approved" : "edited", edits);
+  }
+
+  function cancel() {
+    setEditing(false);
+    setDraft({});
+  }
 
   return (
     <section className="pl-1">
@@ -138,9 +175,7 @@ function Detail({
           priority {item.priority.toFixed(1)}
         </span>
       </div>
-      <h2 className="mb-4 text-lg font-medium leading-snug text-ink">
-        {item.subject}
-      </h2>
+      <h2 className="mb-4 text-lg font-medium leading-snug text-ink">{item.subject}</h2>
 
       <div className={`mb-5 flex items-start gap-2.5 rounded-lg px-3 py-2.5 ${style.bg}`}>
         <span className={`mt-1.5 h-1.5 w-1.5 flex-none rounded-full ${style.dot}`} />
@@ -159,10 +194,38 @@ function Detail({
         <>
           <table className="mb-3 w-full border-collapse">
             <tbody>
-              <FieldRow label="PO number" value={ex.customer_po_text} flag={flagMap.get("customer_po_text")} />
-              <FieldRow label="Delivery address" value={ex.delivery_address_text} flag={flagMap.get("delivery_address_text")} />
-              <FieldRow label="Buyer" value={ex.buyer_name_text} flag={flagMap.get("buyer_name_text")} />
-              <FieldRow label="Requested date" value={ex.requested_date_text} flag={flagMap.get("requested_date_text")} />
+              <FieldRow
+                label="PO number"
+                path="customer_po_text"
+                value={ex.customer_po_text}
+                flag={flagMap.get("customer_po_text")}
+                editing={editing}
+                onStage={stage}
+              />
+              <FieldRow
+                label="Delivery address"
+                path="delivery_address_text"
+                value={ex.delivery_address_text}
+                flag={flagMap.get("delivery_address_text")}
+                editing={editing}
+                onStage={stage}
+              />
+              <FieldRow
+                label="Buyer"
+                path="buyer_name_text"
+                value={ex.buyer_name_text}
+                flag={flagMap.get("buyer_name_text")}
+                editing={editing}
+                onStage={stage}
+              />
+              <FieldRow
+                label="Requested date"
+                path="requested_date_text"
+                value={ex.requested_date_text}
+                flag={flagMap.get("requested_date_text")}
+                editing={editing}
+                onStage={stage}
+              />
             </tbody>
           </table>
           {ex.line_items.length > 0 && (
@@ -171,21 +234,45 @@ function Detail({
               {ex.line_items.map((li, i) => {
                 const pf = flagMap.get(`line_items.${i}.product_text`);
                 const qty =
-                  li.quantity !== null
-                    ? `${li.quantity} ${li.unit_text ?? ""}`.trim()
-                    : null;
+                  li.quantity !== null ? `${li.quantity} ${li.unit_text ?? ""}`.trim() : null;
                 return (
                   <div
                     key={i}
-                    className="flex items-baseline justify-between border-b border-line py-2"
+                    className="flex items-baseline justify-between gap-3 border-b border-line py-2"
                   >
-                    <span className="text-sm text-ink">
-                      {li.product_text}
-                      {pf?.in_band && <ConfBadge value={pf.raw_confidence} />}
-                    </span>
-                    <span className="font-mono text-xs text-ink-soft">
-                      {qty ?? <span className="italic text-ink-faint">qty not found</span>}
-                    </span>
+                    {editing ? (
+                      <>
+                        <input
+                          defaultValue={li.product_text}
+                          onChange={(e) =>
+                            stage(`line_items.${i}.product_text`, li.product_text, e.target.value)
+                          }
+                          className="min-w-0 flex-1 rounded border border-line px-2 py-1 text-sm text-ink outline-none focus:border-ship"
+                        />
+                        <input
+                          defaultValue={li.quantity ?? ""}
+                          inputMode="numeric"
+                          onChange={(e) =>
+                            stage(
+                              `line_items.${i}.quantity`,
+                              String(li.quantity ?? ""),
+                              e.target.value
+                            )
+                          }
+                          className="w-20 rounded border border-line px-2 py-1 text-right font-mono text-xs text-ink outline-none focus:border-ship"
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-sm text-ink">
+                          {li.product_text}
+                          {pf?.in_band && <ConfBadge value={pf.raw_confidence} />}
+                        </span>
+                        <span className="font-mono text-xs text-ink-soft">
+                          {qty ?? <span className="italic text-ink-faint">qty not found</span>}
+                        </span>
+                      </>
+                    )}
                   </div>
                 );
               })}
@@ -196,41 +283,96 @@ function Detail({
         <p className="text-sm italic text-ink-faint">No extraction (routed away).</p>
       )}
 
-      <div className="mt-6 flex gap-2">
-        <ActionButton onClick={() => onReview("approved")} label="Approve" />
-        <ActionButton onClick={() => onReview("edited")} label="Edit fields" />
-        <ActionButton onClick={() => onReview("rejected")} label="Reject" />
+      <div className="mt-6 flex items-center gap-2">
+        {editing ? (
+          <>
+            <ActionButton onClick={save} label="Save review" />
+            <ActionButton onClick={cancel} label="Cancel" />
+            <span className="ml-1 text-xs text-ink-faint">
+              {Object.keys(draft).length === 0
+                ? "no changes — saving approves as-is"
+                : `${Object.keys(draft).length} field${Object.keys(draft).length === 1 ? "" : "s"} changed`}
+            </span>
+          </>
+        ) : (
+          <>
+            <ActionButton onClick={() => onReview("approved")} label="Approve" />
+            <ActionButton onClick={() => setEditing(true)} label="Edit fields" />
+            <ActionButton onClick={() => onReview("rejected")} label="Reject" />
+          </>
+        )}
       </div>
-      {item.status !== "pending" && (
-        <p className="mt-3 text-xs text-sage">
-          {item.status === "approved" && "Approved — sent to ERP"}
+
+      {outcome !== undefined && <Outcome fulfillment={outcome} />}
+      {outcome === undefined && item.status !== "pending" && (
+        <p className="mt-3 text-xs text-ink-faint">
+          {item.status === "approved" && "Approved"}
           {item.status === "rejected" && "Rejected — returned to sender"}
-          {item.status === "edited" && "Edited — changes recorded"}
+          {item.status === "edited" &&
+            `Edited — ${Object.keys(item.edits).length} field${Object.keys(item.edits).length === 1 ? "" : "s"} corrected`}
         </p>
       )}
     </section>
   );
 }
 
+/** Report what the backend actually did, rather than asserting an outcome. */
+function Outcome({ fulfillment }: { fulfillment?: Fulfillment | null }) {
+  if (!fulfillment) {
+    return (
+      <p className="mt-3 text-xs text-ink-faint">
+        Recorded — no ERP sink configured, so nothing was sent downstream.
+      </p>
+    );
+  }
+  if (fulfillment.submitted) {
+    return (
+      <p className="mt-3 text-xs text-sage">
+        Sent to ERP — <span className="font-mono">{fulfillment.order_id}</span>
+      </p>
+    );
+  }
+  return (
+    <p className="mt-3 text-xs text-brick">
+      Held — {fulfillment.reason}
+      {fulfillment.unresolved.length > 0 && (
+        <> (unresolved: {fulfillment.unresolved.join(", ")})</>
+      )}
+    </p>
+  );
+}
+
 function FieldRow({
   label,
+  path,
   value,
   flag,
+  editing,
+  onStage,
 }: {
   label: string;
+  path: string;
   value: string | null;
   flag?: FieldFlag;
+  editing: boolean;
+  onStage: (path: string, original: string, next: string) => void;
 }) {
   return (
-    <tr>
-      <td className="w-40 py-1.5 align-top text-sm text-ink-soft">{label}</td>
-      <td className="py-1.5 text-sm">
-        {value === null || value === undefined ? (
-          <span className="italic text-ink-faint">not found</span>
+    <tr className="border-b border-line">
+      <td className="w-40 py-2 align-top text-xs text-ink-faint">{label}</td>
+      <td className="py-2 text-sm text-ink">
+        {editing ? (
+          <input
+            defaultValue={value ?? ""}
+            onChange={(e) => onStage(path, value ?? "", e.target.value)}
+            className="w-full rounded border border-line px-2 py-1 text-sm text-ink outline-none focus:border-ship"
+          />
         ) : (
-          <span className="text-ink">{value}</span>
+          <>
+            {value ?? <span className="italic text-ink-faint">not found</span>}
+            {flag?.in_band && <ConfBadge value={flag.raw_confidence} />}
+          </>
         )}
-        {flag?.in_band && <ConfBadge value={flag.raw_confidence} />}
       </td>
     </tr>
   );
