@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { extractInboxAction, submitReviewAction } from "./actions";
+import { deleteExceptionAction, extractInboxAction, submitReviewAction } from "./actions";
 import type {
   Extraction,
   FieldFlag,
@@ -29,6 +29,10 @@ const EMPTY_EXTRACTION: Extraction = {
     { product_text: "", quantity: null, unit_text: null, unit_price_text: null, item_notes: null },
   ],
 };
+
+// the 66 committed human-test emails (EXC-0000..EXC-0065) are the demo's
+// substrate and cannot be deleted; live-extracted items (6-hex ids) can
+const isSeedItem = (id: string) => /^EXC-\d{4}$/.test(id);
 
 const BLANK_LINE: LineItem = {
   product_text: "",
@@ -98,6 +102,19 @@ export function ReviewQueue({ items }: { items: ReviewItem[] }) {
     });
   }
 
+  function handleDelete(id: string) {
+    if (!window.confirm(`Delete ${id}? This cannot be undone.`)) return;
+    startTransition(async () => {
+      const result = await deleteExceptionAction(id);
+      if ("error" in result) {
+        window.alert(result.error);
+        return;
+      }
+      if (selectedId === id) setSelectedId(null);
+      router.refresh();
+    });
+  }
+
   if (items.length === 0) {
     return (
       <div className="grid place-items-center py-20 text-ink-faint">
@@ -111,7 +128,12 @@ export function ReviewQueue({ items }: { items: ReviewItem[] }) {
       <div className="col-span-2">
         <ExtractPanel onExtracted={(id) => setSelectedId(id)} />
       </div>
-      <QueueList items={items} selectedId={selectedId} onSelect={setSelectedId} />
+      <QueueList
+        items={items}
+        selectedId={selectedId}
+        onSelect={setSelectedId}
+        onDelete={handleDelete}
+      />
       {selected ? (
         <div className={pending ? "opacity-60 transition-opacity" : ""}>
           <Detail
@@ -134,6 +156,8 @@ export function ReviewQueue({ items }: { items: ReviewItem[] }) {
  *  server-side (IMAP_HOST / IMAP_USERNAME / IMAP_PASSWORD). */
 function ExtractPanel({ onExtracted }: { onExtracted: (id: string) => void }) {
   const [address, setAddress] = useState("");
+  const [host, setHost] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
@@ -143,7 +167,7 @@ function ExtractPanel({ onExtracted }: { onExtracted: (id: string) => void }) {
     setError(null);
     setNotice(null);
     startTransition(async () => {
-      const result = await extractInboxAction(address);
+      const result = await extractInboxAction(address, host, password);
       if ("error" in result) {
         setError(result.error);
         return;
@@ -164,11 +188,26 @@ function ExtractPanel({ onExtracted }: { onExtracted: (id: string) => void }) {
         Extract from mailbox — pulls recent unseen emails through the live pipeline
         (OpenAI routing + the adapter on Modal)
       </p>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <input
           value={address}
           onChange={(e) => setAddress(e.target.value)}
-          placeholder="Mailbox address, e.g. orders@company.com"
+          placeholder="Mailbox address"
+          autoComplete="username"
+          className="min-w-0 flex-1 rounded border border-line px-2 py-1.5 text-sm text-ink outline-none focus:border-ship"
+        />
+        <input
+          value={host}
+          onChange={(e) => setHost(e.target.value)}
+          placeholder="IMAP host, e.g. imap.gmail.com"
+          className="min-w-0 flex-1 rounded border border-line px-2 py-1.5 text-sm text-ink outline-none focus:border-ship"
+        />
+        <input
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="App password — NOT your email password"
+          type="password"
+          autoComplete="current-password"
           className="min-w-0 flex-1 rounded border border-line px-2 py-1.5 text-sm text-ink outline-none focus:border-ship"
         />
         <button
@@ -178,12 +217,17 @@ function ExtractPanel({ onExtracted }: { onExtracted: (id: string) => void }) {
         >
           {pending ? "Extracting…" : "Extract"}
         </button>
-        {pending && (
-          <span className="text-xs text-ink-faint">
-            may take a while — one pipeline run per email, and the adapter cold-starts
-          </span>
-        )}
       </div>
+      <p className="mt-2 rounded bg-amber-bg px-2 py-1.5 text-[11px] leading-relaxed text-amber">
+        Do <strong>not</strong> enter your email login password here. Use a dedicated{" "}
+        <strong>app password</strong> issued by your mail provider — for Gmail, turn on
+        2-Step Verification, then create one at myaccount.google.com/apppasswords.
+      </p>
+      <p className="mt-2 text-[11px] text-ink-faint">
+        {pending
+          ? "may take a while — one pipeline run per email, and the adapter cold-starts"
+          : "credentials are used for this pull only and never stored; leave host and password empty to use the server-configured mailbox"}
+      </p>
       {error && <p className="mt-2 text-xs text-brick">{error}</p>}
       {notice && <p className="mt-2 text-xs text-sage">{notice}</p>}
     </div>
@@ -194,10 +238,12 @@ function QueueList({
   items,
   selectedId,
   onSelect,
+  onDelete,
 }: {
   items: ReviewItem[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  onDelete: (id: string) => void;
 }) {
   return (
     <nav className="flex flex-col gap-1 border-r border-line pr-6">
@@ -207,10 +253,10 @@ function QueueList({
         const on = item.id === selectedId;
         const reviewed = item.status !== "pending";
         return (
-          <button
+          <div
             key={item.id}
             onClick={() => onSelect(item.id)}
-            className={`flex flex-col gap-1.5 rounded-lg border px-2.5 py-2 text-left transition ${
+            className={`group flex cursor-pointer flex-col gap-1.5 rounded-lg border px-2.5 py-2 text-left transition ${
               on
                 ? "border-line bg-surface"
                 : "border-transparent hover:bg-line-soft"
@@ -227,9 +273,25 @@ function QueueList({
               <span className="ml-auto font-mono text-[11px] text-ink-faint">
                 {item.priority.toFixed(1)}
               </span>
+              {/* fixed-width slot on every row so the priority column stays
+                  aligned whether or not a delete button exists */}
+              <span className="flex w-5 flex-none justify-end">
+                {!isSeedItem(item.id) && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete(item.id);
+                    }}
+                    title="Delete"
+                    className="rounded px-1 text-xs text-ink-faint opacity-0 transition hover:bg-brick-bg hover:text-brick group-hover:opacity-100"
+                  >
+                    ✕
+                  </button>
+                )}
+              </span>
             </div>
             <span className="truncate text-xs text-ink-soft">{item.subject}</span>
-          </button>
+          </div>
         );
       })}
     </nav>

@@ -56,6 +56,7 @@ class ReviewStore(Protocol):
     ) -> ReviewItem | None: ...
     def record_fulfillment(self, item_id: str, fulfillment: dict) -> None: ...
     def add_item(self, item: ReviewItem) -> None: ...
+    def delete_item(self, item_id: str) -> None: ...
 
 
 def _effective_status(action: ReviewStatus, edits: dict[str, str]) -> ReviewStatus:
@@ -145,6 +146,9 @@ class InMemoryReviewStore:
     def add_item(self, item: ReviewItem) -> None:
         self._items[item.id] = item
 
+    def delete_item(self, item_id: str) -> None:
+        self._items.pop(item_id, None)
+
 
 class JsonReviewStore:
     """Reads the queue JSON, persists reviews back to the same file."""
@@ -187,4 +191,8 @@ class JsonReviewStore:
 
     def add_item(self, item: ReviewItem) -> None:
         self._items[item.id] = item
+        self._persist()
+
+    def delete_item(self, item_id: str) -> None:
+        self._items.pop(item_id, None)
         self._persist()

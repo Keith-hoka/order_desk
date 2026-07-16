@@ -322,6 +322,84 @@ def test_extract_inbox_pulls_recent_unseen(monkeypatch) -> None:
     assert all(c["id"] in ids for c in created)
 
 
+class _CapturingImap(_FakeInboxImap):
+    """Records what credentials the connection was opened with."""
+
+    seen: list[tuple] = []
+
+    def __init__(self, host):
+        super().__init__(host)
+        _CapturingImap.seen.append(("host", host))
+
+    def login(self, user, password):
+        _CapturingImap.seen.append(("login", user, password))
+        return "OK", []
+
+
+def test_extract_inbox_uses_reviewer_credentials(monkeypatch) -> None:
+    """A reviewer without .env access supplies their own mailbox per request.
+
+    The credentials are request-scoped: used for the connection, never stored.
+    """
+    import imaplib
+
+    monkeypatch.setattr(imaplib, "IMAP4_SSL", _CapturingImap)
+    _CapturingImap.seen.clear()
+    client = _mailbox_app([], live_extractor=_FakeRawExtractor())
+    resp = client.post(
+        "/exceptions/extract-inbox",
+        headers=_auth(),
+        json={
+            "address": "reviewer@own-mail.com",
+            "host": "imap.own-mail.com",
+            "password": "own-app-password",
+        },
+    )
+    assert resp.status_code == 200
+    assert len(resp.json()) == 2
+    assert ("host", "imap.own-mail.com") in _CapturingImap.seen
+    assert ("login", "reviewer@own-mail.com", "own-app-password") in _CapturingImap.seen
+
+
+def test_extract_inbox_password_without_host_is_rejected() -> None:
+    client = _mailbox_app([], live_extractor=_FakeRawExtractor())
+    resp = client.post(
+        "/exceptions/extract-inbox",
+        headers=_auth(),
+        json={"address": "reviewer@own-mail.com", "password": "pw"},
+    )
+    assert resp.status_code == 400
+
+
+def test_delete_live_item() -> None:
+    client = _app([_item("EXC-AB12CD", 1.0), _item("EXC-0003", 1.0)])
+    resp = client.delete("/exceptions/EXC-AB12CD", headers=_auth())
+    assert resp.status_code == 200
+    ids = [it["id"] for it in client.get("/exceptions", headers=_auth()).json()]
+    assert "EXC-AB12CD" not in ids
+    assert "EXC-0003" in ids
+
+
+def test_delete_seed_item_forbidden() -> None:
+    """The 66 committed human-test emails are the demo's substrate; keep them."""
+    client = _app([_item("EXC-0003", 1.0)])
+    resp = client.delete("/exceptions/EXC-0003", headers=_auth())
+    assert resp.status_code == 403
+    ids = [it["id"] for it in client.get("/exceptions", headers=_auth()).json()]
+    assert "EXC-0003" in ids
+
+
+def test_delete_missing_or_cross_org_is_404() -> None:
+    from order_desk.api.auth import issue_token
+
+    item = _item("EXC-AB12CD", 1.0)
+    item.org_id = "org-a"
+    client = _app([item])
+    assert client.delete("/exceptions/nope", headers=_auth()).status_code == 404
+    org_b = {"Authorization": f"Bearer {issue_token(SECRET, 'b', org_id='org-b')}"}
+    assert client.delete("/exceptions/EXC-AB12CD", headers=org_b).status_code == 404
+
+
 def test_extract_inbox_rejects_unknown_address() -> None:
     client = _mailbox_app([], live_extractor=_FakeRawExtractor())
     resp = client.post(

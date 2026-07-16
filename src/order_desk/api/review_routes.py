@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 import uuid
 
 from fastapi import APIRouter, Depends, HTTPException, Request
@@ -116,11 +117,13 @@ def extract_inbox(
     request: Request,
     principal: Principal | None = Depends(require_auth),
 ) -> list[ReviewItemOut]:
-    """Pull the configured mailbox's recent unseen emails through the pipeline.
+    """Pull a mailbox's recent unseen emails through the pipeline.
 
-    The entered address must match the mailbox configured server-side -- only
-    an address is never enough to reach an arbitrary inbox; credentials come
-    from the environment (IMAP_HOST / IMAP_USERNAME / IMAP_PASSWORD).
+    A reviewer may supply their own mailbox (host + address + app password);
+    the credentials are used for this one connection and never stored. With no
+    password the server-configured mailbox (IMAP_* environment) is used, and
+    the entered address must match it -- an address alone is never enough to
+    reach an arbitrary inbox.
     """
     extractor = getattr(request.app.state, "live_extractor", None)
     if extractor is None:
@@ -129,26 +132,34 @@ def extract_inbox(
             detail="live extraction not configured (needs VLLM_BASE_URL and OPENAI_API_KEY)",
         )
     settings = request.app.state.settings
-    if not (settings.imap_host and settings.imap_username and settings.imap_password):
-        raise HTTPException(
-            status_code=503,
-            detail="mailbox not configured (needs IMAP_HOST, IMAP_USERNAME, IMAP_PASSWORD)",
-        )
-    if req.address.strip().lower() != settings.imap_username.lower():
-        raise HTTPException(
-            status_code=400,
-            detail=f"'{req.address}' is not the configured mailbox ({settings.imap_username})",
+    if req.password:
+        if not req.host:
+            raise HTTPException(status_code=400, detail="host is required with a password")
+        host, username, password, mailbox = req.host, req.address, req.password, req.mailbox
+    else:
+        if not (settings.imap_host and settings.imap_username and settings.imap_password):
+            raise HTTPException(
+                status_code=503,
+                detail="no mailbox: enter its host and app password, "
+                "or configure IMAP_HOST/IMAP_USERNAME/IMAP_PASSWORD server-side",
+            )
+        if req.address.strip().lower() != settings.imap_username.lower():
+            raise HTTPException(
+                status_code=400,
+                detail=f"'{req.address}' is not the configured mailbox "
+                f"({settings.imap_username}); enter its host and app password to use it",
+            )
+        host, username, password, mailbox = (
+            settings.imap_host,
+            settings.imap_username,
+            settings.imap_password,
+            settings.imap_mailbox,
         )
     store = _get_store(request)
 
     from order_desk.ingest.source import ImapSource
 
-    source = ImapSource(
-        settings.imap_host,
-        settings.imap_username,
-        settings.imap_password,
-        mailbox=settings.imap_mailbox,
-    )
+    source = ImapSource(host, username, password, mailbox=mailbox)
     try:
         raws = list(source.fetch(limit=INBOX_PULL_LIMIT))
     except Exception as exc:
@@ -170,6 +181,26 @@ def extract_inbox(
     if raws and not created:
         raise HTTPException(status_code=502, detail=f"extraction failed: {errors[0]}")
     return created
+
+
+# the 66 committed human-test emails carry 4-digit ids (EXC-0000..EXC-0065);
+# live-extracted items carry 6-hex ids and are the deletable ones
+SEED_ID = re.compile(r"^EXC-\d{4}$")
+
+
+@review_router.delete("/{item_id}")
+def delete_exception(
+    item_id: str, request: Request, principal: Principal | None = Depends(require_auth)
+) -> dict:
+    """Remove a live-extracted item; the committed seed queue is off limits."""
+    store = _get_store(request)
+    item = store.get_item(item_id, org_id=_org_of(principal))
+    if item is None:
+        raise HTTPException(status_code=404, detail="exception not found")
+    if SEED_ID.fullmatch(item.id):
+        raise HTTPException(status_code=403, detail="seed items cannot be deleted")
+    store.delete_item(item_id)
+    return {"deleted": item_id}
 
 
 @review_router.get("/{item_id}", response_model=ReviewItemOut)

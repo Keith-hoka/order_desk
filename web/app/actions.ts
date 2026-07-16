@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { extractEmail, extractInbox, submitReview } from "@/lib/api-server";
+import { deleteException, extractEmail, extractInbox, submitReview } from "@/lib/api-server";
 import type { ReviewItem, ReviewStatus } from "@/lib/types";
 
 /**
@@ -17,12 +17,27 @@ import type { ReviewItem, ReviewStatus } from "@/lib/types";
  * which mailbox -- credentials live server-side in the API's environment.
  */
 export async function extractInboxAction(
-  address: string
+  address: string,
+  host: string,
+  password: string
 ): Promise<{ items: ReviewItem[] } | { error: string }> {
   try {
-    const items = await extractInbox(address);
+    const items = await extractInbox(address, host, password);
     revalidatePath("/");
     return { items };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : String(e) };
+  }
+}
+
+/** Remove a live-extracted item; the backend refuses on the committed seed. */
+export async function deleteExceptionAction(
+  id: string
+): Promise<{ ok: true } | { error: string }> {
+  try {
+    await deleteException(id);
+    revalidatePath("/");
+    return { ok: true };
   } catch (e) {
     return { error: e instanceof Error ? e.message : String(e) };
   }

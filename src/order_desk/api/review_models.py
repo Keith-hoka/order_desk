@@ -66,3 +66,9 @@ class InboxExtractRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     address: str
+    # reviewer-supplied mailbox credentials: request-scoped, used for the one
+    # connection and never stored. Empty password falls back to the mailbox
+    # configured server-side (IMAP_* environment).
+    host: str = ""
+    password: str = ""
+    mailbox: str = "INBOX"
