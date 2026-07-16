@@ -341,9 +341,7 @@ def test_extract_inbox_503_without_imap_config() -> None:
 
 def test_live_extract_503_when_not_configured() -> None:
     client = _app([_item("x", 5.0)])
-    resp = client.post(
-        "/exceptions/extract", headers=_auth(), json={"subject": "s", "body": "b"}
-    )
+    resp = client.post("/exceptions/extract", headers=_auth(), json={"subject": "s", "body": "b"})
     assert resp.status_code == 503
 
 

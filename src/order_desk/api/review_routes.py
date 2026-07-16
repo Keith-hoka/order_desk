@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, Request
-
 import uuid
+
+from fastapi import APIRouter, Depends, HTTPException, Request
 
 from order_desk.api.auth import Principal, require_auth
 from order_desk.api.review_models import (
@@ -42,6 +42,7 @@ def _missing_required_fields(extraction: dict) -> list[str]:
         if li.get("quantity") in (None, ""):
             missing.append(f"line_items.{i}.quantity")
     return missing
+
 
 review_router = APIRouter(prefix="/exceptions")
 
