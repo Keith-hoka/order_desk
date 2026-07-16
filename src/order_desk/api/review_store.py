@@ -40,6 +40,7 @@ def item_from_dict(d: dict) -> ReviewItem:
         status=ReviewStatus(d["status"]),
         edits=d.get("edits", {}),
         org_id=d.get("org_id", DEMO_ORG_ID),
+        fulfillment=d.get("fulfillment"),
     )
 
 
@@ -53,6 +54,8 @@ class ReviewStore(Protocol):
         edits: dict[str, str],
         org_id: str | None = None,
     ) -> ReviewItem | None: ...
+    def record_fulfillment(self, item_id: str, fulfillment: dict) -> None: ...
+    def add_item(self, item: ReviewItem) -> None: ...
 
 
 def _effective_status(action: ReviewStatus, edits: dict[str, str]) -> ReviewStatus:
@@ -65,6 +68,36 @@ def _effective_status(action: ReviewStatus, edits: dict[str, str]) -> ReviewStat
     if action == ReviewStatus.EDITED and not edits:
         return ReviewStatus.APPROVED
     return action
+
+
+def _record_review(item: ReviewItem, action: ReviewStatus, edits: dict[str, str]) -> None:
+    """Approving an already-edited item confirms the corrected version.
+
+    The status becomes approved -- the reviewer's decision -- but the edits
+    stay: replacing them with {} would revert the UI to the model's output,
+    drop the flywheel's correction signal (which keys on edits, not status),
+    and fulfil with the uncorrected extraction. A rejection still clears them:
+    it says "not an order", not "keep my fix".
+    """
+    if action == ReviewStatus.APPROVED and not edits and item.edits:
+        item.status = ReviewStatus.APPROVED
+        return
+    item.status = _effective_status(action, edits)
+    item.edits = dict(edits)
+
+
+def _migrate_fulfillment(item: ReviewItem) -> ReviewItem:
+    """Stamp legacy fulfilment records (pre-for_edits) at load time.
+
+    Such a record was fulfilled with whatever the item's edits were when it was
+    written, so it covers the edits as loaded -- and only those. Stamping once
+    here (rather than treating it as always-current at comparison time) lets
+    later corrections re-open fulfilment instead of being frozen out forever.
+    """
+    if item.fulfillment is not None and "for_edits" not in item.fulfillment:
+        item.fulfillment["for_edits"] = dict(item.edits)
+        item.fulfillment.setdefault("amends", None)
+    return item
 
 
 def _visible(item: ReviewItem | None, org_id: str | None) -> ReviewItem | None:
@@ -82,7 +115,7 @@ def _visible(item: ReviewItem | None, org_id: str | None) -> ReviewItem | None:
 
 class InMemoryReviewStore:
     def __init__(self, items: list[ReviewItem]) -> None:
-        self._items = {it.id: it for it in items}
+        self._items = {it.id: _migrate_fulfillment(it) for it in items}
 
     def list_items(self, org_id: str | None = None) -> list[ReviewItem]:
         items = list(self._items.values())
@@ -103,9 +136,14 @@ class InMemoryReviewStore:
         item = _visible(self._items.get(item_id), org_id)
         if item is None:
             return None
-        item.status = _effective_status(action, edits)
-        item.edits = dict(edits)
+        _record_review(item, action, edits)
         return item
+
+    def record_fulfillment(self, item_id: str, fulfillment: dict) -> None:
+        self._items[item_id].fulfillment = fulfillment
+
+    def add_item(self, item: ReviewItem) -> None:
+        self._items[item.id] = item
 
 
 class JsonReviewStore:
@@ -114,7 +152,7 @@ class JsonReviewStore:
     def __init__(self, path: Path | str) -> None:
         self.path = Path(path)
         data = json.loads(self.path.read_text(encoding="utf-8"))
-        self._items = {d["id"]: item_from_dict(d) for d in data}
+        self._items = {d["id"]: _migrate_fulfillment(item_from_dict(d)) for d in data}
 
     def _persist(self) -> None:
         data = [item_to_dict(it) for it in self._items.values()]
@@ -139,7 +177,14 @@ class JsonReviewStore:
         item = _visible(self._items.get(item_id), org_id)
         if item is None:
             return None
-        item.status = _effective_status(action, edits)
-        item.edits = dict(edits)
+        _record_review(item, action, edits)
         self._persist()
         return item
+
+    def record_fulfillment(self, item_id: str, fulfillment: dict) -> None:
+        self._items[item_id].fulfillment = fulfillment
+        self._persist()
+
+    def add_item(self, item: ReviewItem) -> None:
+        self._items[item.id] = item
+        self._persist()

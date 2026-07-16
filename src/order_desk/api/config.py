@@ -23,6 +23,10 @@ class Settings:
     metering_db_path: str = ""
     org_db_path: str = ""
     stripe_api_key: str = ""
+    imap_host: str = ""
+    imap_username: str = ""
+    imap_password: str = ""
+    imap_mailbox: str = "INBOX"
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -42,4 +46,8 @@ class Settings:
             metering_db_path=os.environ.get("METERING_DB_PATH", ""),
             org_db_path=os.environ.get("ORG_DB_PATH", ""),
             stripe_api_key=os.environ.get("STRIPE_API_KEY", ""),
+            imap_host=os.environ.get("IMAP_HOST", ""),
+            imap_username=os.environ.get("IMAP_USERNAME", ""),
+            imap_password=os.environ.get("IMAP_PASSWORD", ""),
+            imap_mailbox=os.environ.get("IMAP_MAILBOX", "INBOX"),
         )

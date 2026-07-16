@@ -38,6 +38,32 @@ export async function fetchExceptions(): Promise<ReviewItem[]> {
   return res.json();
 }
 
+export async function extractInbox(address: string): Promise<ReviewItem[]> {
+  const res = await fetch(`${API_BASE}/exceptions/extract-inbox`, {
+    method: "POST",
+    headers: await authHeaders(),
+    body: JSON.stringify({ address }),
+  });
+  if (!res.ok) {
+    const detail = await res.json().then((d) => d.detail ?? "").catch(() => "");
+    throw new Error(`Extraction failed (${res.status})${detail ? `: ${detail}` : ""}`);
+  }
+  return res.json();
+}
+
+export async function extractEmail(subject: string, body: string): Promise<ReviewItem> {
+  const res = await fetch(`${API_BASE}/exceptions/extract`, {
+    method: "POST",
+    headers: await authHeaders(),
+    body: JSON.stringify({ subject, body }),
+  });
+  if (!res.ok) {
+    const detail = await res.json().then((d) => d.detail ?? "").catch(() => "");
+    throw new Error(`Extraction failed (${res.status})${detail ? `: ${detail}` : ""}`);
+  }
+  return res.json();
+}
+
 export async function submitReview(
   id: string,
   action: ReviewStatus,

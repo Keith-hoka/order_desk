@@ -2,8 +2,52 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { submitReviewAction } from "./actions";
-import type { FieldFlag, Fulfillment, ReviewItem, ReviewStatus } from "@/lib/types";
+import { extractInboxAction, submitReviewAction } from "./actions";
+import type {
+  Extraction,
+  FieldFlag,
+  Fulfillment,
+  LineItem,
+  ReviewItem,
+  ReviewStatus,
+} from "@/lib/types";
+
+// mirrors LINE_DELETED in order_desk.flywheel.corrections: a whole-line edit
+// with this value removes the line item the model invented
+const LINE_DELETED = "__deleted__";
+
+// what a routed-away item edits against: an empty order with one blank line,
+// so a reviewer can rescue an order the router missed (mirrors the backend's
+// empty_extraction; the backend grows lines from the edit paths)
+const EMPTY_EXTRACTION: Extraction = {
+  customer_po_text: null,
+  requested_date_text: null,
+  delivery_address_text: null,
+  buyer_name_text: null,
+  notes: null,
+  line_items: [
+    { product_text: "", quantity: null, unit_text: null, unit_price_text: null, item_notes: null },
+  ],
+};
+
+const BLANK_LINE: LineItem = {
+  product_text: "",
+  quantity: null,
+  unit_text: null,
+  unit_price_text: null,
+  item_notes: null,
+};
+
+/** Rows to render: the extraction's lines plus any lines the edits created
+ *  past the end (the backend appends those on apply). */
+function lineRowCount(ex: Extraction, edits: Record<string, string>): number {
+  let n = ex.line_items.length;
+  for (const path of Object.keys(edits)) {
+    const m = path.match(/^line_items\.(\d+)/);
+    if (m) n = Math.max(n, parseInt(m[1], 10) + 1);
+  }
+  return n;
+}
 
 type ReasonKind = "reply" | "band" | "violation";
 
@@ -36,9 +80,11 @@ export function ReviewQueue({ items }: { items: ReviewItem[] }) {
     items.length > 0 ? items[0].id : null
   );
   const [pending, startTransition] = useTransition();
-  const [outcome, setOutcome] = useState<{ id: string; fulfillment?: Fulfillment | null } | null>(
-    null
-  );
+  const [outcome, setOutcome] = useState<{
+    id: string;
+    action: ReviewStatus;
+    fulfillment?: Fulfillment | null;
+  } | null>(null);
   const router = useRouter();
 
   const selected = items.find((it) => it.id === selectedId) ?? null;
@@ -47,7 +93,7 @@ export function ReviewQueue({ items }: { items: ReviewItem[] }) {
     if (!selected) return;
     startTransition(async () => {
       const reviewed = await submitReviewAction(selected.id, action, edits);
-      setOutcome({ id: reviewed.id, fulfillment: reviewed.fulfillment });
+      setOutcome({ id: reviewed.id, action, fulfillment: reviewed.fulfillment });
       router.refresh();
     });
   }
@@ -62,13 +108,16 @@ export function ReviewQueue({ items }: { items: ReviewItem[] }) {
 
   return (
     <div className="grid grid-cols-[260px_minmax(0,1fr)] gap-8">
+      <div className="col-span-2">
+        <ExtractPanel onExtracted={(id) => setSelectedId(id)} />
+      </div>
       <QueueList items={items} selectedId={selectedId} onSelect={setSelectedId} />
       {selected ? (
         <div className={pending ? "opacity-60 transition-opacity" : ""}>
           <Detail
             item={selected}
             onReview={handleReview}
-            outcome={outcome?.id === selected.id ? outcome.fulfillment : undefined}
+            outcome={outcome?.id === selected.id ? outcome : undefined}
           />
         </div>
       ) : (
@@ -76,6 +125,67 @@ export function ReviewQueue({ items }: { items: ReviewItem[] }) {
           <p>Select an exception.</p>
         </div>
       )}
+    </div>
+  );
+}
+
+/** Enter the mailbox address; the backend pulls its recent unseen emails
+ *  through the live pipeline and lands them in the queue. Credentials live
+ *  server-side (IMAP_HOST / IMAP_USERNAME / IMAP_PASSWORD). */
+function ExtractPanel({ onExtracted }: { onExtracted: (id: string) => void }) {
+  const [address, setAddress] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
+  const router = useRouter();
+
+  function run() {
+    setError(null);
+    setNotice(null);
+    startTransition(async () => {
+      const result = await extractInboxAction(address);
+      if ("error" in result) {
+        setError(result.error);
+        return;
+      }
+      setNotice(
+        result.items.length === 0
+          ? "No unseen emails in the mailbox."
+          : `${result.items.length} email${result.items.length === 1 ? "" : "s"} extracted into the queue.`
+      );
+      if (result.items.length > 0) onExtracted(result.items[0].id);
+      router.refresh();
+    });
+  }
+
+  return (
+    <div className="mb-6 rounded-lg border border-line bg-surface p-4">
+      <p className="mb-2 text-[11px] uppercase tracking-wide text-ink-faint">
+        Extract from mailbox — pulls recent unseen emails through the live pipeline
+        (OpenAI routing + the adapter on Modal)
+      </p>
+      <div className="flex items-center gap-2">
+        <input
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder="Mailbox address, e.g. orders@company.com"
+          className="min-w-0 flex-1 rounded border border-line px-2 py-1.5 text-sm text-ink outline-none focus:border-ship"
+        />
+        <button
+          onClick={run}
+          disabled={pending || address.trim() === ""}
+          className="rounded-lg border border-line bg-surface px-4 py-2 text-sm text-ink transition enabled:hover:border-ink-faint disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          {pending ? "Extracting…" : "Extract"}
+        </button>
+        {pending && (
+          <span className="text-xs text-ink-faint">
+            may take a while — one pipeline run per email, and the adapter cold-starts
+          </span>
+        )}
+      </div>
+      {error && <p className="mt-2 text-xs text-brick">{error}</p>}
+      {notice && <p className="mt-2 text-xs text-sage">{notice}</p>}
     </div>
   );
 }
@@ -126,6 +236,50 @@ function QueueList({
   );
 }
 
+function sameEdits(a: Record<string, string>, b: Record<string, string>): boolean {
+  const ka = Object.keys(a);
+  return ka.length === Object.keys(b).length && ka.every((k) => a[k] === b[k]);
+}
+
+/** Required-field gaps in the extraction after the reviewer's corrections.
+ *  An approve claims the order is complete; the backend enforces the same
+ *  rule with a 422. */
+function missingRequiredFields(item: ReviewItem): string[] {
+  // a routed-away item validates against the empty skeleton: everything is
+  // missing until the reviewer builds the order, so Approve stays locked
+  const ex = item.extraction ?? EMPTY_EXTRACTION;
+  const eff = (path: string, value: string | null) => item.edits[path] ?? value;
+  const missing: string[] = [];
+  if (!eff("customer_po_text", ex.customer_po_text)) missing.push("PO number");
+  if (!eff("delivery_address_text", ex.delivery_address_text)) missing.push("Delivery address");
+  if (!eff("buyer_name_text", ex.buyer_name_text)) missing.push("Buyer");
+  if (!eff("requested_date_text", ex.requested_date_text)) missing.push("Requested date");
+  const rows = lineRowCount(ex, item.edits);
+  for (let i = 0; i < rows; i++) {
+    if (item.edits[`line_items.${i}`] === LINE_DELETED) continue;
+    const li = ex.line_items[i] ?? BLANK_LINE;
+    if (!eff(`line_items.${i}.product_text`, li.product_text))
+      missing.push(`line ${i + 1} product`);
+    if (!eff(`line_items.${i}.quantity`, li.quantity !== null ? String(li.quantity) : null))
+      missing.push(`line ${i + 1} quantity`);
+  }
+  return missing;
+}
+
+/** Approve sends (or amends) an order; it greys out once the current
+ *  corrections are in the ERP, and re-arms when the fields change again. */
+function approveDisabled(item: ReviewItem): boolean {
+  if (item.status === "pending" || item.status === "rejected") return false;
+  const f = item.fulfillment;
+  // approved as-is with nothing ever sent (e.g. no sink configured): done.
+  // edited with nothing sent yet: the corrections still await an approve.
+  if (!f) return item.status === "approved";
+  if (!f.submitted) return false; // held or errored -- approve retries
+  // the store stamps for_edits on legacy records at load, so this compares
+  // what was sent against what the reviewer has corrected since
+  return sameEdits(f.for_edits ?? {}, item.edits);
+}
+
 function Detail({
   item,
   onReview,
@@ -133,17 +287,24 @@ function Detail({
 }: {
   item: ReviewItem;
   onReview: (action: ReviewStatus, edits?: Record<string, string>) => void;
-  outcome?: Fulfillment | null;
+  outcome?: { action: ReviewStatus; fulfillment?: Fulfillment | null };
 }) {
-  const reason = reasonFor(item);
-  const style = KIND_STYLE[reason.kind];
-  const ex = item.extraction;
-  const flagMap = new Map(item.field_flags.map((f) => [f.path, f]));
-
   const [editing, setEditing] = useState(false);
   // only paths the reviewer actually changed; an unchanged field must never
   // reach the flywheel as a "correction"
   const [draft, setDraft] = useState<Record<string, string>>({});
+  // rows shown in edit mode; "Add line" extends it past the extraction's lines
+  const [editLineCount, setEditLineCount] = useState(0);
+
+  const reason = reasonFor(item);
+  const style = KIND_STYLE[reason.kind];
+  // a routed-away item shows its "no extraction" note until the reviewer acts;
+  // in edit mode (or once corrections exist) it edits against the skeleton
+  const ex =
+    item.extraction ??
+    (editing || Object.keys(item.edits).length > 0 ? EMPTY_EXTRACTION : null);
+  const flagMap = new Map(item.field_flags.map((f) => [f.path, f]));
+  const missing = missingRequiredFields(item);
 
   function stage(path: string, original: string, next: string) {
     setDraft((prev) => {
@@ -154,12 +315,31 @@ function Detail({
     });
   }
 
+  function startEditing() {
+    // seed with saved corrections: the backend replaces edits wholesale on each
+    // submit, so starting from {} would silently drop prior corrections
+    setDraft({ ...item.edits });
+    setEditLineCount(lineRowCount(item.extraction ?? EMPTY_EXTRACTION, item.edits));
+    setEditing(true);
+  }
+
+  function stageLineDelete(i: number, deleted: boolean) {
+    setDraft((prev) => {
+      const copy = { ...prev };
+      if (deleted) copy[`line_items.${i}`] = LINE_DELETED;
+      else delete copy[`line_items.${i}`];
+      return copy;
+    });
+  }
+
   function save() {
     const edits = draft;
     setEditing(false);
     setDraft({});
-    // nothing changed -- this is an approval, not a correction
-    onReview(Object.keys(edits).length === 0 ? "approved" : "edited", edits);
+    // two-step flow: saving records corrections only; Approve is the send.
+    // nothing new over what is already saved -- just leave edit mode
+    if (sameEdits(edits, item.edits)) return;
+    onReview("edited", edits);
   }
 
   function cancel() {
@@ -198,6 +378,7 @@ function Detail({
                 label="PO number"
                 path="customer_po_text"
                 value={ex.customer_po_text}
+                edit={item.edits["customer_po_text"]}
                 flag={flagMap.get("customer_po_text")}
                 editing={editing}
                 onStage={stage}
@@ -206,6 +387,7 @@ function Detail({
                 label="Delivery address"
                 path="delivery_address_text"
                 value={ex.delivery_address_text}
+                edit={item.edits["delivery_address_text"]}
                 flag={flagMap.get("delivery_address_text")}
                 editing={editing}
                 onStage={stage}
@@ -214,6 +396,7 @@ function Detail({
                 label="Buyer"
                 path="buyer_name_text"
                 value={ex.buyer_name_text}
+                edit={item.edits["buyer_name_text"]}
                 flag={flagMap.get("buyer_name_text")}
                 editing={editing}
                 onStage={stage}
@@ -222,65 +405,113 @@ function Detail({
                 label="Requested date"
                 path="requested_date_text"
                 value={ex.requested_date_text}
+                edit={item.edits["requested_date_text"]}
                 flag={flagMap.get("requested_date_text")}
                 editing={editing}
                 onStage={stage}
               />
             </tbody>
           </table>
-          {ex.line_items.length > 0 && (
+          {(editing ? editLineCount : lineRowCount(ex, item.edits)) > 0 && (
             <>
               <p className="mb-1 mt-4 text-[11px] text-ink-faint">Line items</p>
-              {ex.line_items.map((li, i) => {
+              {Array.from(
+                { length: editing ? editLineCount : lineRowCount(ex, item.edits) },
+                (_, i) => {
+                const li = ex.line_items[i] ?? BLANK_LINE;
                 const pf = flagMap.get(`line_items.${i}.product_text`);
+                const productEdit = item.edits[`line_items.${i}.product_text`];
+                const qtyEdit = item.edits[`line_items.${i}.quantity`];
+                const product = productEdit ?? li.product_text;
+                const qtyShown = qtyEdit ?? (li.quantity !== null ? String(li.quantity) : null);
                 const qty =
-                  li.quantity !== null ? `${li.quantity} ${li.unit_text ?? ""}`.trim() : null;
+                  qtyShown !== null ? `${qtyShown} ${li.unit_text ?? ""}`.trim() : null;
+                const deletedDraft = draft[`line_items.${i}`] === LINE_DELETED;
+                const deletedSaved = item.edits[`line_items.${i}`] === LINE_DELETED;
                 return (
                   <div
                     key={i}
                     className="flex items-baseline justify-between gap-3 border-b border-line py-2"
                   >
                     {editing ? (
+                      deletedDraft ? (
+                        <>
+                          <span className="flex-1 text-sm text-ink-faint line-through">
+                            {product}
+                          </span>
+                          <LineButton
+                            label="Restore"
+                            onClick={() => stageLineDelete(i, false)}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <input
+                            defaultValue={product}
+                            onChange={(e) =>
+                              stage(
+                                `line_items.${i}.product_text`,
+                                li.product_text,
+                                e.target.value
+                              )
+                            }
+                            className="min-w-0 flex-1 rounded border border-line px-2 py-1 text-sm text-ink outline-none focus:border-ship"
+                          />
+                          <input
+                            defaultValue={qtyShown ?? ""}
+                            inputMode="numeric"
+                            onChange={(e) =>
+                              stage(
+                                `line_items.${i}.quantity`,
+                                String(li.quantity ?? ""),
+                                e.target.value
+                              )
+                            }
+                            className="w-20 rounded border border-line px-2 py-1 text-right font-mono text-xs text-ink outline-none focus:border-ship"
+                          />
+                          <LineButton label="Remove" onClick={() => stageLineDelete(i, true)} />
+                        </>
+                      )
+                    ) : deletedSaved ? (
                       <>
-                        <input
-                          defaultValue={li.product_text}
-                          onChange={(e) =>
-                            stage(`line_items.${i}.product_text`, li.product_text, e.target.value)
-                          }
-                          className="min-w-0 flex-1 rounded border border-line px-2 py-1 text-sm text-ink outline-none focus:border-ship"
-                        />
-                        <input
-                          defaultValue={li.quantity ?? ""}
-                          inputMode="numeric"
-                          onChange={(e) =>
-                            stage(
-                              `line_items.${i}.quantity`,
-                              String(li.quantity ?? ""),
-                              e.target.value
-                            )
-                          }
-                          className="w-20 rounded border border-line px-2 py-1 text-right font-mono text-xs text-ink outline-none focus:border-ship"
-                        />
+                        <span className="text-sm text-ink-faint line-through">
+                          {li.product_text}
+                        </span>
+                        <RemovedBadge />
                       </>
                     ) : (
                       <>
                         <span className="text-sm text-ink">
-                          {li.product_text}
+                          {product}
+                          {productEdit !== undefined && <EditedBadge />}
                           {pf?.in_band && <ConfBadge value={pf.raw_confidence} />}
                         </span>
                         <span className="font-mono text-xs text-ink-soft">
                           {qty ?? <span className="italic text-ink-faint">qty not found</span>}
+                          {qtyEdit !== undefined && <EditedBadge />}
                         </span>
                       </>
                     )}
                   </div>
                 );
-              })}
+                }
+              )}
+              {editing && (
+                <div className="mt-2">
+                  <LineButton
+                    label="Add line"
+                    onClick={() => setEditLineCount((c) => c + 1)}
+                  />
+                </div>
+              )}
             </>
           )}
         </>
       ) : (
-        <p className="text-sm italic text-ink-faint">No extraction (routed away).</p>
+        <p className="text-sm italic text-ink-faint">
+          No extraction (routed away). If the router got it wrong, Edit fields builds the
+          order by hand.
+        </p>
       )}
 
       <div className="mt-6 flex items-center gap-2">
@@ -289,27 +520,49 @@ function Detail({
             <ActionButton onClick={save} label="Save review" />
             <ActionButton onClick={cancel} label="Cancel" />
             <span className="ml-1 text-xs text-ink-faint">
-              {Object.keys(draft).length === 0
-                ? "no changes — saving approves as-is"
+              {sameEdits(draft, item.edits)
+                ? "no changes to save"
                 : `${Object.keys(draft).length} field${Object.keys(draft).length === 1 ? "" : "s"} changed`}
             </span>
           </>
         ) : (
           <>
-            <ActionButton onClick={() => onReview("approved")} label="Approve" />
-            <ActionButton onClick={() => setEditing(true)} label="Edit fields" />
+            <ActionButton
+              onClick={() => onReview("approved")}
+              label="Approve"
+              disabled={approveDisabled(item) || missing.length > 0}
+            />
+            <ActionButton onClick={startEditing} label="Edit fields" />
             <ActionButton onClick={() => onReview("rejected")} label="Reject" />
           </>
         )}
       </div>
+      {!editing && missing.length > 0 && !approveDisabled(item) && (
+        <p className="mt-2 text-xs text-brick">
+          Approve needs every field filled — missing: {missing.join(", ")}
+        </p>
+      )}
 
-      {outcome !== undefined && <Outcome fulfillment={outcome} />}
+      {/* a fresh submission reports exactly what the backend just did; otherwise
+          fall back to the recorded fulfilment, which survives a refresh */}
+      {outcome?.action === "edited" && (
+        <p className="mt-3 text-xs text-ink-faint">
+          Corrections saved — Approve sends the corrected order to the ERP.
+        </p>
+      )}
+      {outcome?.action === "approved" && <Outcome fulfillment={outcome.fulfillment} />}
+      {outcome === undefined && item.fulfillment != null && (
+        <Outcome fulfillment={item.fulfillment} />
+      )}
       {outcome === undefined && item.status !== "pending" && (
         <p className="mt-3 text-xs text-ink-faint">
-          {item.status === "approved" && "Approved"}
+          {item.status === "approved" &&
+            (Object.keys(item.edits).length > 0
+              ? `Approved — ${Object.keys(item.edits).length} field${Object.keys(item.edits).length === 1 ? "" : "s"} corrected`
+              : "Approved")}
           {item.status === "rejected" && "Rejected — returned to sender"}
           {item.status === "edited" &&
-            `Edited — ${Object.keys(item.edits).length} field${Object.keys(item.edits).length === 1 ? "" : "s"} corrected`}
+            `Edited — ${Object.keys(item.edits).length} field${Object.keys(item.edits).length === 1 ? "" : "s"} corrected, awaiting approve`}
         </p>
       )}
     </section>
@@ -329,15 +582,25 @@ function Outcome({ fulfillment }: { fulfillment?: Fulfillment | null }) {
     return (
       <p className="mt-3 text-xs text-sage">
         Sent to ERP — <span className="font-mono">{fulfillment.order_id}</span>
+        {fulfillment.amends && (
+          <>
+            {" "}
+            (amends <span className="font-mono">{fulfillment.amends}</span>)
+          </>
+        )}
       </p>
     );
   }
+  const blockers = [
+    ...(fulfillment.unresolved.length > 0
+      ? [`unresolved: ${fulfillment.unresolved.join(", ")}`]
+      : []),
+    ...(fulfillment.issues ?? []),
+  ];
   return (
     <p className="mt-3 text-xs text-brick">
       Held — {fulfillment.reason}
-      {fulfillment.unresolved.length > 0 && (
-        <> (unresolved: {fulfillment.unresolved.join(", ")})</>
-      )}
+      {blockers.length > 0 && <> ({blockers.join("; ")})</>}
     </p>
   );
 }
@@ -346,6 +609,7 @@ function FieldRow({
   label,
   path,
   value,
+  edit,
   flag,
   editing,
   onStage,
@@ -353,28 +617,58 @@ function FieldRow({
   label: string;
   path: string;
   value: string | null;
+  edit?: string;
   flag?: FieldFlag;
   editing: boolean;
   onStage: (path: string, original: string, next: string) => void;
 }) {
+  const shown = edit ?? value;
   return (
     <tr className="border-b border-line">
       <td className="w-40 py-2 align-top text-xs text-ink-faint">{label}</td>
       <td className="py-2 text-sm text-ink">
         {editing ? (
           <input
-            defaultValue={value ?? ""}
+            defaultValue={shown ?? ""}
             onChange={(e) => onStage(path, value ?? "", e.target.value)}
             className="w-full rounded border border-line px-2 py-1 text-sm text-ink outline-none focus:border-ship"
           />
         ) : (
           <>
-            {value ?? <span className="italic text-ink-faint">not found</span>}
+            {shown ?? <span className="italic text-ink-faint">not found</span>}
+            {edit !== undefined && <EditedBadge />}
             {flag?.in_band && <ConfBadge value={flag.raw_confidence} />}
           </>
         )}
       </td>
     </tr>
+  );
+}
+
+function EditedBadge() {
+  return (
+    <span className="ml-2 rounded bg-sage-bg px-1.5 py-0.5 font-mono text-[11px] text-sage">
+      corrected
+    </span>
+  );
+}
+
+function RemovedBadge() {
+  return (
+    <span className="rounded bg-brick-bg px-1.5 py-0.5 font-mono text-[11px] text-brick">
+      removed
+    </span>
+  );
+}
+
+function LineButton({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="rounded border border-line px-2 py-1 text-xs text-ink-soft transition hover:border-ink-faint"
+    >
+      {label}
+    </button>
   );
 }
 
@@ -386,11 +680,20 @@ function ConfBadge({ value }: { value: number }) {
   );
 }
 
-function ActionButton({ onClick, label }: { onClick: () => void; label: string }) {
+function ActionButton({
+  onClick,
+  label,
+  disabled = false,
+}: {
+  onClick: () => void;
+  label: string;
+  disabled?: boolean;
+}) {
   return (
     <button
       onClick={onClick}
-      className="flex-1 rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink transition hover:border-ink-faint active:scale-[0.98]"
+      disabled={disabled}
+      className="flex-1 rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink transition enabled:hover:border-ink-faint enabled:active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
     >
       {label}
     </button>

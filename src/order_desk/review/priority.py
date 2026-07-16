@@ -59,6 +59,9 @@ class ReviewItem:
     status: ReviewStatus = ReviewStatus.PENDING
     edits: dict[str, str] = field(default_factory=dict)
     org_id: str = "org-demo"
+    # recorded fulfilment outcome (FulfillResult shape); an order already
+    # submitted to the ERP must not be submitted again on a later approve
+    fulfillment: dict | None = None
 
     @property
     def band_field_count(self) -> int:

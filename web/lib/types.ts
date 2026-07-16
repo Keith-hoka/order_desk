@@ -29,6 +29,9 @@ export interface Fulfillment {
   order_id: string | null;
   reason: string;
   unresolved: string[];
+  issues?: string[];
+  amends?: string | null;
+  for_edits?: Record<string, string> | null;
 }
 
 export interface ReviewItem {

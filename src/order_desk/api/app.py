@@ -72,6 +72,22 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     else:
         app.state.order_sink = None
     app.state.notifier = build_notifier(settings.slack_webhook_url or None)
+
+    # live extraction from the review UI needs both legs of the pipeline: the
+    # adapter endpoint (vLLM on Modal) and the prompted router (OpenAI)
+    import os
+
+    if settings.vllm_base_url and os.environ.get("OPENAI_API_KEY"):
+        from order_desk.api.live_extract import LiveExtractor
+
+        app.state.live_extractor = LiveExtractor(
+            classifier_model=os.environ.get("CLASSIFIER_MODEL", "gpt-4o-mini"),
+            adapter_model=settings.adapter_model,
+            vllm_base_url=settings.vllm_base_url,
+            vllm_api_key=settings.vllm_api_key,
+        )
+    else:
+        app.state.live_extractor = None
     return app
 
 

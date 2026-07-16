@@ -103,12 +103,64 @@ def test_eml_directory_source(tmp_path: Path) -> None:
     assert len(raws) == 2
 
 
-def test_imap_source_is_a_stub() -> None:
-    import pytest
+class _FakeImap:
+    """Stands in for imaplib.IMAP4_SSL: two unseen messages."""
 
+    instances: list["_FakeImap"] = []
+
+    def __init__(self, host: str) -> None:
+        self.host = host
+        self.calls: list[tuple] = []
+        _FakeImap.instances.append(self)
+
+    def login(self, user, password):
+        self.calls.append(("login", user, password))
+        return "OK", []
+
+    def select(self, mailbox):
+        self.calls.append(("select", mailbox))
+        return "OK", []
+
+    def search(self, charset, criteria):
+        self.calls.append(("search", charset, criteria))
+        return "OK", [b"1 3"]
+
+    def fetch(self, num, parts):
+        self.calls.append(("fetch", num, parts))
+        raw = f"Subject: msg-{num.decode()}\r\n\r\nbody {num.decode()}".encode()
+        return "OK", [(b"1 (RFC822 {42}", raw), b")"]
+
+    def logout(self):
+        self.calls.append(("logout",))
+        return "BYE", []
+
+
+def test_imap_source_limit_takes_most_recent(monkeypatch) -> None:
+    import imaplib
+
+    _FakeImap.instances.clear()
+    monkeypatch.setattr(imaplib, "IMAP4_SSL", _FakeImap)
     source = ImapSource("imap.example.com", "user", "pw")
-    with pytest.raises(NotImplementedError):
-        list(source.fetch())
+    raws = list(source.fetch(limit=1))
+    assert len(raws) == 1
+    assert "Subject: msg-3" in raws[0]  # highest sequence number = most recent
+
+
+def test_imap_source_fetches_unseen(monkeypatch) -> None:
+    import imaplib
+
+    _FakeImap.instances.clear()
+    monkeypatch.setattr(imaplib, "IMAP4_SSL", _FakeImap)
+    source = ImapSource("imap.example.com", "user", "pw", mailbox="INBOX")
+    raws = list(source.fetch())
+    assert len(raws) == 2
+    assert "Subject: msg-1" in raws[0]
+    assert "Subject: msg-3" in raws[1]
+    fake = _FakeImap.instances[0]
+    assert ("login", "user", "pw") in fake.calls
+    assert ("select", "INBOX") in fake.calls
+    assert ("search", None, "UNSEEN") in fake.calls
+    assert fake.calls[-1] == ("logout",)  # always logs out
 
 
 # --- ingest -> pipeline ---

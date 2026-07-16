@@ -8,6 +8,7 @@ architecture supports a real mailbox without wiring credentials here).
 
 from __future__ import annotations
 
+import imaplib
 from collections.abc import Iterator
 from pathlib import Path
 from typing import Protocol
@@ -31,15 +32,12 @@ class EmlDirectorySource:
 
 
 class ImapSource:
-    """IMAP mailbox source -- interface only, not implemented.
+    """Live IMAP mailbox source: yield unseen messages, newest run first seen.
 
-    A production implementation would connect over IMAP (imaplib), SELECT the
-    inbox, FETCH unseen messages (e.g. `SEARCH UNSEEN` then `FETCH (RFC822)`),
-    yield each raw message, and mark it seen. Credentials would come from the
-    environment, never from code or version control. It is deliberately left
-    unimplemented: transport is a replaceable detail, and wiring a live mailbox
-    needs credentials that break reproducibility. The standardization layer and
-    the rest of the pipeline are identical whatever the source.
+    Connects over IMAP-SSL, SELECTs the mailbox, SEARCHes UNSEEN and FETCHes
+    each as RFC822 (which marks it \\Seen server-side, so a message is consumed
+    once). Credentials come from the caller -- typically the environment, never
+    code or version control.
     """
 
     def __init__(self, host: str, username: str, password: str, mailbox: str = "INBOX") -> None:
@@ -48,7 +46,18 @@ class ImapSource:
         self.mailbox = mailbox
         self._password = password
 
-    def fetch(self) -> Iterator[str]:
-        raise NotImplementedError(
-            "ImapSource is an interface stub; implement IMAP fetch for a live mailbox"
-        )
+    def fetch(self, limit: int | None = None) -> Iterator[str]:
+        """Yield unseen messages; `limit` keeps only the most recent ones."""
+        conn = imaplib.IMAP4_SSL(self.host)
+        try:
+            conn.login(self.username, self._password)
+            conn.select(self.mailbox)
+            _, data = conn.search(None, "UNSEEN")
+            nums = data[0].split()
+            if limit is not None:
+                nums = nums[-limit:]  # highest sequence numbers = most recent
+            for num in nums:
+                _, msg_data = conn.fetch(num, "(RFC822)")
+                yield msg_data[0][1].decode("utf-8", errors="replace")
+        finally:
+            conn.logout()

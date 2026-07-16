@@ -30,6 +30,7 @@ class FulfillResult:
     order_id: str | None
     reason: str  # "submitted" | "held_for_mapping"
     unresolved: list[str] = field(default_factory=list)
+    issues: list[str] = field(default_factory=list)  # quantity-rule violations
 
 
 def fulfill_order(
@@ -37,14 +38,20 @@ def fulfill_order(
     sink: OrderSink,
     notifier: Notifier,
     catalog: Catalog | None = None,
+    amends: str | None = None,
 ) -> FulfillResult:
-    """Resolve, build, submit-or-hold, and notify for one approved order."""
+    """Resolve, build, submit-or-hold, and notify for one approved order.
+
+    `amends` marks the order as a revision of an already-submitted one, so the
+    ERP records it as an amendment rather than an unrelated duplicate.
+    """
     catalog = catalog or load_catalog()
     extraction = ExtractedOrder.model_validate(extraction_dict)
     resolved = resolve_order(extraction, catalog)
     result = build_erp_order(resolved, extraction, catalog)
 
     if result.ok and result.order is not None:
+        result.order.amends = amends
         receipt = sink.submit(result.order)
         notifier.send(
             Notification(
@@ -59,7 +66,7 @@ def fulfill_order(
         )
         return FulfillResult(submitted=True, order_id=receipt.order_id, reason="submitted")
 
-    issue_strs = [f"{i.sku} {i.kind}" for i in result.quantity_issues]
+    issue_strs = [f"{i.sku} {i.kind} (qty {i.quantity})" for i in result.quantity_issues]
     notifier.send(
         Notification(
             event=NotifyEvent.NEEDS_MAPPING,
@@ -75,4 +82,5 @@ def fulfill_order(
         order_id=None,
         reason="held_for_mapping",
         unresolved=result.unresolved,
+        issues=issue_strs,
     )

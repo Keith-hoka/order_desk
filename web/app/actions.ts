@@ -1,8 +1,45 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { submitReview } from "@/lib/api-server";
+import { extractEmail, extractInbox, submitReview } from "@/lib/api-server";
 import type { ReviewItem, ReviewStatus } from "@/lib/types";
+
+/**
+ * Run a pasted email through the live pipeline (OpenAI routing + the adapter
+ * on Modal) and append the result to this org's review queue. Returns either
+ * the new item or the failure message -- a thrown error would take down the
+ * page with an overlay, and a slow cold start failing is an expected outcome,
+ * not a crash.
+ */
+/**
+ * Pull the configured mailbox's recent unseen emails through the live
+ * pipeline into this org's review queue. The address is a confirmation of
+ * which mailbox -- credentials live server-side in the API's environment.
+ */
+export async function extractInboxAction(
+  address: string
+): Promise<{ items: ReviewItem[] } | { error: string }> {
+  try {
+    const items = await extractInbox(address);
+    revalidatePath("/");
+    return { items };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : String(e) };
+  }
+}
+
+export async function extractEmailAction(
+  subject: string,
+  body: string
+): Promise<{ item: ReviewItem } | { error: string }> {
+  try {
+    const item = await extractEmail(subject, body);
+    revalidatePath("/");
+    return { item };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : String(e) };
+  }
+}
 
 /**
  * Submit a review decision and return what the backend did with it.

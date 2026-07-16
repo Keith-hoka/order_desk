@@ -46,6 +46,8 @@ class ErpOrder:
     delivery_address: str | None
     buyer_name: str | None
     lines: list[ErpLine]
+    # order id of the previously submitted order this one amends, if any
+    amends: str | None = None
 
     @property
     def total_cents(self) -> int:
