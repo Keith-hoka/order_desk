@@ -40,6 +40,7 @@ def _order_item(id_, product_text, qty):
         status=ReviewStatus.PENDING,
     )
 
+
 ADMIN_SCOPES = ["extract:write", "review:read", "review:write", "org:admin"]
 REVIEWER_SCOPES = ["extract:write", "review:read", "review:write"]
 
@@ -154,7 +155,9 @@ def test_clear_mailbox() -> None:
         json={"host": "imap.x.com", "address": "a@x.com", "password": "pw"},
     )
     client.put(
-        "/org/mailbox", headers=_auth(ADMIN_SCOPES), json={"host": "", "address": "", "password": ""}
+        "/org/mailbox",
+        headers=_auth(ADMIN_SCOPES),
+        json={"host": "", "address": "", "password": ""},
     )
     assert client.get("/org/mailbox", headers=_auth(ADMIN_SCOPES)).json()["configured"] is False
 
@@ -223,6 +226,39 @@ def test_extract_inbox_empty_request_without_any_mailbox_503() -> None:
     client.app.state.live_extractor = _FakeRawExtractor()
     resp = client.post("/exceptions/extract-inbox", headers=_auth(REVIEWER_SCOPES), json={})
     assert resp.status_code == 503
+
+
+def test_submitted_with_no_channel_says_so() -> None:
+    """No org webhook and no global one: the receipt must not stay silent about
+    the fact that nobody was notified."""
+    from order_desk.fulfillment.notify import MockNotifier
+
+    item = _order_item("EXC-1", "small carton", 50)
+    item.org_id = "org-a"
+    client = _client(items=[item])
+
+    class FakeSink:
+        def submit(self, order):
+            from order_desk.fulfillment.erp import OrderReceipt
+
+            return OrderReceipt(
+                order_id="ORD-QUIET",
+                status="accepted",
+                submitted_at="2026-01-01T00:00:00Z",
+                total_cents=1,
+            )
+
+    client.app.state.order_sink = FakeSink()
+    client.app.state.notifier = MockNotifier()  # what build_notifier("") yields
+
+    resp = client.post(
+        "/exceptions/EXC-1/review",
+        headers=_auth(REVIEWER_SCOPES, org_id="org-a"),
+        json={"action": "approved", "edits": {}},
+    )
+    f = resp.json()["fulfillment"]
+    assert f["submitted"] is True
+    assert f["notify_error"] == "no notification channel configured"
 
 
 def test_approve_notifies_org_webhook_and_failure_keeps_receipt() -> None:

@@ -180,6 +180,10 @@ def live_extract(
 # each mailbox pull costs one OpenAI + one Modal call per email; cap the batch
 INBOX_PULL_LIMIT = 10
 
+# recorded in notify_error when fulfilment had nowhere to send a notification;
+# the UI shows it verbatim so a "Sent to ERP" never implies anyone was told
+NO_NOTIFY_CHANNEL = "no notification channel configured"
+
 
 @review_router.post("/extract-inbox", response_model=list[ReviewItemOut])
 def extract_inbox(
@@ -345,11 +349,12 @@ def submit_review(
 
         # a customer org that configured its own Slack webhook gets notified
         # there; otherwise the globally configured notifier applies
+        from order_desk.fulfillment.notify import SlackWebhookNotifier
+
         org_webhook = request.app.state.org_settings.get_webhook(item.org_id)
         if org_webhook:
-            from order_desk.fulfillment.notify import SlackWebhookNotifier
-
             notifier = SlackWebhookNotifier(org_webhook)
+        has_channel = isinstance(notifier, SlackWebhookNotifier)
 
         # an edited item goes downstream as the reviewer corrected it, not as
         # the model first extracted it; a routed-away item goes downstream as
@@ -367,7 +372,7 @@ def submit_review(
                 "issues": fr.issues,
                 "amends": amends,
                 "for_edits": dict(item.edits),
-                "notify_error": fr.notify_error,
+                "notify_error": fr.notify_error or (None if has_channel else NO_NOTIFY_CHANNEL),
             }
             # a failed amendment must not erase the receipt of the order that
             # IS in the ERP; report it live but keep the original on record

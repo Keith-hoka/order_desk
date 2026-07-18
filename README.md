@@ -55,15 +55,28 @@ Two more findings worth the space:
 ## What it does
 
 ```
-.eml  →  ingest        MIME parsing, HTML→text, pluggable EmailSource
+.eml│IMAP →  ingest     MIME parsing, HTML→text, pluggable EmailSource
       →  route         LangGraph: order / amendment / enquiry
       →  extract       fine-tuned 4B adapter, constrained decoding (xgrammar)
       →  calibrate     isotonic; per-field confidence bands
-      →  review        flagged vs clean queue; a human approves, edits fields,
-                       or rejects, in a Next.js UI
+      →  review        a human corrects fields, adds/removes lines, then
+                       approves or rejects — Next.js UI, org-scoped queue
       →  resolve       product text → SKU (exact, then fuzzy ≥80)
-      →  fulfil        ERP sink + Slack notification
+      →  fulfil        ERP sink + the org's Slack webhook
 ```
+
+The review flow is **two-step and idempotent**: saving corrections only records
+them (the model's raw extraction stays untouched — it is the flywheel's
+signal), while Approve validates that every field is filled and sends the order
+**once** — corrections made after a send go out as an *amendment* carrying the
+original order id, and a broken webhook cannot void a receipt (the failure is
+reported on it instead, including "no notification channel configured"). An
+email the classifier wrongly routed away can be rescued: the reviewer builds
+the order in an empty form. **Live extraction runs from the UI** — paste one
+email, or pull the org's mailbox over IMAP — recent unseen messages go through
+OpenAI routing and the Modal-served adapter into the caller's org queue.
+Mailbox credentials and the Slack webhook are per-org settings on `/settings`
+(admin-edited; secrets are stored server-side and never echoed back).
 
 Reviewer edits feed the flywheel: corrections become training examples, the
 model retrains, and **two gates** decide whether it ships — a targeted gate (did
@@ -84,13 +97,15 @@ uv run python scripts/reset_review_queue.py
 JWT_SECRET=$(grep '^JWT_SECRET=' .env | cut -d= -f2-) \
 REVIEW_QUEUE_PATH=data/review_queue.json \
 ERP_SINK_PATH=data/erp_orders.json \
+ORG_SETTINGS_PATH=data/org_settings.json \
 uv run uvicorn order_desk.api.app:create_app --factory --port 8000   # terminal 1
 ```
 
 Without `ERP_SINK_PATH`, an approval is recorded but goes nowhere downstream —
-and the UI says so rather than claiming otherwise. Set `SLACK_WEBHOOK_URL` too
-and approvals post to Slack for real; without it the notifier is a mock that
-records silently.
+and the UI says so rather than claiming otherwise. Slack is per-org: an admin
+pastes the org's incoming-webhook URL on `/settings` (`SLACK_WEBHOOK_URL` in
+the environment is the server-wide fallback). With neither, the receipt says
+"no notification channel configured" rather than implying anyone was told.
 
 ```bash
 cd web && npm install
@@ -102,8 +117,12 @@ Open `localhost:3000`. Sign in as `demo-admin@order-desk.test` / `demo1234`.
 Registering instead founds a new org with an empty queue — the sample queue
 belongs to the demo org. `reset_review_queue.py` restores it after a demo.
 
-Live extraction additionally needs the adapter served on a GPU (Modal + vLLM);
-`scripts/modal_vllm.py`.
+Live extraction additionally needs `OPENAI_API_KEY` (routing) and the adapter
+served on a GPU (Modal + vLLM; `scripts/modal_vllm.py`). The mailbox comes from
+`/settings` — a Gmail-style **app password**, not the account password — or the
+`IMAP_*` environment as fallback; pulling fetches the most recent unseen
+messages and marks them seen. Items born from live extraction are deletable in
+the UI; the 66 committed seed emails are not.
 
 ## What is honest about this
 
@@ -126,6 +145,9 @@ Every one of these is stated in the milestone docs too, not just here.
   invoice reconciliation.
 - **UI accounts live in their own store**, separate from the API's tenancy model.
   Sign-in is credentials-only; invites are simplified (an admin sets a password).
+- **Org settings are plaintext JSON at rest.** The mailbox app password and
+  webhook URL are held server-side and never echoed to a client, but a
+  production deployment would encrypt them or use a vault.
 - **The adapter is served from one Modal endpoint.** Single point of failure.
 
 ## Layout
@@ -138,7 +160,7 @@ Every one of these is stated in the milestone docs too, not just here.
 | `docs/` | one milestone per phase |
 | `data/`, `results/` | frozen fixtures, committed eval reports |
 
-325 tests. One milestone per phase:
+378 tests. One milestone per phase:
 [corpus notes](docs/corpus_notes.md) and [audit](docs/audit_report.md) (1) ·
 [baselines](docs/baselines/phase2_milestone.md) (2) ·
 [fine-tune](docs/baselines/phase3_milestone.md) (3) ·

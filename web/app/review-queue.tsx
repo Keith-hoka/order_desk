@@ -641,7 +641,12 @@ function Outcome({ fulfillment }: { fulfillment?: Fulfillment | null }) {
           </>
         )}
         {fulfillment.notify_error && (
-          <span className="text-brick"> — Slack notification failed: {fulfillment.notify_error}</span>
+          <span className="text-brick">
+            {" — "}
+            {fulfillment.notify_error === "no notification channel configured"
+              ? "no notification channel configured"
+              : `Slack notification failed: ${fulfillment.notify_error}`}
+          </span>
         )}
       </p>
     );
