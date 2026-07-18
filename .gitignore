@@ -15,6 +15,7 @@ results/calibration/val_pairs.jsonl
 data/human_eml/
 data/review_queue.json
 data/erp_orders.json
+data/org_settings.json
 data/erp_orders.jsonl
 data/erp_orders_smoke.json
 data/flywheel/

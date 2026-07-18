@@ -9,7 +9,7 @@
 import "server-only";
 import { auth } from "@/auth";
 import { mintApiToken } from "./api-token";
-import type { ReviewItem, ReviewStatus } from "./types";
+import type { MailboxSetting, ReviewItem, ReviewStatus, WebhookSetting } from "./types";
 
 const API_BASE = process.env.API_BASE ?? "http://localhost:8000";
 
@@ -35,6 +35,54 @@ export async function fetchExceptions(): Promise<ReviewItem[]> {
     cache: "no-store",
   });
   if (!res.ok) throw new Error(`Failed to load queue (${res.status})`);
+  return res.json();
+}
+
+export async function getSlackWebhook(): Promise<WebhookSetting> {
+  const res = await fetch(`${API_BASE}/org/slack-webhook`, {
+    headers: await authHeaders(),
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error(`Failed to load webhook setting (${res.status})`);
+  return res.json();
+}
+
+export async function setSlackWebhook(url: string): Promise<WebhookSetting> {
+  const res = await fetch(`${API_BASE}/org/slack-webhook`, {
+    method: "PUT",
+    headers: await authHeaders(),
+    body: JSON.stringify({ url }),
+  });
+  if (!res.ok) {
+    const detail = await res.json().then((d) => d.detail ?? "").catch(() => "");
+    throw new Error(`Failed to save webhook (${res.status})${detail ? `: ${detail}` : ""}`);
+  }
+  return res.json();
+}
+
+export async function getMailbox(): Promise<MailboxSetting> {
+  const res = await fetch(`${API_BASE}/org/mailbox`, {
+    headers: await authHeaders(),
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error(`Failed to load mailbox setting (${res.status})`);
+  return res.json();
+}
+
+export async function setMailbox(
+  host: string,
+  address: string,
+  password: string
+): Promise<MailboxSetting> {
+  const res = await fetch(`${API_BASE}/org/mailbox`, {
+    method: "PUT",
+    headers: await authHeaders(),
+    body: JSON.stringify({ host, address, password }),
+  });
+  if (!res.ok) {
+    const detail = await res.json().then((d) => d.detail ?? "").catch(() => "");
+    throw new Error(`Failed to save mailbox (${res.status})${detail ? `: ${detail}` : ""}`);
+  }
   return res.json();
 }
 

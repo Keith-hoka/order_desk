@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { auth, signOut } from "@/auth";
-import { fetchExceptions } from "@/lib/api-server";
+import { fetchExceptions, getMailbox } from "@/lib/api-server";
 import { ReviewQueue } from "./review-queue";
-import type { ReviewItem } from "@/lib/types";
+import type { MailboxSetting, ReviewItem } from "@/lib/types";
 
 async function SignOutButton() {
   async function doSignOut() {
@@ -28,9 +28,10 @@ export default async function Page() {
     | undefined;
 
   let items: ReviewItem[] = [];
+  let mailbox: MailboxSetting = { configured: false, host: null, address: null };
   let error: string | null = null;
   try {
-    items = await fetchExceptions();
+    [items, mailbox] = await Promise.all([fetchExceptions(), getMailbox()]);
   } catch (e) {
     error = e instanceof Error ? e.message : "unknown error";
   }
@@ -62,6 +63,12 @@ export default async function Page() {
             )}
           </p>
           <div className="flex items-baseline gap-3">
+            <Link
+              href="/settings"
+              className="text-xs text-ink-faint underline underline-offset-2 hover:text-ink-soft"
+            >
+              Settings
+            </Link>
             {user?.role === "admin" && (
               <Link
                 href="/members"
@@ -86,7 +93,7 @@ export default async function Page() {
           </div>
         </div>
       ) : (
-        <ReviewQueue items={items} />
+        <ReviewQueue items={items} mailbox={mailbox} />
       )}
     </main>
   );

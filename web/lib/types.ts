@@ -32,6 +32,18 @@ export interface Fulfillment {
   issues?: string[];
   amends?: string | null;
   for_edits?: Record<string, string> | null;
+  notify_error?: string | null;
+}
+
+export interface WebhookSetting {
+  configured: boolean;
+  masked: string | null;
+}
+
+export interface MailboxSetting {
+  configured: boolean;
+  host: string | null;
+  address: string | null;
 }
 
 export interface ReviewItem {

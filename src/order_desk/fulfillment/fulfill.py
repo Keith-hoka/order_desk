@@ -31,6 +31,17 @@ class FulfillResult:
     reason: str  # "submitted" | "held_for_mapping"
     unresolved: list[str] = field(default_factory=list)
     issues: list[str] = field(default_factory=list)  # quantity-rule violations
+    # notification is best-effort: a broken webhook must not void the receipt
+    # of an order that IS in the ERP, so the failure is reported here instead
+    notify_error: str | None = None
+
+
+def _notify(notifier: Notifier, notification: Notification) -> str | None:
+    try:
+        notifier.send(notification)
+        return None
+    except Exception as exc:
+        return str(exc)
 
 
 def fulfill_order(
@@ -53,7 +64,8 @@ def fulfill_order(
     if result.ok and result.order is not None:
         result.order.amends = amends
         receipt = sink.submit(result.order)
-        notifier.send(
+        notify_error = _notify(
+            notifier,
             Notification(
                 event=NotifyEvent.ORDER_SUBMITTED,
                 text=order_submitted_message(
@@ -62,12 +74,18 @@ def fulfill_order(
                     n_lines=len(result.order.lines),
                     total_cents=result.order.total_cents,
                 ),
-            )
+            ),
         )
-        return FulfillResult(submitted=True, order_id=receipt.order_id, reason="submitted")
+        return FulfillResult(
+            submitted=True,
+            order_id=receipt.order_id,
+            reason="submitted",
+            notify_error=notify_error,
+        )
 
     issue_strs = [f"{i.sku} {i.kind} (qty {i.quantity})" for i in result.quantity_issues]
-    notifier.send(
+    notify_error = _notify(
+        notifier,
         Notification(
             event=NotifyEvent.NEEDS_MAPPING,
             text=needs_mapping_message(
@@ -75,7 +93,7 @@ def fulfill_order(
                 unresolved=result.unresolved,
                 issues=issue_strs,
             ),
-        )
+        ),
     )
     return FulfillResult(
         submitted=False,
@@ -83,4 +101,5 @@ def fulfill_order(
         reason="held_for_mapping",
         unresolved=result.unresolved,
         issues=issue_strs,
+        notify_error=notify_error,
     )

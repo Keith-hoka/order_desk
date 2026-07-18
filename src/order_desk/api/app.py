@@ -9,7 +9,7 @@ from order_desk.api.billing import build_billing
 from order_desk.api.config import Settings
 from order_desk.api.metering import InMemoryMeteringStore, SqliteMeteringStore
 from order_desk.api.orgs import InMemoryOrgStore, SqliteOrgStore
-from order_desk.api.review_routes import review_router
+from order_desk.api.review_routes import org_router, review_router
 from order_desk.api.routes import router
 from order_desk.api.tracing import build_tracer
 from order_desk.fulfillment.notify import build_notifier
@@ -19,6 +19,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app = FastAPI(title="order_desk extraction service", version="0.1.0")
     app.include_router(router)
     app.include_router(review_router)
+    app.include_router(org_router)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["http://localhost:3000"],
@@ -72,6 +73,14 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     else:
         app.state.order_sink = None
     app.state.notifier = build_notifier(settings.slack_webhook_url or None)
+    if settings.org_settings_path:
+        from order_desk.api.org_settings import JsonOrgSettings
+
+        app.state.org_settings = JsonOrgSettings(settings.org_settings_path)
+    else:
+        from order_desk.api.org_settings import InMemoryOrgSettings
+
+        app.state.org_settings = InMemoryOrgSettings()
 
     # live extraction from the review UI needs both legs of the pipeline: the
     # adapter endpoint (vLLM on Modal) and the prompted router (OpenAI)

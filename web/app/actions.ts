@@ -1,8 +1,44 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { deleteException, extractEmail, extractInbox, submitReview } from "@/lib/api-server";
-import type { ReviewItem, ReviewStatus } from "@/lib/types";
+import {
+  deleteException,
+  extractEmail,
+  extractInbox,
+  setMailbox,
+  setSlackWebhook,
+  submitReview,
+} from "@/lib/api-server";
+import type { MailboxSetting, ReviewItem, ReviewStatus, WebhookSetting } from "@/lib/types";
+
+/** Store the org's mailbox (admin only); the queue's Extract pulls from it. */
+export async function saveMailboxAction(
+  host: string,
+  address: string,
+  password: string
+): Promise<{ setting: MailboxSetting } | { error: string }> {
+  try {
+    const setting = await setMailbox(host, address, password);
+    revalidatePath("/");
+    revalidatePath("/settings");
+    return { setting };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : String(e) };
+  }
+}
+
+/** Store the org's Slack webhook (admin only); fulfilment notifies it. */
+export async function saveSlackWebhookAction(
+  url: string
+): Promise<{ setting: WebhookSetting } | { error: string }> {
+  try {
+    const setting = await setSlackWebhook(url);
+    revalidatePath("/");
+    return { setting };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : String(e) };
+  }
+}
 
 /**
  * Run a pasted email through the live pipeline (OpenAI routing + the adapter

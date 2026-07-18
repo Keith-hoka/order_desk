@@ -8,6 +8,7 @@ import type {
   FieldFlag,
   Fulfillment,
   LineItem,
+  MailboxSetting,
   ReviewItem,
   ReviewStatus,
 } from "@/lib/types";
@@ -79,7 +80,13 @@ const KIND_STYLE: Record<ReasonKind, { dot: string; bg: string; text: string }> 
   violation: { dot: "bg-brick", bg: "bg-brick-bg", text: "text-brick" },
 };
 
-export function ReviewQueue({ items }: { items: ReviewItem[] }) {
+export function ReviewQueue({
+  items,
+  mailbox,
+}: {
+  items: ReviewItem[];
+  mailbox?: MailboxSetting;
+}) {
   const [selectedId, setSelectedId] = useState<string | null>(
     items.length > 0 ? items[0].id : null
   );
@@ -126,7 +133,7 @@ export function ReviewQueue({ items }: { items: ReviewItem[] }) {
   return (
     <div className="grid grid-cols-[260px_minmax(0,1fr)] gap-8">
       <div className="col-span-2">
-        <ExtractPanel onExtracted={(id) => setSelectedId(id)} />
+        <ExtractPanel mailbox={mailbox} onExtracted={(id) => setSelectedId(id)} />
       </div>
       <QueueList
         items={items}
@@ -154,10 +161,13 @@ export function ReviewQueue({ items }: { items: ReviewItem[] }) {
 /** Enter the mailbox address; the backend pulls its recent unseen emails
  *  through the live pipeline and lands them in the queue. Credentials live
  *  server-side (IMAP_HOST / IMAP_USERNAME / IMAP_PASSWORD). */
-function ExtractPanel({ onExtracted }: { onExtracted: (id: string) => void }) {
-  const [address, setAddress] = useState("");
-  const [host, setHost] = useState("");
-  const [password, setPassword] = useState("");
+function ExtractPanel({
+  mailbox,
+  onExtracted,
+}: {
+  mailbox?: MailboxSetting;
+  onExtracted: (id: string) => void;
+}) {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
@@ -167,7 +177,7 @@ function ExtractPanel({ onExtracted }: { onExtracted: (id: string) => void }) {
     setError(null);
     setNotice(null);
     startTransition(async () => {
-      const result = await extractInboxAction(address, host, password);
+      const result = await extractInboxAction("", "", "");
       if ("error" in result) {
         setError(result.error);
         return;
@@ -183,53 +193,33 @@ function ExtractPanel({ onExtracted }: { onExtracted: (id: string) => void }) {
   }
 
   return (
-    <div className="mb-6 rounded-lg border border-line bg-surface p-4">
-      <p className="mb-2 text-[11px] uppercase tracking-wide text-ink-faint">
-        Extract from mailbox — pulls recent unseen emails through the live pipeline
-        (OpenAI routing + the adapter on Modal)
-      </p>
-      <div className="flex flex-wrap items-center gap-2">
-        <input
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          placeholder="Mailbox address"
-          autoComplete="username"
-          className="min-w-0 flex-1 rounded border border-line px-2 py-1.5 text-sm text-ink outline-none focus:border-ship"
-        />
-        <input
-          value={host}
-          onChange={(e) => setHost(e.target.value)}
-          placeholder="IMAP host, e.g. imap.gmail.com"
-          className="min-w-0 flex-1 rounded border border-line px-2 py-1.5 text-sm text-ink outline-none focus:border-ship"
-        />
-        <input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="App password — NOT your email password"
-          type="password"
-          autoComplete="current-password"
-          className="min-w-0 flex-1 rounded border border-line px-2 py-1.5 text-sm text-ink outline-none focus:border-ship"
-        />
-        <button
-          onClick={run}
-          disabled={pending || address.trim() === ""}
-          className="rounded-lg border border-line bg-surface px-4 py-2 text-sm text-ink transition enabled:hover:border-ink-faint disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          {pending ? "Extracting…" : "Extract"}
-        </button>
-      </div>
-      <p className="mt-2 rounded bg-amber-bg px-2 py-1.5 text-[11px] leading-relaxed text-amber">
-        Do <strong>not</strong> enter your email login password here. Use a dedicated{" "}
-        <strong>app password</strong> issued by your mail provider — for Gmail, turn on
-        2-Step Verification, then create one at myaccount.google.com/apppasswords.
-      </p>
-      <p className="mt-2 text-[11px] text-ink-faint">
-        {pending
-          ? "may take a while — one pipeline run per email, and the adapter cold-starts"
-          : "credentials are used for this pull only and never stored; leave host and password empty to use the server-configured mailbox"}
-      </p>
-      {error && <p className="mt-2 text-xs text-brick">{error}</p>}
-      {notice && <p className="mt-2 text-xs text-sage">{notice}</p>}
+    <div className="mb-6 flex flex-wrap items-center gap-3 rounded-lg border border-line bg-surface px-4 py-3">
+      <button
+        onClick={run}
+        disabled={pending || !mailbox?.configured}
+        className="rounded-lg border border-line bg-surface px-4 py-2 text-sm text-ink transition enabled:hover:border-ink-faint disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        {pending ? "Extracting…" : "Extract from mailbox"}
+      </button>
+      <span className="text-xs text-ink-faint">
+        {pending ? (
+          "may take a while — one pipeline run per email, and the adapter cold-starts"
+        ) : mailbox?.configured ? (
+          <>
+            pulls recent unseen emails from <span className="font-mono">{mailbox.address}</span>{" "}
+            through the live pipeline
+          </>
+        ) : (
+          <>
+            no mailbox configured —{" "}
+            <a href="/settings" className="underline underline-offset-2 hover:text-ink-soft">
+              set one in Settings
+            </a>
+          </>
+        )}
+      </span>
+      {error && <span className="text-xs text-brick">{error}</span>}
+      {notice && <span className="text-xs text-sage">{notice}</span>}
     </div>
   );
 }
@@ -649,6 +639,9 @@ function Outcome({ fulfillment }: { fulfillment?: Fulfillment | null }) {
             {" "}
             (amends <span className="font-mono">{fulfillment.amends}</span>)
           </>
+        )}
+        {fulfillment.notify_error && (
+          <span className="text-brick"> — Slack notification failed: {fulfillment.notify_error}</span>
         )}
       </p>
     );

@@ -13,9 +13,15 @@ from order_desk.api.review_models import (
     FieldFlagOut,
     FulfillmentOut,
     InboxExtractRequest,
+    MailboxSettingIn,
+    MailboxSettingOut,
     ReviewAction,
     ReviewItemOut,
+    WebhookSettingIn,
+    WebhookSettingOut,
 )
+from order_desk.api.scopes import require_scope
+from order_desk.api.tenancy import DEMO_ORG_ID
 from order_desk.flywheel.corrections import apply_edits
 from order_desk.review.priority import ReviewItem, ReviewStatus
 
@@ -46,6 +52,70 @@ def _missing_required_fields(extraction: dict) -> list[str]:
 
 
 review_router = APIRouter(prefix="/exceptions")
+org_router = APIRouter(prefix="/org")
+
+
+def _masked(url: str) -> str:
+    return url[:34] + "…" if len(url) > 38 else url
+
+
+@org_router.get("/slack-webhook", response_model=WebhookSettingOut)
+def get_slack_webhook(
+    request: Request, principal: Principal | None = Depends(require_auth)
+) -> WebhookSettingOut:
+    settings = request.app.state.org_settings
+    url = settings.get_webhook(_org_of(principal) or DEMO_ORG_ID)
+    return WebhookSettingOut(configured=bool(url), masked=_masked(url) if url else None)
+
+
+@org_router.put("/slack-webhook", response_model=WebhookSettingOut)
+def set_slack_webhook(
+    req: WebhookSettingIn,
+    request: Request,
+    principal: Principal | None = Depends(require_scope("org:admin")),
+) -> WebhookSettingOut:
+    """Store the org's Slack webhook; fulfilment notifies it on this org's orders."""
+    url = req.url.strip()
+    if url and not url.startswith("https://"):
+        raise HTTPException(status_code=400, detail="webhook URL must start with https://")
+    settings = request.app.state.org_settings
+    settings.set_webhook(_org_of(principal) or DEMO_ORG_ID, url)
+    return WebhookSettingOut(configured=bool(url), masked=_masked(url) if url else None)
+
+
+@org_router.get("/mailbox", response_model=MailboxSettingOut)
+def get_mailbox(
+    request: Request, principal: Principal | None = Depends(require_auth)
+) -> MailboxSettingOut:
+    mb = request.app.state.org_settings.get_mailbox(_org_of(principal) or DEMO_ORG_ID)
+    if mb["host"] and mb["address"] and mb["password"]:
+        return MailboxSettingOut(configured=True, host=mb["host"], address=mb["address"])
+    # reflect the server-wide fallback the Extract endpoint would actually use
+    env = request.app.state.settings
+    if env.imap_host and env.imap_username and env.imap_password:
+        return MailboxSettingOut(configured=True, host=env.imap_host, address=env.imap_username)
+    return MailboxSettingOut(configured=False, host=None, address=None)
+
+
+@org_router.put("/mailbox", response_model=MailboxSettingOut)
+def set_mailbox(
+    req: MailboxSettingIn,
+    request: Request,
+    principal: Principal | None = Depends(require_scope("org:admin")),
+) -> MailboxSettingOut:
+    """Store the org's mailbox; the queue's Extract button pulls from it."""
+    if (req.host or req.address or req.password) and not (
+        req.host and req.address and req.password
+    ):
+        raise HTTPException(
+            status_code=400, detail="host, address and password are all required (or all empty)"
+        )
+    settings = request.app.state.org_settings
+    settings.set_mailbox(_org_of(principal) or DEMO_ORG_ID, req.host, req.address, req.password)
+    configured = bool(req.host)
+    return MailboxSettingOut(
+        configured=configured, host=req.host or None, address=req.address or None
+    )
 
 
 def _get_store(request: Request):
@@ -132,28 +202,40 @@ def extract_inbox(
             detail="live extraction not configured (needs VLLM_BASE_URL and OPENAI_API_KEY)",
         )
     settings = request.app.state.settings
+    org_mb = request.app.state.org_settings.get_mailbox(_org_of(principal) or DEMO_ORG_ID)
+    org_mb_ok = bool(org_mb["host"] and org_mb["address"] and org_mb["password"])
+    address = req.address.strip().lower()
     if req.password:
+        # request-scoped credentials: used for this one connection, never stored
         if not req.host:
             raise HTTPException(status_code=400, detail="host is required with a password")
         host, username, password, mailbox = req.host, req.address, req.password, req.mailbox
-    else:
-        if not (settings.imap_host and settings.imap_username and settings.imap_password):
-            raise HTTPException(
-                status_code=503,
-                detail="no mailbox: enter its host and app password, "
-                "or configure IMAP_HOST/IMAP_USERNAME/IMAP_PASSWORD server-side",
-            )
-        if req.address.strip().lower() != settings.imap_username.lower():
+    elif org_mb_ok and (not address or address == org_mb["address"].lower()):
+        # the org's mailbox, configured in /settings
+        host, username, password, mailbox = (
+            org_mb["host"],
+            org_mb["address"],
+            org_mb["password"],
+            "INBOX",
+        )
+    elif settings.imap_host and settings.imap_username and settings.imap_password:
+        # server-wide fallback (IMAP_* environment)
+        if address and address != settings.imap_username.lower():
             raise HTTPException(
                 status_code=400,
-                detail=f"'{req.address}' is not the configured mailbox "
-                f"({settings.imap_username}); enter its host and app password to use it",
+                detail=f"'{req.address}' is not a configured mailbox; "
+                "set it in Settings or enter its host and app password",
             )
         host, username, password, mailbox = (
             settings.imap_host,
             settings.imap_username,
             settings.imap_password,
             settings.imap_mailbox,
+        )
+    else:
+        raise HTTPException(
+            status_code=503,
+            detail="no mailbox configured — set one in Settings",
         )
     store = _get_store(request)
 
@@ -261,6 +343,14 @@ def submit_review(
     ):
         from order_desk.fulfillment.fulfill import fulfill_order
 
+        # a customer org that configured its own Slack webhook gets notified
+        # there; otherwise the globally configured notifier applies
+        org_webhook = request.app.state.org_settings.get_webhook(item.org_id)
+        if org_webhook:
+            from order_desk.fulfillment.notify import SlackWebhookNotifier
+
+            notifier = SlackWebhookNotifier(org_webhook)
+
         # an edited item goes downstream as the reviewer corrected it, not as
         # the model first extracted it; a routed-away item goes downstream as
         # the order the reviewer built from scratch
@@ -277,6 +367,7 @@ def submit_review(
                 "issues": fr.issues,
                 "amends": amends,
                 "for_edits": dict(item.edits),
+                "notify_error": fr.notify_error,
             }
             # a failed amendment must not erase the receipt of the order that
             # IS in the ERP; report it live but keep the original on record

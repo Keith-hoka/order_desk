@@ -27,6 +27,7 @@ class Settings:
     imap_username: str = ""
     imap_password: str = ""
     imap_mailbox: str = "INBOX"
+    org_settings_path: str = ""
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -50,4 +51,5 @@ class Settings:
             imap_username=os.environ.get("IMAP_USERNAME", ""),
             imap_password=os.environ.get("IMAP_PASSWORD", ""),
             imap_mailbox=os.environ.get("IMAP_MAILBOX", "INBOX"),
+            org_settings_path=os.environ.get("ORG_SETTINGS_PATH", ""),
         )
